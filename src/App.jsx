@@ -7,6 +7,7 @@ import CarouselApp from './components/Carousel';
 const HomeLayout = () => (
   <>
     <Header />
+    <CarouselApp/>
     <Categories>
       {({ selectedCategory }) => (
         <Products selectedCategory={selectedCategory} />
