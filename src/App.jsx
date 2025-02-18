@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Categories from './components/Category';
 import Products from './components/Product';
 import CarouselApp from './components/Carousel';
+import Cart from './components/Cart';
 
 const HomeLayout = () => (
   <>
@@ -22,6 +23,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomeLayout />} />
         <Route path="/products" element={<HomeLayout />} />
+        <Route path="/cart" element={<Cart/>}/>
       </Routes>
     </Router>
   );
