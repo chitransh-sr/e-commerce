@@ -9,7 +9,8 @@ const Products = ({ selectedCategory }) => {
   const [itemsPerPage] = useState(10);
   const [totalProducts, setTotalProducts] = useState(0);
   const [cart, setCart] = useLocalStorage("cart", []);
-  const navigate=useNavigate();
+  const [quantities, setQuantities] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -44,18 +45,26 @@ const Products = ({ selectedCategory }) => {
 
   const totalPages = Math.ceil(totalProducts / itemsPerPage);
 
+  const handleQuantityChange = (productId, value) => {
+    setQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [productId]: Math.max(1, Number(value)),
+    }));
+  };
+
   const addToCart = (product) => {
+    const quantity = quantities[product.id] || 1;
     navigate("/cart");
     setCart((prevCart) => {
       const existingProduct = prevCart.find((item) => item.id === product.id);
       if (existingProduct) {
         return prevCart.map((item) =>
           item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: item.quantity + quantity }
             : item
         );
       } else {
-        return [...prevCart, { ...product, quantity: 1 }];
+        return [...prevCart, { ...product, quantity }];
       }
     });
   };
@@ -75,23 +84,28 @@ const Products = ({ selectedCategory }) => {
             />
             <div className="p-4">
               <h3 className="text-lg font-semibold mb-2">{product.title}</h3>
-              <p className="text-gray-600 text-sm mb-4">
-                {product.description}
-              </p>
+              <p className="text-gray-600 text-sm mb-4">{product.description}</p>
               <div className="flex justify-between items-center mb-4">
-                <span className="text-indigo-600 font-bold">
-                  ${product.price}
-                </span>
+                <span className="text-indigo-600 font-bold">${product.price}</span>
                 <span className="text-sm bg-gray-100 px-2 py-1 rounded">
                   Rating: {product.rating}/5
                 </span>
               </div>
-              <button
-                onClick={() => addToCart(product)}
-                className="w-full bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 transition-colors"
-              >
-                Add to Cart
-              </button>
+              <div className="flex items-center gap-2 mb-4">
+                <input
+                  type="number"
+                  min="1"
+                  value={quantities[product.id] || 1}
+                  onChange={(e) => handleQuantityChange(product.id, e.target.value)}
+                  className="w-16 px-2 py-1 border rounded text-center"
+                />
+                <button
+                  onClick={() => addToCart(product)}
+                  className="flex-1 bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 transition-colors"
+                >
+                  Add to Cart
+                </button>
+              </div>
             </div>
           </div>
         ))}
