@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 function Header() {
   const [avatarUrl, setAvatarUrl] = useState(
@@ -8,6 +8,9 @@ function Header() {
   );
   const [avatarName, setAvatarName] = useState("Chitransh");
   const navigate = useNavigate();
+  const [input, setInput] = useState("");
+  const [result, setResult] = useState([]);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     const fetchGitHubAvatar = async () => {
@@ -16,7 +19,7 @@ function Header() {
           "https://api.github.com/users/chitransh-sr"
         );
         setAvatarUrl(response.data.avatar_url);
-        const userName = (response.data?.name).slice(0, 10);
+        const userName = response.data?.name?.slice(0, 10) || "Chitransh";
         setAvatarName(userName);
       } catch (error) {
         console.error("Error fetching GitHub avatar:", error);
@@ -26,12 +29,33 @@ function Header() {
     fetchGitHubAvatar();
   }, []);
 
+  const fetchData = async (query) => {
+    if (!query) return;
+    try {
+      const response = await axios.get(
+        `https://dummyjson.com/products/search?q=${query}`
+      );
+      setResult(response?.data?.products);
+      console.log("api call", response.data.products);
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+    }
+  };
+
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      fetchData(input);
+      console.log(input);
+    }, 500);
+
+    return () => clearTimeout(delayDebounce);
+  }, [input]);
+
   return (
     <>
       <nav className="bg-gray-800">
         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
           <div className="relative flex h-16 items-center justify-between">
-            <div className="absolute inset-y-0 left-0 flex items-center sm:hidden"></div>
             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
               <div className="flex shrink-0 items-center">
                 <img
@@ -61,11 +85,30 @@ function Header() {
                   >
                     Deals
                   </a>
-                  <input
-                    type="text"
-                    placeholder="Search products..."
-                    className="rounded-md px-3 py-2 text-sm bg-gray-700 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-white"
-                  />
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="Search products..."
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      onFocus={() => setIsExpanded(true)}
+                      onBlur={() => setIsExpanded(false)}
+                      className="rounded-md px-3 py-2 text-sm bg-gray-700 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-white w-64"
+                    />
+
+                    {isExpanded && result.length > 0 && (
+                      <div className="absolute left-0 bg-gray-800 text-white rounded-md mt-1 p-2 shadow-lg z-50 w-full max-w-xs max-h-60 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-700">
+                        {result.map((item) => (
+                          <div
+                            key={item.id}
+                            className="text-white p-2 border-b border-gray-600 hover:bg-gray-700 cursor-pointer"
+                          >
+                            {item.title}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -75,7 +118,6 @@ function Header() {
                 className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
                 onClick={()=>navigate("/cart")}
               >
-                <span className="absolute -inset-1.5"></span>
                 <span className="sr-only">Add to cart</span>
                 <svg
                   className="size-6"
@@ -94,54 +136,22 @@ function Header() {
                 </svg>
               </button>
               <div className="relative ml-3">
-                <div>
-                  <button
-                    type="button"
-                    className="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
-                    id="user-menu-button"
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                  >
-                    <span className="absolute -inset-1.5"></span>
-                    <span className="sr-only">Open user menu</span>
-                    <img
-                      className="size-8 rounded-full"
-                      src={avatarUrl}
-                      alt="GitHub Avatar"
-                    />
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  className="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
+                  id="user-menu-button"
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                >
+                  <span className="sr-only">Open user menu</span>
+                  <img
+                    className="size-8 rounded-full"
+                    src={avatarUrl}
+                    alt="GitHub Avatar"
+                  />
+                </button>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div className="sm:hidden" id="mobile-menu">
-          <div className="space-y-1 px-2 pt-2 pb-3">
-            <a
-              href="#"
-              className="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
-              aria-current="page"
-            >
-              {avatarName}
-            </a>
-            <a
-              href="#"
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-            >
-              Products
-            </a>
-            <a
-              href="#"
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-            >
-              Deals
-            </a>
-            <input
-              type="text"
-              placeholder="Search products..."
-              className="w-full rounded-md px-3 py-2 text-base font-medium bg-gray-700 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-white"
-            />
           </div>
         </div>
       </nav>
