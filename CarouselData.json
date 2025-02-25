@@ -1,0 +1,40 @@
+{
+  "images": [
+    {
+      "id": 1,
+      "title": "Summer Sale",
+      "url": "https://images.unsplash.com/photo-1607082352121-fa243f3dde32?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8ZWNvbW1lcmNlJTIwc2FsZSUyMGJhbm5lcnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=1200&q=80",
+      "offerText": "Up to 70% Off Summer Collection"
+    },
+    {
+      "id": 2,
+      "title": "Electronics Discount",
+      "url": "https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&h=600&q=80",
+      "offerText": "Flash Sale: Gadgets & Tech"
+    },
+    {
+      "id": 3,
+      "title": "Fashion Clearance",
+      "url": "https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&h=600&q=80",
+      "offerText": "End of Season Sale - 50% Off"
+    },
+    {
+      "id": 4,
+      "title": "Home Decor Specials",
+      "url": "https://images.unsplash.com/photo-1618220179428-22790b461013?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&h=600&q=80",
+      "offerText": "Limited Time Home Makeover Deals"
+    },
+    {
+      "id": 5,
+      "title": "Beauty Bonanza",
+      "url": "https://images.unsplash.com/photo-1617897903246-719242758050?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&h=600&q=80",
+      "offerText": "Buy 1 Get 1 Free on Beauty Products"
+    },
+    {
+      "id": 6,
+      "title": "Festive Offers",
+      "url": "https://images.unsplash.com/photo-1605733513597-a8f8341084e6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&h=600&q=80",
+      "offerText": "Special Holiday Discounts"
+    }
+  ]
+}
