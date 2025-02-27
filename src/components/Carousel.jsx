@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import styled, { keyframes } from 'styled-components';
-import data from '../../CarouselData.json';
+import { useState, useEffect } from "react";
+import styled, { keyframes } from "styled-components";
+import data from "../../CarouselData.json";
 const fadeIn = keyframes`
   from { opacity: 0; }
   to { opacity: 1; }
@@ -16,18 +16,19 @@ const StyledCarouselContainer = styled.div`
 const StyledCarouselWrapper = styled.div`
   position: relative;
   border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  aspect-ratio: 16/9; // Maintain aspect ratio
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  aspect-ratio: 16/9;
 `;
 
 const StyledCarouselContent = styled.div`
   position: relative;
   width: 100%;
   height: 0;
-  padding-top: 56.25%; // 16:9 aspect ratio
-`;
-
-const StyledCarouselImage = styled.img`
+  padding-top: 56.25%;
+  `;
+  
+  const StyledCarouselImage = styled.img`
+  border-radius: 10px;
   position: absolute;
   top: 0;
   left: 0;
@@ -40,7 +41,7 @@ const CarouselButton = styled.button`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   color: white;
   border: none;
   padding: 1rem;
@@ -50,13 +51,16 @@ const CarouselButton = styled.button`
   z-index: 10;
 
   &:hover {
-    background: rgba(0,0,0,0.8);
+    background: rgba(0, 0, 0, 0.8);
   }
 
-  ${({ position }) => position === 'left' ? `
+  ${({ position }) =>
+    position === "left"
+      ? `
     left: 0;
     border-radius: 0 5px 5px 0;
-  ` : `
+  `
+      : `
     right: 0;
     border-radius: 5px 0 0 5px;
   `}
@@ -73,7 +77,7 @@ const Indicator = styled.div`
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: ${({ isActive }) => isActive ? '#333' : '#ccc'};
+  background: ${({ isActive }) => (isActive ? "#333" : "#ccc")};
   cursor: pointer;
   transition: background 0.3s ease;
 `;
@@ -87,7 +91,9 @@ function App() {
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + data.images.length) % data.images.length);
+    setCurrentIndex(
+      (prev) => (prev - 1 + data.images.length) % data.images.length
+    );
   };
 
   useEffect(() => {
@@ -102,11 +108,13 @@ function App() {
     <StyledCarouselContainer
       onMouseEnter={() => setIsAutoPlay(false)}
       onMouseLeave={() => setIsAutoPlay(true)}
-      className='full-width'
+      className="full-width"
     >
       <StyledCarouselWrapper>
-        <CarouselButton position="left" onClick={handlePrev}>&#10094;</CarouselButton>
-        
+        <CarouselButton position="left" onClick={handlePrev}>
+          &#10094;
+        </CarouselButton>
+
         <StyledCarouselContent>
           <StyledCarouselImage
             src={data.images[currentIndex].url}
@@ -114,11 +122,13 @@ function App() {
           />
         </StyledCarouselContent>
 
-        <CarouselButton position="right" onClick={handleNext}>&#10095;</CarouselButton>
+        <CarouselButton position="right" onClick={handleNext}>
+          &#10095;
+        </CarouselButton>
       </StyledCarouselWrapper>
       <IndicatorsContainer>
         {data.images.map((_, index) => (
-          <Indicator 
+          <Indicator
             key={index}
             isActive={index === currentIndex}
             onClick={() => setCurrentIndex(index)}
