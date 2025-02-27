@@ -26,7 +26,7 @@ const Categories = ({ children }) => {
 
   return (
     <>
-      <div className="w-full overflow-x-auto px-4 py-4">
+      <div className="w-full overflow-x-auto px-4 py-4" id='products-category'>
         <div className="flex space-x-4">
           <button
             onClick={() => setSelectedCategory(null)}

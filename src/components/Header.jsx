@@ -93,7 +93,7 @@ function Header() {
                 <button
                   onClick={() =>
                     document
-                      .getElementById("products")
+                      .getElementById("products-category")
                       ?.scrollIntoView({ behavior: "smooth" })
                   }
                   className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-blue-700 hover:text-white"
@@ -141,7 +141,7 @@ function Header() {
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <button
               type="button"
-              className="relative rounded-full p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+              className="relative rounded-full p-1 text-white hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
               onClick={() => navigate("/cart")}
             >
               <span className="sr-only">Add to cart</span>
@@ -184,7 +184,7 @@ function Header() {
             <button
               onClick={() =>
                 document
-                  .getElementById("products")
+                  .getElementById("products-category")
                   ?.scrollIntoView({ behavior: "smooth" })
               }
               className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-blue-700 hover:text-white"
