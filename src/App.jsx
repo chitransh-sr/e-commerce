@@ -4,6 +4,7 @@ import Categories from './components/Category';
 import Products from './components/Product';
 import CarouselApp from './components/Carousel';
 import Cart from './components/Cart';
+import NewsletterSubscription from './components/Newsletter';
 
 const HomeLayout = () => (
   <>
@@ -14,6 +15,7 @@ const HomeLayout = () => (
         <Products selectedCategory={selectedCategory} />
       )}
     </Categories>
+    <NewsletterSubscription/>
   </>
 );
 
