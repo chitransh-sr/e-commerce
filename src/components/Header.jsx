@@ -73,23 +73,37 @@ function Header() {
             </button>
           </div>
 
+          <svg
+            width="260"
+            height="100"
+            viewBox="0 0 150 90"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g
+              fill="none"
+              stroke="#FF6600"
+              stroke-width="4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 24h20l10 30h100l10-20H44" />
+              <circle cx="64" cy="64" r="5" fill="#FF6600" />
+              <circle cx="114" cy="64" r="5" fill="#FF6600" />
+            </g>
+            <text
+              x="44"
+              y="50"
+              font-family="Arial, sans-serif"
+              font-size="20"
+              font-weight="bold"
+              fill="white"
+            >
+              Shop<tspan fill="#FF6600">Now</tspan>
+            </text>
+          </svg>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div className="flex shrink-0 items-center">
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-                alt="ShopNow Logo"
-              />
-            </div>
-
             <div className="hidden sm:ml-6 sm:flex">
               <div className="flex space-x-4">
-                <a
-                  href="#"
-                  className="rounded-md bg-blue-700 px-3 py-2 text-sm font-medium text-white"
-                >
-                  ShopNow
-                </a>
                 <button
                   onClick={() =>
                     document
@@ -174,13 +188,7 @@ function Header() {
         </div>
 
         <div className={`sm:hidden ${isMobileMenuOpen ? "block" : "hidden"}`}>
-          <div className="space-y-1 px-2 pb-3 pt-2">
-            <a
-              href="#"
-              className="block rounded-md bg-blue-700 px-3 py-2 text-base font-medium text-white"
-            >
-              ShopNow
-            </a>
+          <div className="space-y-1 px-2  pt-2">
             <button
               onClick={() =>
                 document
