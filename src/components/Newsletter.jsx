@@ -44,7 +44,6 @@ const Description = styled.p`
   margin-bottom: 2rem;
   line-height: 1.6;
   position: relative;
-  min-width: 480px;
   margin-left: auto;
   margin-right: auto;
 `;
@@ -143,7 +142,7 @@ const NewsletterSubscription = () => {
   };
 
   return (
-    <NewsletterContainer>
+    <NewsletterContainer id='newsletter'>
       <Title>Subscribe to Our Newsletter</Title>
       <Description>
         Join our exclusive community and receive curated insights, expert perspectives, and premium content directly to your email.

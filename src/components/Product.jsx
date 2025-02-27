@@ -70,7 +70,7 @@ const Products = ({ selectedCategory }) => {
   };
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto" id='products'>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
         {products.map((product) => (
           <div
