@@ -17,17 +17,18 @@ const StyledCarouselWrapper = styled.div`
   position: relative;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  aspect-ratio: 16/9; // Maintain aspect ratio
+  aspect-ratio: 16/9; 
 `;
 
 const StyledCarouselContent = styled.div`
-  position: relative;
-  width: 100%;
-  height: 0;
-  padding-top: 56.25%; // 16:9 aspect ratio
+position: relative;
+width: 100%;
+height: 0;
+padding-top: 56.25%; 
 `;
 
 const StyledCarouselImage = styled.img`
+  border-radius:10px;
   position: absolute;
   top: 0;
   left: 0;

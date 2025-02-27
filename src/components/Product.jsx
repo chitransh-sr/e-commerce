@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const Products = ({ selectedCategory }) => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
+  const [itemsPerPage] = useState(9);
   const [totalProducts, setTotalProducts] = useState(0);
   const [cart, setCart] = useLocalStorage("cart", []);
   const [quantities, setQuantities] = useState({});
@@ -70,7 +70,7 @@ const Products = ({ selectedCategory }) => {
   };
 
   return (
-    <div className="container mx-auto" id='products'>
+    <div className="container mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
         {products.map((product) => (
           <div
