@@ -1,15 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
-import Categories from './components/Category';
-import Products from './components/Product';
-import CarouselApp from './components/Carousel';
-import Cart from './components/Cart';
-import NewsletterSubscription from './components/Newsletter';
+import Categories from './components/category/Category';
+import Products from './components/product/Product';
+import Header from './components/header/Header';
+import Cart from './components/cart/Cart';
+import NewsletterSubscription from './components/newsletter/Newsletter';
+import CarauselApp from './components/carousel/Carousel';
 
 const HomeLayout = () => (
   <>
     <Header />
-    <CarouselApp/>
+    <CarauselApp/>
     <Categories>
       {({ selectedCategory }) => (
         <Products selectedCategory={selectedCategory} />

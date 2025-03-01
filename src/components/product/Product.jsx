@@ -1,7 +1,24 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import useLocalStorage from "../hooks/useLocalStorage";
+import useLocalStorage from "../../hooks/useLocalStorage";
 import { useNavigate } from "react-router-dom";
+import {
+  Container,
+  ProductGrid,
+  ProductCard,
+  ProductImage,
+  ProductInfo,
+  ProductTitle,
+  ProductDescription,
+  ProductDetails,
+  ProductPrice,
+  ProductRating,
+  QuantityInput,
+  AddToCartButton,
+  PaginationContainer,
+  PaginationButton,
+  PaginationText,
+} from "./ProductsStyles";
 
 const Products = ({ selectedCategory }) => {
   const [products, setProducts] = useState([]);
@@ -70,67 +87,52 @@ const Products = ({ selectedCategory }) => {
   };
 
   return (
-    <div className="container mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+    <Container>
+      <ProductGrid>
         {products.map((product) => (
-          <div
-            key={product.id}
-            className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
-          >
-            <img
-              src={product.thumbnail}
-              alt={product.title}
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="text-lg font-semibold mb-2">{product.title}</h3>
-              <p className="text-gray-600 text-sm mb-4">{product.description}</p>
-              <div className="flex justify-between items-center mb-4">
-                <span className="text-indigo-600 font-bold">${product.price}</span>
-                <span className="text-sm bg-gray-100 px-2 py-1 rounded">
-                  Rating: {product.rating}/5
-                </span>
-              </div>
+          <ProductCard key={product.id}>
+            <ProductImage src={product.thumbnail} alt={product.title} />
+            <ProductInfo>
+              <ProductTitle>{product.title}</ProductTitle>
+              <ProductDescription>{product.description}</ProductDescription>
+              <ProductDetails>
+                <ProductPrice>${product.price}</ProductPrice>
+                <ProductRating>Rating: {product.rating}/5</ProductRating>
+              </ProductDetails>
               <div className="flex items-center gap-2 mb-4">
-                <input
+                <QuantityInput
                   type="number"
                   min="1"
                   value={quantities[product.id] || 1}
                   onChange={(e) => handleQuantityChange(product.id, e.target.value)}
-                  className="w-16 px-2 py-1 border rounded text-center"
                 />
-                <button
-                  onClick={() => addToCart(product)}
-                  className="flex-1 bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 transition-colors"
-                >
+                <AddToCartButton onClick={() => addToCart(product)}>
                   Add to Cart
-                </button>
+                </AddToCartButton>
               </div>
-            </div>
-          </div>
+            </ProductInfo>
+          </ProductCard>
         ))}
-      </div>
+      </ProductGrid>
 
-      <div className="flex justify-center items-center gap-4 pb-6">
-        <button
+      <PaginationContainer>
+        <PaginationButton
           onClick={() => setCurrentPage((prev) => prev - 1)}
           disabled={currentPage === 1}
-          className="px-4 py-2 text-sm font-medium text-indigo-600 bg-white rounded-md border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
         >
           Previous
-        </button>
-        <span className="text-sm text-gray-700">
+        </PaginationButton>
+        <PaginationText>
           Page {currentPage} of {totalPages}
-        </span>
-        <button
+        </PaginationText>
+        <PaginationButton
           onClick={() => setCurrentPage((prev) => prev + 1)}
           disabled={currentPage === totalPages || totalPages === 0}
-          className="px-4 py-2 text-sm font-medium text-indigo-600 bg-white rounded-md border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
         >
           Next
-        </button>
-      </div>
-    </div>
+        </PaginationButton>
+      </PaginationContainer>
+    </Container>
   );
 };
 
