@@ -39,7 +39,7 @@ const Cart = () => {
       <BackButton onClick={() => navigate("/")}>Go Back</BackButton>
       <h2>My Cart</h2>
       {cart.length === 0 ? (
-        <p>My cart is empty.</p>
+        <p>Cart is empty.</p>
       ) : (
         <div>
           {cart.map((item) => (
