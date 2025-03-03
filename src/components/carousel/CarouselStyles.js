@@ -10,6 +10,7 @@ export const StyledCarouselContainer = styled.div`
   margin: 2rem auto;
   position: relative;
   overflow: hidden;
+    cursor: pointer;
 `;
 
 export const StyledCarouselWrapper = styled.div`

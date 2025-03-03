@@ -42,6 +42,7 @@ export const Logo = styled.svg`
   width: 150px;
   height: auto;
   margin-right: 1rem;
+  cursor: pointer;
 `;
 
 export const DesktopMenu = styled.div`
@@ -58,13 +59,14 @@ export const DesktopMenu = styled.div`
 export const MenuItem = styled.button`
   background: none;
   border: none;
-  color: white;
   font-size: 1rem;
   cursor: pointer;
   padding: 0.5rem 1rem;
   transition: opacity 0.3s ease;
-
+  color: white;
+  
   &:hover {
+    color: #ff6600;
     opacity: 0.8;
   }
 `;
