@@ -58,7 +58,7 @@ const Footer = () => {
         <SocialMedia>
           <SocialMediaWrap>
             <SocialLogo to="/">
-              ShopNow
+              Shop<span>Now</span>
             </SocialLogo>
             <WebsiteRights>ShopNow © {new Date().getFullYear()} All rights reserved.</WebsiteRights>
             <SocialIcons>

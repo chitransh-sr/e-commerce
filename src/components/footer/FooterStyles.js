@@ -63,6 +63,7 @@ export const FooterLinkTitle = styled.h1`
   margin-bottom: 16px;
   font-weight: 600;
   text-transform: uppercase;
+  color: rgb(255, 102, 0);
 
   @media screen and (max-width: 820px) {
     margin-bottom: 12px;
@@ -112,11 +113,14 @@ export const SocialLogo = styled(Link)`
   font-size: 1.5rem;
   font-weight: bold;
   transition: all 0.3s ease-in-out;
-
+ 
   &:hover {
     color: rgb(255, 102, 0);
     transform: scale(1.05);
   }
+    span{
+         color: rgb(255, 102, 0);
+    }
 `;
 
 export const WebsiteRights = styled.small`
@@ -142,12 +146,12 @@ export const SocialIcons = styled.div`
 `;
 
 export const SocialIconLink = styled.a`
-  color: #fff;
+  color: rgb(255, 102, 0);  
   font-size: 24px;
   transition: all 0.3s ease-in-out;
 
   &:hover {
-    color: rgb(255, 102, 0);
+    color: #fff;
     transform: translateY(-3px);
   }
 `;

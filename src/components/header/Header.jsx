@@ -62,7 +62,6 @@ function Header() {
             />
           </svg>
         </MobileMenuButton>
-
         <Logo
           width="260"
           height="100"
@@ -77,7 +76,7 @@ function Header() {
             strokeLinejoin="round"
           >
             <path d="M5 24h20l10 30h100l10-20H44" />
-            <circle cx="64" cy="64" r="5" fill="#FF6600" />
+            <circle cx="64" cy="64" r="5" fill="#FFF" stroke="#FFF" />
             <circle cx="114" cy="64" r="5" fill="#FF6600" />
           </g>
           <text
@@ -91,7 +90,6 @@ function Header() {
             Shop<tspan fill="#FF6600">Now</tspan>
           </text>
         </Logo>
-
         <DesktopMenu>
           <MenuItem
             onClick={() => {
@@ -156,35 +154,35 @@ function Header() {
       </Container>
 
       <MobileMenu isOpen={isMobileMenuOpen}>
-      <MenuItem
-            onClick={() => {
-              const element = document.getElementById("products-category");
-              if (element) {
-                const offset = 100;
-                const elementPosition =
-                  element.getBoundingClientRect().top + window.scrollY;
-                window.scrollTo({
-                  top: elementPosition - offset,
-                  behavior: "smooth",
-                });
-              }
-            }}
-          >
-            Products
-          </MenuItem>
         <MenuItem
-         onClick={() => {
-          const element = document.getElementById("newsletter");
-          if (element) {
-            const offset = 100;
-            const elementPosition =
-              element.getBoundingClientRect().top + window.scrollY;
-            window.scrollTo({
-              top: elementPosition - offset,
-              behavior: "smooth",
-            });
-          }
-        }}
+          onClick={() => {
+            const element = document.getElementById("products-category");
+            if (element) {
+              const offset = 100;
+              const elementPosition =
+                element.getBoundingClientRect().top + window.scrollY;
+              window.scrollTo({
+                top: elementPosition - offset,
+                behavior: "smooth",
+              });
+            }
+          }}
+        >
+          Products
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            const element = document.getElementById("newsletter");
+            if (element) {
+              const offset = 100;
+              const elementPosition =
+                element.getBoundingClientRect().top + window.scrollY;
+              window.scrollTo({
+                top: elementPosition - offset,
+                behavior: "smooth",
+              });
+            }
+          }}
         >
           Subscribe
         </MenuItem>
