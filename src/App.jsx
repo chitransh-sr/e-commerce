@@ -5,6 +5,7 @@ import Header from './components/header/Header';
 import Cart from './components/cart/Cart';
 import NewsletterSubscription from './components/newsletter/Newsletter';
 import CarauselApp from './components/carousel/Carousel';
+import Footer from './components/footer/Footer'
 
 const HomeLayout = () => (
   <>
@@ -16,6 +17,7 @@ const HomeLayout = () => (
       )}
     </Categories>
     <NewsletterSubscription/>
+    <Footer/>
   </>
 );
 
