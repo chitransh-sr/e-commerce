@@ -6,7 +6,7 @@ const fadeIn = keyframes`
 `;
 
 export const StyledCarouselContainer = styled.div`
-  max-width: 1400px;
+  max-width: 1280px;
   margin: 2rem auto;
   position: relative;
   overflow: hidden;
