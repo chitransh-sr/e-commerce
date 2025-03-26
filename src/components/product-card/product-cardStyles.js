@@ -39,8 +39,8 @@ export const ProductCard = styled.div`
 `;
 
 export const ProductImage = styled.img`
-  width: 100%;
-  height: 180px;
+  max-width: 100%;
+  height: 20rem;
   object-fit: cover;
 `;
 
