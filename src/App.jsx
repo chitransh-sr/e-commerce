@@ -2,11 +2,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Categories from './components/category/Category';
 import Products from './components/product-card/product-card';
 import Header from './components/header/Header';
-import Cart from './components/cart/Cart';
+import Cart from './pages/cart/Cart';
 import NewsletterSubscription from './components/newsletter/Newsletter';
 import CarauselApp from './components/carousel/Carousel';
 import Footer from './components/footer/Footer'
-import ProductDetail  from './components/product-detail/product-detail';
+import ProductDetails  from './pages/product/Product';
 
 const HomeLayout = () => (
   <>
@@ -27,7 +27,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<HomeLayout />} />
-        <Route path="/product" element={<ProductDetail />} />
+        <Route path="/product" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart/>}/>
       </Routes>
     </Router>

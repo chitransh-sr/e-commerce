@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import useLocalStorage from "../../hooks/useLocalStorage";
+import useLocalStorage from "../../hooks/useLocalStorage.jsx";
 import { 
   Container,
   ProductDetailContainer,
@@ -13,9 +13,9 @@ import {
   Description,
   QuantityInput,
   AddToCartButton
-} from "./product-detailStyles.js";
+} from "./ProductStyles.js";
 
-const ProductDetail = () => {
+const ProductDetails = () => {
   const { state } = useLocation();
   const product = state?.product;
   const [quantity, setQuantity] = useState(1);
@@ -74,4 +74,4 @@ const ProductDetail = () => {
   );
 };
 
-export default ProductDetail;
+export default ProductDetails;

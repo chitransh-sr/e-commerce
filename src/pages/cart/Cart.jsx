@@ -70,7 +70,7 @@ const Cart = () => {
                   }}
                 />
                 <CartDetails>
-                  <CartTitle>{item.title || 'Unknown Product'}</CartTitle>
+                  <CartTitle>{item.title || 'Unknown ProductDetails'}</CartTitle>
                   <CartPrice>${(item.price || 0).toFixed(2)}</CartPrice>
                 </CartDetails>
               </div>
