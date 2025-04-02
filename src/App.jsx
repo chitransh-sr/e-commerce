@@ -7,6 +7,7 @@ import NewsletterSubscription from './components/newsletter/Newsletter';
 import CarauselApp from './components/carousel/Carousel';
 import Footer from './components/footer/Footer'
 import ProductDetails  from './pages/product/Product';
+import GoToTop from './components/gototop/gototop'
 
 const HomeLayout = () => (
   <>
@@ -18,6 +19,7 @@ const HomeLayout = () => (
       )}
     </Categories>
     <NewsletterSubscription/>
+    <GoToTop/>
     <Footer/>
   </>
 );
@@ -25,6 +27,7 @@ const ProductLayout = () => (
   <>
     <Header />
     <ProductDetails />
+    <GoToTop/>
     <Footer />
   </>
 );

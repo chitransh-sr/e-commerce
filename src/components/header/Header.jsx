@@ -67,6 +67,7 @@ function Header() {
           height="100"
           viewBox="0 0 150 90"
           xmlns="http://www.w3.org/2000/svg"
+          onClick={()=>(navigate('/'))}
         >
           <g
             fill="none"
