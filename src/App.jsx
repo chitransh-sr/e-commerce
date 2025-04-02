@@ -21,13 +21,20 @@ const HomeLayout = () => (
     <Footer/>
   </>
 );
+const ProductLayout = () => (
+  <>
+    <Header />
+    <ProductDetails />
+    <Footer />
+  </>
+);
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<HomeLayout />} />
-        <Route path="/product" element={<ProductDetails />} />
+        <Route path="/product" element={<ProductLayout/>} />
         <Route path="/cart" element={<Cart/>}/>
       </Routes>
     </Router>
