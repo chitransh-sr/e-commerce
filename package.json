@@ -3,11 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-<<<<<<< Updated upstream
   "homepage": "https://chitransh-sr.github.io/e-commerce",
-=======
-  "homepage": "https://chitransh-sr.github.io/e-commerce", 
->>>>>>> Stashed changes
   "scripts": {
     "dev": "vite",
     "build": "vite build",
