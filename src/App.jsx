@@ -8,6 +8,7 @@ import CarauselApp from './components/carousel/Carousel';
 import Footer from './components/footer/Footer'
 import ProductDetails  from './pages/product/Product';
 import GoToTop from './components/gototop/gototop'
+import CustomerReviews from './components/customer-reviews/customerReview';
 
 const HomeLayout = () => (
   <>
@@ -18,6 +19,7 @@ const HomeLayout = () => (
         <Products selectedCategory={selectedCategory} />
       )}
     </Categories>
+    <CustomerReviews />
     <NewsletterSubscription/>
     <GoToTop/>
     <Footer/>
