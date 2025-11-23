@@ -30,7 +30,7 @@ export const FullWidthWrapper = styled.div`
   }
   
   html[data-theme='dark'] & {
-    background: rgba(30, 41, 59, 0.9) !important;
+    background: rgba(30, 41, 59, 0.9);
     scrollbar-color: #764ba2 #0f172a;
     
     &::-webkit-scrollbar-track {
@@ -58,13 +58,17 @@ export const Container = styled.div`
   
   html[data-theme='dark'] & {
     background: rgba(30, 41, 59, 0.95) !important;
+    max-width: 100%;
+    margin: 0;
   }
   
   
-  .cart-content {
+  .checkout-content {
     display: grid;
     grid-template-columns: 1fr 380px;
     gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
     
     @media (max-width: 1024px) {
       grid-template-columns: 1fr;
@@ -76,6 +80,7 @@ export const BackButton = styled.button`
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   color: white;
   padding: 0.75rem 1.5rem;
   margin-bottom: 2rem;
@@ -84,22 +89,13 @@ export const BackButton = styled.button`
   cursor: pointer;
   font-weight: 500;
   font-size: 0.95rem;
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-  html[data-theme='dark'] & {
-    background: transparent;
-  }
 
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
     background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-    
-    html[data-theme='dark'] & {
-      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-    }
   }
   
   &:active {
@@ -107,7 +103,7 @@ export const BackButton = styled.button`
   }
 `;
 
-export const CartHeader = styled.div`
+export const CheckoutHeader = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -126,220 +122,17 @@ export const CartHeader = styled.div`
     margin: 0;
     
     html[data-theme='dark'] & {
-    color: #f8fafc;
-  }
-  }
-  
-  .item-count {
-    color: #64748b;
-    font-size: 0.95rem;
-    font-weight: 500;
-    
-    html[data-theme='dark'] & {
-      color: #94a3b8;
-    }
-  }
-`;
-
-export const CartItem = styled.div`
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-  border: 1px solid rgba(226, 232, 240, 0.8);
-  border-radius: 16px;
-  padding: 1.5rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  margin-bottom: 1rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  
-  html[data-theme='dark'] & {
-    background: rgba(30, 41, 59, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  }
-  
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-    
-    html[data-theme='dark'] &:hover {
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 8px 25px rgba(102, 126, 234, 0.2);
-    }
-  }
-  
-  .item-content {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-  
-  .item-actions {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    
-    @media (max-width: 640px) {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0.75rem;
-    }
-  }
-  
-  @media (max-width: 640px) {
-    padding: 1rem;
-  }
-`;
-
-export const CartImage = styled.img`
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  
-  @media (max-width: 640px) {
-    width: 60px;
-    height: 60px;
-  }
-`;
-
-export const CartDetails = styled.div`
-  flex: 1;
-  
-  .item-subtotal {
-    display: block;
-    color: #64748b;
-    font-size: 0.875rem;
-    font-weight: 500;
-    margin-top: 0.25rem;
-    
-    html[data-theme='dark'] & {
-      color: #94a3b8;
-    }
-  }
-`;
-
-export const CartTitle = styled.h3`
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #1e293b;
-  margin: 0 0 0.5rem 0;
-  line-height: 1.4;
-  
-  html[data-theme='dark'] & {
-    color: #f8fafc;
-  }
-`;
-
-export const CartPrice = styled.p`
-  color: #059669;
-  font-weight: 600;
-  font-size: 1.125rem;
-  margin: 0;
-`;
-
-export const QuantityControls = styled.div`
-  display: flex;
-  align-items: center;
-  border: 2px solid #e2e8f0;
-  border-radius: 12px;
-  overflow: hidden;
-  background: white;
-  
-  html[data-theme='dark'] & {
-    background: #0f172a;
-    border-color: #334155;
-  }
-`;
-
-export const QuantityButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border: none;
-  background: #f8fafc;
-  color: #64748b;
-  cursor: pointer;
-  transition: all 0.2s;
-  
-  html[data-theme='dark'] & {
-    background: #1e293b;
-    color: #94a3b8;
-  }
-  
-  &:hover:not(:disabled) {
-    background: #e2e8f0;
-    color: #1e293b;
-    
-    html[data-theme='dark'] & {
-      background: #334155;
       color: #f8fafc;
     }
   }
-  
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
 `;
 
-export const QuantityInput = styled.input`
-  width: 50px;
-  height: 36px;
-  border: none;
-  text-align: center;
-  font-weight: 600;
-  font-size: 0.95rem;
-  background: transparent;
-  color: #1e293b;
-  
-  html[data-theme='dark'] & {
-    color: #f8fafc;
-  }
-  
-  &:focus {
-    outline: none;
-  }
-`;
-
-export const RemoveButton = styled.button`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-weight: 500;
-  font-size: 0.875rem;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
-
-  &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
-    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-  }
-  
-  &:active {
-    transform: translateY(0);
-  }
-  
-  @media (max-width: 640px) {
-    justify-content: center;
-  }
-`;
-
-export const EmptyCart = styled.div`
-  text-align: center;
-  padding: 4rem 2rem;
+export const CheckoutSection = styled.div`
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   border: 1px solid rgba(226, 232, 240, 0.8);
-  border-radius: 20px;
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   
   html[data-theme='dark'] & {
@@ -349,63 +142,101 @@ export const EmptyCart = styled.div`
   }
   
   h2 {
-    color: #1e293b;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 600;
-    margin: 1.5rem 0 0.5rem 0;
+    color: #1e293b;
+    margin: 0 0 1.5rem 0;
     
     html[data-theme='dark'] & {
-    color: #f8fafc;
-  }
-  }
-  
-  p {
-    color: #64748b;
-    margin: 0 0 2rem 0;
-    
-    html[data-theme='dark'] & {
-      color: #94a3b8;
-    }
-  }
-  
-  .shop-now-btn {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.75rem 2rem;
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+      color: #f8fafc;
     }
   }
 `;
 
-export const EmptyCartIcon = styled.div`
-  display: inline-flex;
+export const FormGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+export const FormGroup = styled.div`
+  margin-bottom: 1.5rem;
+  
+  label {
+    display: block;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    
+    html[data-theme='dark'] & {
+      color: #e5e7eb;
+    }
+  }
+  
+  input, select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    background: white;
+    color: #1f2937;
+    
+    html[data-theme='dark'] & {
+      background: #0f172a;
+      border-color: #374151;
+      color: #f3f4f6;
+    }
+    
+    &:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+  }
+`;
+
+export const PaymentMethodRadio = styled.div`
+  display: flex;
   align-items: center;
-  justify-content: center;
-  width: 120px;
-  height: 120px;
-  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-  border-radius: 50%;
-  margin: 0 auto;
-  color: #64748b;
+  padding: 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
   
   html[data-theme='dark'] & {
-    background: linear-gradient(135deg, #334155 0%, #475569 100%);
-    color: #94a3b8;
+    border-color: #374151;
+    background: #0f172a;
+  }
+  
+  &:hover {
+    border-color: #3b82f6;
+  }
+  
+  input[type="radio"] {
+    margin-right: 0.75rem;
+    width: auto;
+  }
+  
+  &.selected {
+    border-color: #3b82f6;
+    background: rgba(59, 130, 246, 0.05);
+    
+    html[data-theme='dark'] & {
+      background: rgba(59, 130, 246, 0.1);
+    }
   }
 `;
 
-export const CartSummary = styled.div`
+export const OrderSummary = styled.div`
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   border: 1px solid rgba(226, 232, 240, 0.8);
   border-radius: 20px;
@@ -428,35 +259,57 @@ export const CartSummary = styled.div`
     margin: 0 0 1.5rem 0;
     
     html[data-theme='dark'] & {
-    color: #f8fafc;
+      color: #f8fafc;
+    }
   }
+`;
+
+export const OrderItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  
+  html[data-theme='dark'] & {
+    border-bottom-color: #374151;
   }
   
-  .continue-shopping-btn {
-    width: 100%;
-    padding: 0.75rem;
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    color: #64748b;
-    border: 1px solid rgba(226, 232, 240, 0.8);
-    border-radius: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s;
-    margin-top: 1rem;
+  img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  .item-details {
+    flex: 1;
     
-    html[data-theme='dark'] & {
-      color: #94a3b8;
-      background: rgba(30, 41, 59, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    &:hover {
-      background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+    .item-title {
+      font-weight: 500;
+      color: #1f2937;
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
       
-      html[data-theme='dark'] &:hover {
-        background: rgba(30, 41, 59, 0.8);
+      html[data-theme='dark'] & {
+        color: #f3f4f6;
       }
     }
+    
+    .item-quantity {
+      color: #6b7280;
+      font-size: 0.85rem;
+      
+      html[data-theme='dark'] & {
+        color: #9ca3af;
+      }
+    }
+  }
+  
+  .item-price {
+    font-weight: 600;
+    color: #059669;
   }
 `;
 
@@ -484,9 +337,6 @@ export const PriceRow = styled.div`
     }
   }
 `;
-
-export const SubtotalText = styled.span``;
-export const TaxText = styled.span``;
 
 export const Divider = styled.div`
   height: 1px;
@@ -523,7 +373,7 @@ export const TotalPrice = styled.div`
   }
 `;
 
-export const CheckoutButton = styled.button`
+export const PlaceOrderButton = styled.button`
   width: 100%;
   padding: 1rem;
   background: linear-gradient(135deg, #059669 0%, #047857 100%);
@@ -545,9 +395,13 @@ export const CheckoutButton = styled.button`
   &:active {
     transform: translateY(0);
   }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
 `;
-
-export const TotalSection = styled.div``;
 
 export const ThemeToggle = styled.button`
   position: fixed;
@@ -598,4 +452,20 @@ export const ThemeToggle = styled.button`
       box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
     }
   }
+`;
+
+export const ErrorMessage = styled.div`
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
+`;
+
+export const SuccessMessage = styled.div`
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-weight: 500;
 `;

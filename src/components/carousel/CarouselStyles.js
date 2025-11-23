@@ -6,7 +6,7 @@ const fadeIn = keyframes`
 `;
 
 export const StyledCarouselContainer = styled.div`
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 3rem auto;
   position: relative;
   overflow: visible;
@@ -29,16 +29,16 @@ export const StyledCarouselContainer = styled.div`
 export const StyledCarouselWrapper = styled.div`
   position: relative;
   border-radius: 24px;
-  box-shadow: 0 12px 40px rgba(59, 130, 246, 0.15), 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 20px 60px rgba(102, 126, 234, 0.15), 0 8px 30px rgba(0, 0, 0, 0.08);
   aspect-ratio: 16/9;
   overflow: hidden;
-  background: linear-gradient(145deg, #ffffff, #f8fafc);
-  border: 1px solid rgba(226, 232, 240, 0.8);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   
   &:hover {
-    transform: scale(1.01);
-    box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2), 0 8px 30px rgba(0, 0, 0, 0.12);
+    transform: scale(1.02);
+    box-shadow: 0 30px 80px rgba(102, 126, 234, 0.25), 0 12px 40px rgba(0, 0, 0, 0.15);
   }
 `;
 
@@ -82,62 +82,75 @@ export const CarouselButton = styled.button`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.95), rgba(37, 99, 235, 0.95));
-  color: white;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border: none;
-  padding: 1.25rem 1.5rem;
-  cursor: pointer;
-  font-size: 1.25rem;
-  font-weight: 600;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 10;
   border-radius: 50%;
-  backdrop-filter: blur(20px);
-  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
-  min-width: 56px;
-  min-height: 56px;
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.9;
-
+  cursor: pointer;
+  z-index: 100;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 600;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s ease;
+  }
+  
+  &:hover::before {
+    left: 100%;
+  }
+  
   &:hover {
-    background: linear-gradient(135deg, rgba(249, 115, 22, 0.95), rgba(234, 88, 12, 0.95));
     transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 12px 35px rgba(249, 115, 22, 0.4), 0 0 30px rgba(249, 115, 22, 0.15);
-    opacity: 1;
+    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6), 0 0 30px rgba(102, 126, 234, 0.2);
   }
   
   &:active {
     transform: translateY(-50%) scale(0.95);
-    box-shadow: 0 6px 20px rgba(249, 115, 22, 0.3);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
   }
   
-  svg {
-    width: 20px;
-    height: 20px;
-    transition: transform 0.2s ease;
-  }
-  
-  &:hover svg {
-    transform: scale(1.2);
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: translateY(-50%) scale(1);
+    
+    &:hover {
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    }
   }
 
   ${({ $position }) => $position === 'left' ? `
-    left: 2rem;
+    left: 1rem;
   ` : `
-    right: 2rem;
+    right: 1rem;
   `}
   
   @media (max-width: 768px) {
-    padding: 1rem;
-    min-width: 48px;
-    min-height: 48px;
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
     
     ${({ $position }) => $position === 'left' ? `
-      left: 1rem;
+      left: 0.5rem;
     ` : `
-      right: 1rem;
+      right: 0.5rem;
     `}
   }
 `;
@@ -149,11 +162,8 @@ export const IndicatorsContainer = styled.div`
   gap: 16px;
   margin-top: 2rem;
   padding: 1rem 1.5rem;
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.9));
   backdrop-filter: blur(20px);
   border-radius: 50px;
-  border: 1px solid rgba(226, 232, 240, 0.8);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   animation: slideUp 0.6s ease-out 0.3s both;
   
   @keyframes slideUp {
@@ -174,14 +184,14 @@ export const Indicator = styled.div`
   border-radius: 25px;
   background: ${({ $isActive }) => 
     $isActive 
-      ? 'linear-gradient(135deg, #3b82f6, #2563eb)' 
-      : '#cbd5e1'
+      ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' 
+      : 'rgba(203, 213, 225, 0.5)'
   };
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: ${({ $isActive }) => 
     $isActive 
-      ? '0 4px 15px rgba(59, 130, 246, 0.3), 0 0 20px rgba(59, 130, 246, 0.1)' 
+      ? '0 4px 15px rgba(102, 126, 234, 0.4), 0 0 20px rgba(102, 126, 234, 0.2)' 
       : '0 2px 8px rgba(0, 0, 0, 0.05)'
   };
   position: relative;
@@ -201,12 +211,12 @@ export const Indicator = styled.div`
   }
   
   &:hover {
-    background: linear-gradient(135deg, #f97316, #ea580c);
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
     transform: scale(1.2);
-    box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3), 0 0 20px rgba(249, 115, 22, 0.1);
+    box-shadow: 0 4px 15px rgba(118, 75, 162, 0.4), 0 0 20px rgba(118, 75, 162, 0.2);
     
     &::before {
-      opacity: '1';
+      opacity: 1;
     }
   }
   

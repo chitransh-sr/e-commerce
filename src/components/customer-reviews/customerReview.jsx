@@ -4,13 +4,21 @@ import reviews from './customerReviewData';
 
 const ReviewsContainer = styled.section`
   padding: 4rem 2rem;
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 24px;
-  margin: 3rem 0;
-  box-shadow: 0 20px 60px rgba(59, 130, 246, 0.1);
-  max-width: 100%;
+  margin: 3rem auto;
+  box-shadow: 0 -20px 60px rgba(102, 126, 234, 0.15), 0 -8px 30px rgba(0, 0, 0, 0.08);
+  max-width: 1200px;
   overflow: hidden;
   position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 -30px 80px rgba(102, 126, 234, 0.25), 0 -12px 40px rgba(0, 0, 0, 0.15);
+  }
   
   &::before {
     content: '';
@@ -18,35 +26,47 @@ const ReviewsContainer = styled.section`
     top: 0;
     left: 0;
     right: 0;
-    height: 6px;
-    background: linear-gradient(90deg, #3b82f6, #f97316, #10b981);
+    height: 3px;
+    background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+    border-radius: 24px 24px 0 0;
+  }
+
+  /* Dark mode styles */
+  [data-theme="dark"] & {
+    background: rgba(30, 41, 59, 0.8);
+    border: none;
+    box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.3), 0 -8px 30px rgba(0, 0, 0, 0.2);
   }
 `;
 
 const ReviewsTitle = styled.h2`
   font-size: 3rem;
-  color: #1e293b;
+  color: #ffffff;
   margin: 2rem 0;
   text-align: center;
   font-weight: 800;
   position: relative;
   padding-bottom: 2rem;
   font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 
   &::after {
     content: '';
     display: block;
     width: 120px;
-    height: 6px;
-    background: linear-gradient(90deg, #3b82f6, #f97316);
-    border-radius: 3px;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 2px;
     margin: 1rem auto;
   }
 
   svg {
     width: 36px;
     height: 36px;
-    fill: #f97316;
+    fill: #764ba2;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -64,7 +84,7 @@ const NavigationButton = styled.button`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: linear-gradient(135deg, #3b82f6, #f97316);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border: none;
   border-radius: 50%;
   width: 50px;
@@ -74,19 +94,48 @@ const NavigationButton = styled.button`
   justify-content: center;
   cursor: pointer;
   z-index: 10;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
   color: white;
+  font-size: 1.25rem;
+  font-weight: 600;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s ease;
+  }
+  
+  &:hover::before {
+    left: 100%;
+  }
   
   &:hover {
     transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 6px 30px rgba(59, 130, 246, 0.5);
+    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6), 0 0 30px rgba(102, 126, 234, 0.2);
+  }
+  
+  &:active {
+    transform: translateY(-50%) scale(0.95);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
   }
   
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
     transform: translateY(-50%) scale(1);
+    
+    &:hover {
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    }
   }
   
   svg {
@@ -97,6 +146,13 @@ const NavigationButton = styled.button`
   }
   
   ${props => props.direction === 'left' ? 'left: -25px;' : 'right: -25px;'}
+  
+  @media (max-width: 768px) {
+    width: 40px;
+    height: 40px;
+    
+    ${props => props.direction === 'left' ? 'left: -20px;' : 'right: -20px;'}
+  }
 `;
 
 const ReviewsContent = styled.div`
@@ -124,15 +180,22 @@ const ReviewsSlider = styled.div`
 `;
 
 const ReviewCard = styled.div`
-  background: linear-gradient(145deg, #ffffff, #f8fafc);
-  border-radius: 20px;
+  background: rgba(59, 130, 246, 0.05);
+  border-radius: 12px;
   padding: 2rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 2px solid transparent;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
   
+  &:hover {
+    background: rgba(59, 130, 246, 0.08);
+    border-color: rgba(249, 115, 22, 0.2);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1);
+    transform: scale(1.02);
+  }
+
   &::before {
     content: '';
     position: absolute;
@@ -141,7 +204,7 @@ const ReviewCard = styled.div`
     right: 0;
     height: 4px;
     background: linear-gradient(90deg, #3b82f6, #f97316, #10b981);
-    border-radius: 20px 20px 0 0;
+    border-radius: 12px 12px 0 0;
   }
   
   &::after {
@@ -157,12 +220,6 @@ const ReviewCard = styled.div`
     opacity: 0;
   }
 
-  &:hover {
-    transform: scale(1.02);
-    box-shadow: 0 16px 48px rgba(59, 130, 246, 0.15);
-    border-color: #3b82f6;
-  }
-  
   &:hover::after {
     opacity: 1;
     top: -100%;
@@ -171,6 +228,18 @@ const ReviewCard = styled.div`
 
   @media (max-width: 768px) {
     padding: 1.5rem;
+  }
+
+  /* Dark mode styles */
+  [data-theme="dark"] & {
+    background: rgba(249, 115, 22, 0.1);
+    border-color: rgba(249, 115, 22, 0.2);
+
+    &:hover {
+      background: rgba(249, 115, 22, 0.15);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 4px 15px rgba(249, 115, 22, 0.2);
+    }
   }
 `;
 
@@ -231,6 +300,15 @@ const UserName = styled.h3`
   ${ReviewCard}:hover & {
     color: #3b82f6;
   }
+
+  /* Dark mode styles */
+  [data-theme="dark"] & {
+    color: #f1f5f9;
+
+    ${ReviewCard}:hover & {
+      color: #f97316;
+    }
+  }
 `;
 
 const ReviewDate = styled.p`
@@ -238,6 +316,11 @@ const ReviewDate = styled.p`
   color: #64748b;
   font-size: 0.95rem;
   font-weight: 500;
+
+  /* Dark mode styles */
+  [data-theme="dark"] & {
+    color: #94a3b8;
+  }
 `;
 
 const RatingContainer = styled.div`
@@ -281,6 +364,15 @@ const ReviewText = styled.p`
   
   ${ReviewCard}:hover & {
     color: #1e293b;
+  }
+
+  /* Dark mode styles */
+  [data-theme="dark"] & {
+    color: #94a3b8;
+
+    ${ReviewCard}:hover & {
+      color: #f1f5f9;
+    }
   }
 `;
 

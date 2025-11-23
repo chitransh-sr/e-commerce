@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import reviews from '../customer-reviews/customerReviewData';
+import { useTheme } from '../../contexts/ThemeContext';
+import useLocalStorage from "../../hooks/useLocalStorage";
 import {
   Nav,
   Container,
@@ -16,13 +17,7 @@ import {
   CartButton,
   MobileMenu,
   RightSection,
-  MobileSearchContainer,
-  HeaderReviewsSection,
-  HeaderReviewCard,
-  HeaderReviewText,
-  HeaderReviewAuthor,
-  HeaderReviewRating,
-  StarIcon
+  MobileSearchContainer
 } from "./HeaderStyles";
 
 function Header() {
@@ -31,46 +26,8 @@ function Header() {
   const [result, setResult] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
-
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-    if (!isDarkMode) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      document.body.style.backgroundColor = '#0f172a';
-    } else {
-      document.documentElement.removeAttribute('data-theme');
-      document.body.style.backgroundColor = '#ffffff';
-    }
-  };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentReviewIndex((prev) => (prev + 1) % reviews.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const getStars = (rating) => {
-    const stars = [];
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 >= 0.5;
-
-    for (let i = 0; i < fullStars; i++) {
-      stars.push(<StarIcon key={i} $filled />);
-    }
-
-    if (hasHalfStar) {
-      stars.push(<StarIcon key={stars.length} $half />);
-    }
-
-    while (stars.length < 5) {
-      stars.push(<StarIcon key={stars.length} $filled={false} />);
-    }
-
-    return stars;
-  };
+  const { isDarkMode, toggleTheme } = useTheme();
+  const [cart] = useLocalStorage("cart", []);
 
   const fetchData = async (query) => {
     if (!query) return;
@@ -165,15 +122,6 @@ function Header() {
           >
             Subscribe
           </MenuItem>
-          <MenuItem
-            onClick={() =>
-              document
-                .getElementById("customer-reviews")
-                ?.scrollIntoView({ behavior: "smooth" })
-            }
-          >
-            Reviews
-          </MenuItem>
           <SearchContainer>
             <SearchInput
               type="text"
@@ -240,17 +188,39 @@ function Header() {
                 d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
               />
             </svg>
+            <span style={{
+              position: 'absolute',
+              top: '-6px',
+              right: '-6px',
+              background: cart.length > 0 ? '#ef4444' : '#94a3b8',
+              color: 'white',
+              borderRadius: '50%',
+              width: '16px',
+              height: '16px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '8px',
+              fontWeight: 'bold',
+              minWidth: '16px',
+              maxWidth: '16px',
+              border: '2px solid white',
+              zIndex: 9999,
+              pointerEvents: 'none',
+              lineHeight: 1,
+              padding: '0',
+              boxSizing: 'border-box',
+              fontFamily: 'Inter, sans-serif',
+              boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap'
+            }}>
+              {cart.reduce((total, item) => total + (item.quantity || 1), 0)}
+            </span>
           </CartButton>
         </RightSection>
       </Container>
-      
-      <HeaderReviewsSection>
-        <HeaderReviewCard>
-          <HeaderReviewAuthor>{reviews[currentReviewIndex].user.name}</HeaderReviewAuthor>
-          <HeaderReviewRating>{getStars(reviews[currentReviewIndex].rating)}</HeaderReviewRating>
-          <HeaderReviewText>"{reviews[currentReviewIndex].text.substring(0, 100)}..."</HeaderReviewText>
-        </HeaderReviewCard>
-      </HeaderReviewsSection>
 
       <MobileMenu $isOpen={isMobileMenuOpen}>
         <MenuItem
