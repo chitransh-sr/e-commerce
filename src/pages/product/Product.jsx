@@ -11,6 +11,8 @@ import {
   Price,
   Rating,
   Description,
+  QuantitySection,
+  QuantityLabel,
   QuantityInput,
   AddToCartButton
 } from "./ProductStyles.js";
@@ -40,7 +42,18 @@ const ProductDetails = () => {
         return [...prevCart, { ...product, quantity: qty }];
       }
     });
-    navigate("/cart");
+    
+    // Show success feedback
+    const button = document.querySelector('button');
+    const originalText = button.innerHTML;
+    button.innerHTML = '<span style={{ marginRight: "0.5rem" }}>✓</span>Added to Cart!';
+    button.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+    
+    setTimeout(() => {
+      button.innerHTML = originalText;
+      button.style.background = '';
+      navigate("/cart");
+    }, 1000);
   };
 
   return (
@@ -51,23 +64,35 @@ const ProductDetails = () => {
         </ImageWrapper>
         <DetailsWrapper>
           <Title>{product.title}</Title>
-          <Price>${product.price}</Price>
-          <Rating>Rating: {product.rating}/5</Rating>
+          <Price>{product.price}</Price>
+          <Rating>{product.rating}/5</Rating>
           <Description>{product.description}</Description>
-          <div style={{ marginTop: "20px" }}>
-            <label>
-              Quantity:{" "}
-              <QuantityInput
-                type="number"
-                min="1"
-                value={quantity}
-                onChange={(e) => setQuantity(e.target.value)}
-              />
-            </label>
+          <QuantitySection>
+            <QuantityLabel>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path d="M20 7H4M20 12H4M20 17H4" />
+              </svg>
+              Quantity:
+            </QuantityLabel>
+            <QuantityInput
+              type="number"
+              min="1"
+              max="99"
+              value={quantity}
+              onChange={(e) => setQuantity(Math.max(1, Math.min(99, parseInt(e.target.value) || 1)))}
+            />
             <AddToCartButton onClick={handleAddToCart}>
+              <span style={{ marginRight: '0.5rem' }}>🛒</span>
               Add to Cart
             </AddToCartButton>
-          </div>
+          </QuantitySection>
         </DetailsWrapper>
       </ProductDetailContainer>
     </Container>

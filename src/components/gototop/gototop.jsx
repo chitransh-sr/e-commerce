@@ -17,8 +17,8 @@ const Button = styled.button`
   justify-content: center;
   font-size: 24px;
   transition: all 0.3s ease;
-  opacity: ${(props) => (props.isVisible ? "1" : "0")};
-  visibility: ${(props) => (props.isVisible ? "visible" : "hidden")};
+  opacity: ${(props) => (props.$isVisible ? "1" : "0")};
+  visibility: ${(props) => (props.$isVisible ? "visible" : "hidden")};
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
   &:hover {
@@ -57,7 +57,7 @@ const GoToTop = () => {
   }, []);
 
   return (
-    <Button isVisible={isVisible} onClick={scrollToTop} aria-label="Go to top">
+    <Button $isVisible={isVisible} onClick={scrollToTop} aria-label="Go to top">
       ↑
     </Button>
   );
