@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import reviews from '../customer-reviews/customerReviewData';
 import {
   Nav,
   Container,
@@ -11,10 +12,17 @@ import {
   SearchContainer,
   SearchInput,
   SearchResults,
+  ThemeToggle,
   CartButton,
   MobileMenu,
   RightSection,
-  MobileSearchContainer
+  MobileSearchContainer,
+  HeaderReviewsSection,
+  HeaderReviewCard,
+  HeaderReviewText,
+  HeaderReviewAuthor,
+  HeaderReviewRating,
+  StarIcon
 } from "./HeaderStyles";
 
 function Header() {
@@ -23,6 +31,46 @@ function Header() {
   const [result, setResult] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+    if (!isDarkMode) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.body.style.backgroundColor = '#0f172a';
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      document.body.style.backgroundColor = '#ffffff';
+    }
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentReviewIndex((prev) => (prev + 1) % reviews.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const getStars = (rating) => {
+    const stars = [];
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(<StarIcon key={i} $filled />);
+    }
+
+    if (hasHalfStar) {
+      stars.push(<StarIcon key={stars.length} $half />);
+    }
+
+    while (stars.length < 5) {
+      stars.push(<StarIcon key={stars.length} $filled={false} />);
+    }
+
+    return stars;
+  };
 
   const fetchData = async (query) => {
     if (!query) return;
@@ -71,24 +119,24 @@ function Header() {
         >
           <g
             fill="none"
-            stroke="#FF6600"
+            stroke="#3b82f6"
             strokeWidth="4"
             strokeLinecap="round"
             strokeLinejoin="round"
           >
             <path d="M5 24h20l10 30h100l10-20H44" />
-            <circle cx="64" cy="64" r="5" fill="#FFF" stroke="#FFF" />
-            <circle cx="114" cy="64" r="5" fill="#FF6600" />
+            <circle cx="64" cy="64" r="5" fill="#f97316" stroke="#f97316" />
+            <circle cx="114" cy="64" r="5" fill="#f97316" />
           </g>
           <text
             x="44"
             y="50"
-            fontFamily="Arial, sans-serif"
+            fontFamily="Inter, sans-serif"
             fontSize="20"
             fontWeight="bold"
-            fill="white"
+            fill="#1e40af"
           >
-            Shop<tspan fill="#FF6600">Now</tspan>
+            Shop<tspan fill="#f97316">Now</tspan>
           </text>
         </Logo>
         <DesktopMenu>
@@ -117,6 +165,15 @@ function Header() {
           >
             Subscribe
           </MenuItem>
+          <MenuItem
+            onClick={() =>
+              document
+                .getElementById("customer-reviews")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
+          >
+            Reviews
+          </MenuItem>
           <SearchContainer>
             <SearchInput
               type="text"
@@ -137,6 +194,39 @@ function Header() {
         </DesktopMenu>
 
         <RightSection>
+          <ThemeToggle 
+            onClick={toggleTheme}
+            data-theme={isDarkMode ? "dark" : "light"}
+            title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {isDarkMode ? (
+              <svg
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                />
+              </svg>
+            ) : (
+              <svg
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                />
+              </svg>
+            )}
+          </ThemeToggle>
           <CartButton onClick={() => navigate("/cart")}>
             <svg
               fill="none"
@@ -153,8 +243,16 @@ function Header() {
           </CartButton>
         </RightSection>
       </Container>
+      
+      <HeaderReviewsSection>
+        <HeaderReviewCard>
+          <HeaderReviewAuthor>{reviews[currentReviewIndex].user.name}</HeaderReviewAuthor>
+          <HeaderReviewRating>{getStars(reviews[currentReviewIndex].rating)}</HeaderReviewRating>
+          <HeaderReviewText>"{reviews[currentReviewIndex].text.substring(0, 100)}..."</HeaderReviewText>
+        </HeaderReviewCard>
+      </HeaderReviewsSection>
 
-      <MobileMenu isOpen={isMobileMenuOpen}>
+      <MobileMenu $isOpen={isMobileMenuOpen}>
         <MenuItem
           onClick={() => {
             const element = document.getElementById("products-category");
@@ -186,6 +284,22 @@ function Header() {
           }}
         >
           Subscribe
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            const element = document.getElementById("customer-reviews");
+            if (element) {
+              const offset = 100;
+              const elementPosition =
+                element.getBoundingClientRect().top + window.scrollY;
+              window.scrollTo({
+                top: elementPosition - offset,
+                behavior: "smooth",
+              });
+            }
+          }}
+        >
+          Reviews
         </MenuItem>
         <MobileSearchContainer>
           <SearchInput

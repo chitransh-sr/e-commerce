@@ -37,7 +37,7 @@ function CarauselApp() {
       className='full-width'
     >
       <StyledCarouselWrapper>
-        <CarouselButton position="left" onClick={handlePrev}>&#10094;</CarouselButton>
+        <CarouselButton $position="left" onClick={handlePrev}>&#10094;</CarouselButton>
         
         <StyledCarouselContent>
           <StyledCarouselImage
@@ -46,13 +46,13 @@ function CarauselApp() {
           />
         </StyledCarouselContent>
 
-        <CarouselButton position="right" onClick={handleNext}>&#10095;</CarouselButton>
+        <CarouselButton $position="right" onClick={handleNext}>&#10095;</CarouselButton>
       </StyledCarouselWrapper>
       <IndicatorsContainer>
         {data.images.map((_, index) => (
           <Indicator 
             key={index}
-            isActive={index === currentIndex}
+            $isActive={index === currentIndex}
             onClick={() => setCurrentIndex(index)}
           />
         ))}
