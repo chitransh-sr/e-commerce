@@ -116,9 +116,6 @@ const Categories = ({ children }) => {
   return (
     <>
       <CategoriesContainer id='products-category'>
-        <LeftArrow onClick={scrollLeft} disabled={!canScrollLeft}>
-          ‹
-        </LeftArrow>
         <CategoriesScrollContainer ref={containerRef}>
           <CategoryButton
             onClick={() => setSelectedCategory(null)}
@@ -138,6 +135,9 @@ const Categories = ({ children }) => {
             </CategoryButton>
           ))}
         </CategoriesScrollContainer>
+        <LeftArrow onClick={scrollLeft} disabled={!canScrollLeft}>
+          ‹
+        </LeftArrow>
         <RightArrow onClick={scrollRight} disabled={!canScrollRight}>
           ›
         </RightArrow>

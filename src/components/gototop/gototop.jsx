@@ -5,29 +5,58 @@ const Button = styled.button`
   position: fixed;
   bottom: 40px;
   right: 40px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #007bff;
-  color: white;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border: none;
-  cursor: pointer;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  transition: all 0.3s ease;
+  cursor: pointer;
+  z-index: 100;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 600;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
   opacity: ${(props) => (props.$isVisible ? "1" : "0")};
   visibility: ${(props) => (props.$isVisible ? "visible" : "hidden")};
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-
-  &:hover {
-    background-color: black;
-    transform: scale(1.1);
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s ease;
   }
-
+  
+  &:hover::before {
+    left: 100%;
+  }
+  
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6), 0 0 30px rgba(102, 126, 234, 0.2);
+  }
+  
   &:active {
     transform: scale(0.95);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+  }
+  
+  @media (max-width: 768px) {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+    bottom: 20px;
+    right: 20px;
   }
 `;
 

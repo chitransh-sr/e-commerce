@@ -8,11 +8,48 @@ export const Container = styled.div`
   max-width: 1400px;
   margin: 0 auto;
   padding: 2rem;
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  overflow-y: auto;
+  
+  /* Custom scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: #667eea #f1f5f9;
+  
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(90deg, #764ba2, #667eea);
+  }
   
   /* Dark mode styles */
   [data-theme="dark"] & {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    background: rgba(30, 41, 59, 0.9);
+    scrollbar-color: #764ba2 #0f172a;
+    
+    &::-webkit-scrollbar-track {
+      background: rgba(30, 41, 59, 0.5);
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: linear-gradient(90deg, #764ba2, #667eea);
+    }
+    
+    &::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(90deg, #667eea, #764ba2);
+    }
   }
   
   @media (max-width: 768px) {
@@ -25,19 +62,19 @@ export const ProductDetailContainer = styled.div`
   grid-template-columns: 1fr 1.5fr;
   gap: 3rem;
   width: 100%;
-  background: linear-gradient(145deg, #ffffff, #f8fafc);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 2.5rem;
   border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 8px 16px rgba(0, 0, 0, 0.04);
-  border: 1px solid rgba(226, 232, 240, 0.8);
-  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   animation: fadeInUp 0.8s ease-out;
   
   /* Dark mode styles */
   [data-theme="dark"] & {
-    background: linear-gradient(145deg, #1e293b, #0f172a);
-    border-color: rgba(59, 130, 246, 0.3);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 8px 16px rgba(0, 0, 0, 0.2);
+    background: rgba(30, 41, 59, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   }
   
   @media (max-width: 1024px) {
@@ -70,26 +107,27 @@ export const ImageWrapper = styled.div`
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  background: linear-gradient(145deg, #ffffff, #f1f5f9);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 16px;
-  border: 2px solid rgba(226, 232, 240, 0.8);
-  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.04), 0 8px 16px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   
   /* Dark mode styles */
   [data-theme="dark"] & {
-    background: linear-gradient(145deg, #0f172a, #1e293b);
-    border-color: rgba(59, 130, 246, 0.3);
-    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.2), 0 8px 16px rgba(0, 0, 0, 0.3);
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   }
   
   &:hover {
     transform: translateY(-5px);
-    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.04), 0 12px 24px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 12px 40px rgba(102, 126, 234, 0.15), 0 8px 25px rgba(0, 0, 0, 0.15);
     
-    [data-theme="dark"] & {
-      box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.4);
+    [data-theme="dark"] &:hover {
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 8px 25px rgba(102, 126, 234, 0.2);
     }
   }
   
@@ -99,8 +137,8 @@ export const ImageWrapper = styled.div`
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #3b82f6, #f97316);
+    height: 3px;
+    background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
     border-radius: 16px 16px 0 0;
   }
 `;
@@ -150,7 +188,7 @@ export const Title = styled.h1`
   font-weight: 800;
   line-height: 1.2;
   margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, #1e293b, #3b82f6);
+  background: linear-gradient(135deg, #667eea, #764ba2);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -159,7 +197,7 @@ export const Title = styled.h1`
   
   /* Dark mode styles */
   [data-theme="dark"] & {
-    background: linear-gradient(135deg, #f1f5f9, #60a5fa);
+    background: linear-gradient(135deg, #764ba2, #667eea);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -223,10 +261,11 @@ export const Rating = styled.div`
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1rem;
-  background: linear-gradient(145deg, #f8fafc, #f1f5f9);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 10px;
   width: fit-content;
-  border: 1px solid rgba(226, 232, 240, 0.8);
   font-family: 'Inter', sans-serif;
   
   &::before {
@@ -237,8 +276,8 @@ export const Rating = styled.div`
   /* Dark mode styles */
   [data-theme="dark"] & {
     color: #94a3b8;
-    background: linear-gradient(145deg, #1e293b, #0f172a);
-    border-color: rgba(59, 130, 246, 0.2);
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
   
   @media (max-width: 768px) {
@@ -251,18 +290,19 @@ export const Description = styled.p`
   line-height: 1.8;
   color: #475569;
   padding: 1.5rem;
-  background: linear-gradient(145deg, #ffffff, #f8fafc);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
-  border: 1px solid rgba(226, 232, 240, 0.8);
   font-family: 'Inter', sans-serif;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   
   /* Dark mode styles */
   [data-theme="dark"] & {
     color: #cbd5e1;
-    background: linear-gradient(145deg, #1e293b, #0f172a);
-    border-color: rgba(59, 130, 246, 0.2);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   }
   
   @media (max-width: 768px) {
@@ -304,44 +344,30 @@ export const QuantityInput = styled.input`
   font-size: 1.1rem;
   font-weight: 600;
   text-align: center;
-  border: 2px solid rgba(226, 232, 240, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
-  background: linear-gradient(145deg, #ffffff, #f8fafc);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
   color: #1e293b;
   font-family: 'Inter', sans-serif;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s ease;
   
   &:focus {
     outline: none;
-    border-color: #3b82f6;
-    background: #ffffff;
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1), inset 0 2px 4px rgba(0, 0, 0, 0.02);
-    transform: translateY(-1px);
-  }
-  
-  &:hover {
-    border-color: #cbd5e1;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), inset 0 2px 4px rgba(0, 0, 0, 0.02);
+    border-color: rgba(102, 126, 234, 0.5);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
   }
   
   /* Dark mode styles */
   [data-theme="dark"] & {
-    background: linear-gradient(145deg, #1e293b, #0f172a);
-    border-color: rgba(59, 130, 246, 0.3);
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     color: #f1f5f9;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
-    
-    &:focus {
-      border-color: #f97316;
-      background: #1e293b;
-      box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.2), inset 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    
-    &:hover {
-      border-color: rgba(59, 130, 246, 0.5);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
+  }
+  
+  [data-theme="dark"] &:focus {
+    border-color: rgba(118, 75, 162, 0.5);
+    box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.1);
   }
   
   @media (max-width: 768px) {
@@ -353,7 +379,7 @@ export const QuantityInput = styled.input`
 
 export const AddToCartButton = styled.button`
   padding: 1rem 2.5rem;
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  background: linear-gradient(135deg, #667eea, #764ba2);
   border: none;
   border-radius: 14px;
   font-size: 1.1rem;
@@ -362,10 +388,11 @@ export const AddToCartButton = styled.button`
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: 'Inter', sans-serif;
-  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
   position: relative;
   overflow: hidden;
   min-width: 200px;
+  backdrop-filter: blur(20px);
   
   &::before {
     content: '';
@@ -374,14 +401,14 @@ export const AddToCartButton = styled.button`
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
     transition: left 0.6s ease;
   }
   
   &:hover {
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
-    transform: translateY(-3px);
-    box-shadow: 0 12px 35px rgba(59, 130, 246, 0.4), 0 0 20px rgba(59, 130, 246, 0.1);
+    background: linear-gradient(135deg, #764ba2, #667eea);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6), 0 0 30px rgba(102, 126, 234, 0.2);
     
     &::before {
       left: 100%;
@@ -389,19 +416,8 @@ export const AddToCartButton = styled.button`
   }
   
   &:active {
-    transform: translateY(-1px);
-    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
-  }
-  
-  /* Dark mode styles */
-  [data-theme="dark"] & {
-    background: linear-gradient(135deg, #f97316, #ea580c);
-    box-shadow: 0 8px 25px rgba(249, 115, 22, 0.3);
-    
-    &:hover {
-      background: linear-gradient(135deg, #ea580c, #dc2626);
-      box-shadow: 0 12px 35px rgba(249, 115, 22, 0.4), 0 0 20px rgba(249, 115, 22, 0.15);
-    }
+    transform: translateY(0);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
   }
   
   @media (max-width: 768px) {

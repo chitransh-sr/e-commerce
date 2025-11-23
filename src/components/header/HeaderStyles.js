@@ -8,7 +8,6 @@ export const Nav = styled.nav`
   z-index: 1000;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
   border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-  backdrop-filter: blur(20px);
   animation: slideDown 0.6s ease-out;
 
   /* Dark mode styles */
@@ -42,7 +41,7 @@ export const Container = styled.div`
 
   /* Dark mode styles */
   [data-theme="dark"] & {
-    background: #1e293b;
+    background: transparent;
   }
 `;
 
@@ -134,11 +133,6 @@ export const DesktopMenu = styled.div`
   @media (max-width: 768px) {
     display: none;
   }
-
-  /* Dark mode styles */
-  [data-theme="dark"] & {
-    background: #1e293b;
-  }
 `;
 
 export const MenuItem = styled.button`
@@ -198,11 +192,6 @@ export const MenuItem = styled.button`
 export const SearchContainer = styled.div`
   position: relative;
   margin-left: auto;
-
-  /* Dark mode styles */
-  [data-theme="dark"] & {
-    background: #1e293b;
-  }
 `;
 
 export const SearchInput = styled.input`
@@ -344,11 +333,8 @@ export const RightSection = styled.div`
   align-items: center;
   gap: 1rem;
   margin-left: 1rem;
-
-  /* Dark mode styles */
-  [data-theme="dark"] & {
-    background: #1e293b;
-  }
+  position: relative;
+  z-index: 1;
 `;
 
 export const ThemeToggle = styled.button`
@@ -360,22 +346,13 @@ export const ThemeToggle = styled.button`
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 14px;
   position: relative;
-  overflow: hidden;
+  z-index: 12;
   min-width: 48px;
   min-height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15);
   font-size: 20px;
-
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.25), 0 0 20px rgba(59, 130, 246, 0.1);
-    background: linear-gradient(145deg, #eff6ff, #ffffff);
-    border-color: #3b82f6;
-    color: #2563eb;
-  }
 
   &:active {
     transform: translateY(-1px);
@@ -385,11 +362,7 @@ export const ThemeToggle = styled.button`
   svg {
     width: 20px;
     height: 20px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  &:hover svg {
-    transform: scale(1.1) rotate(15deg);
+    transition: transform 0.2s ease;
   }
 
   &::before {
@@ -403,10 +376,6 @@ export const ThemeToggle = styled.button`
     transition: left 0.6s ease;
   }
 
-  &:hover::before {
-    left: 100%;
-  }
-
   /* Dark mode styles */
   &[data-theme="dark"] {
     background: linear-gradient(145deg, #1e293b, #0f172a);
@@ -414,11 +383,8 @@ export const ThemeToggle = styled.button`
     color: #f97316;
     box-shadow: 0 4px 15px rgba(249, 115, 22, 0.2);
 
-    &:hover {
-      background: linear-gradient(145deg, #334155, #1e293b);
-      border-color: #f97316;
-      color: #ea580c;
-      box-shadow: 0 8px 25px rgba(249, 115, 22, 0.3), 0 0 20px rgba(249, 115, 22, 0.15);
+    &:active {
+      box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
     }
 
     &::before {
@@ -436,19 +402,14 @@ export const CartButton = styled.button`
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 14px;
   position: relative;
-  overflow: hidden;
+  z-index: 10;
+  overflow: visible; /* Changed to visible to show badge */
   min-width: 48px;
   min-height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 15px rgba(59, 130, 246, 0.25);
-
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.35), 0 0 20px rgba(59, 130, 246, 0.1);
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  }
 
   &:active {
     transform: translateY(-1px);
@@ -459,10 +420,6 @@ export const CartButton = styled.button`
     width: 20px;
     height: 20px;
     transition: transform 0.2s ease;
-  }
-
-  &:hover svg {
-    transform: scale(1.1);
   }
 
   &::before {
@@ -476,19 +433,10 @@ export const CartButton = styled.button`
     transition: left 0.6s ease;
   }
 
-  &:hover::before {
-    left: 100%;
-  }
-
   /* Dark mode styles */
   &[data-theme="dark"] {
     background: linear-gradient(135deg, #f97316, #ea580c);
     box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
-
-    &:hover {
-      background: linear-gradient(135deg, #ea580c, #dc2626);
-      box-shadow: 0 8px 25px rgba(249, 115, 22, 0.4), 0 0 20px rgba(249, 115, 22, 0.15);
-    }
   }
 `;
 
@@ -536,79 +484,4 @@ export const MobileSearchContainer = styled.div`
   width: 100%;
   max-width: 300px;
   position: relative;
-`;
-
-export const HeaderReviewsSection = styled.div`
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-  padding: 1rem 2rem;
-  z-index: 999;
-  backdrop-filter: blur(20px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-
-  /* Dark mode styles */
-  [data-theme="dark"] & {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-    border-bottom: 1px solid rgba(59, 130, 246, 0.3);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  }
-`;
-
-export const HeaderReviewCard = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  max-width: 600px;
-  margin: 0 auto;
-`;
-
-export const HeaderReviewAuthor = styled.div`
-  font-weight: 600;
-  color: #1e293b;
-  font-size: 0.9rem;
-  min-width: 100px;
-
-  /* Dark mode styles */
-  [data-theme="dark"] & {
-    color: #f1f5f9;
-  }
-`;
-
-export const HeaderReviewRating = styled.div`
-  display: flex;
-  gap: 0.2rem;
-`;
-
-export const HeaderReviewText = styled.div`
-  color: #64748b;
-  font-style: italic;
-  font-size: 0.85rem;
-  flex: 1;
-
-  /* Dark mode styles */
-  [data-theme="dark"] & {
-    color: #94a3b8;
-  }
-`;
-
-export const StarIcon = styled.span`
-  color: ${({ $filled, $half }) => {
-    if ($filled) return '#fbbf24';
-    if ($half) return 'url(#half-star)';
-    return '#e2e8f0';
-  }};
-  font-size: 1rem;
-  
-  /* Dark mode styles */
-  [data-theme="dark"] & {
-    color: ${({ $filled, $half }) => {
-      if ($filled) return '#fbbf24';
-      if ($half) return 'url(#half-star)';
-      return '#475569';
-    }};
-  }
 `;

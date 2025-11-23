@@ -2,9 +2,13 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const FooterContainer = styled.footer`
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   position: relative;
-  border-top: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 24px 24px 0 0;
+  margin-top: 4rem;
+  box-shadow: 0 -20px 60px rgba(102, 126, 234, 0.15), 0 -8px 30px rgba(0, 0, 0, 0.08);
   
   &::before {
     content: '';
@@ -12,14 +16,16 @@ export const FooterContainer = styled.footer`
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #3b82f6, #f97316);
+    height: 3px;
+    background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+    border-radius: 24px 24px 0 0;
   }
 
   /* Dark mode styles */
   [data-theme="dark"] & {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-    border-top: 1px solid rgba(59, 130, 246, 0.3);
+    background: rgba(30, 41, 59, 0.8);
+    border: none;
+    box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.3), 0 -8px 30px rgba(0, 0, 0, 0.2);
   }
 `;
 
@@ -212,7 +218,7 @@ export const SocialMediaWrap = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid rgba(226, 232, 240, 0.8);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
   padding-top: 2.5rem;
   width: 100%;
   min-width: 0;
@@ -231,7 +237,7 @@ export const SocialMediaWrap = styled.div`
 
   /* Dark mode styles */
   [data-theme="dark"] & {
-    border-top: 1px solid rgba(59, 130, 246, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
 `;
 
