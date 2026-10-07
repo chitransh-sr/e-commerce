@@ -2,81 +2,84 @@ import React from 'react';
 import { 
   FooterContainer,
   FooterWrap,
-  FooterLinksContainer,
-  FooterLinksWrapper,
-  FooterLinkItems,
-  FooterLinkTitle,
-  FooterLink,
-  SocialMedia,
-  SocialMediaWrap,
-  SocialLogo,
-  WebsiteRights,
-  SocialIcons,
-  SocialIconLink
+  FooterTopRow,
+  BrandColumn,
+  FooterLinkColumn,
+  ColumnTitle,
+  StyledFooterLink,
+  FooterBottomRow,
+  Copyright,
+  SocialLinks,
+  SocialButton
 } from './FooterStyles';
-import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
+import { LogoWrapper, LogoBadge, LogoText } from '../header/HeaderStyles';
+import { Sparkles } from 'lucide-react';
+import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube, FaGithub } from 'react-icons/fa';
 
 const Footer = () => {
   return (
     <FooterContainer>
       <FooterWrap>
-        <FooterLinksContainer>
-          <FooterLinksWrapper>
-            <FooterLinkItems>
-              <FooterLinkTitle>About Us</FooterLinkTitle>
-              <FooterLink to="/">How it works</FooterLink>
-              <FooterLink to="/">Testimonials</FooterLink>
-              <FooterLink to="/">Careers</FooterLink>
-              <FooterLink to="/">Investors</FooterLink>
-              <FooterLink to="/">Terms of Service</FooterLink>
-            </FooterLinkItems>
-            <FooterLinkItems>
-              <FooterLinkTitle>Contact Us</FooterLinkTitle>
-              <FooterLink to="/">Contact</FooterLink>
-              <FooterLink to="/">Support</FooterLink>
-              <FooterLink to="/">Destinations</FooterLink>
-              <FooterLink to="/">Sponsorships</FooterLink>
-            </FooterLinkItems>
-          </FooterLinksWrapper>
-          <FooterLinksWrapper>
-            <FooterLinkItems>
-              <FooterLinkTitle>Quick Links</FooterLinkTitle>
-              <FooterLink to="/">Home</FooterLink>
-              <FooterLink to="/">Services</FooterLink>
-              <FooterLink to="/">Pricing</FooterLink>
-              <FooterLink to="/">Features</FooterLink>
-            </FooterLinkItems>
-            <FooterLinkItems>
-              <FooterLinkTitle>Social Media</FooterLinkTitle>
-              <FooterLink to="/">Facebook</FooterLink>
-              <FooterLink to="/">Instagram</FooterLink>
-              <FooterLink to="/">Twitter</FooterLink>
-              <FooterLink to="/">Youtube</FooterLink>
-            </FooterLinkItems>
-          </FooterLinksWrapper>
-        </FooterLinksContainer>
-        <SocialMedia>
-          <SocialMediaWrap>
-            <SocialLogo to="/">
-              Shop<span>Now</span>
-            </SocialLogo>
-            <WebsiteRights>ShopNow © {new Date().getFullYear()} All rights reserved.</WebsiteRights>
-            <SocialIcons>
-              <SocialIconLink href="/" target="_blank" aria-label="Facebook">
-                <FaFacebook />
-              </SocialIconLink>
-              <SocialIconLink href="/" target="_blank" aria-label="Instagram">
-                <FaInstagram />
-              </SocialIconLink>
-              <SocialIconLink href="/" target="_blank" aria-label="Twitter">
-                <FaTwitter />
-              </SocialIconLink>
-              <SocialIconLink href="/" target="_blank" aria-label="Youtube">
-                <FaYoutube />
-              </SocialIconLink>
-            </SocialIcons>
-          </SocialMediaWrap>
-        </SocialMedia>
+        <FooterTopRow>
+          <BrandColumn>
+            <LogoWrapper>
+              <LogoBadge>
+                <Sparkles size={20} />
+              </LogoBadge>
+              <LogoText>
+                Shop<span>Now</span>
+              </LogoText>
+            </LogoWrapper>
+            <p>
+              The next-generation marketplace delivering curated premium lifestyle goods, gadgets, and apparel with lightning-fast worldwide delivery.
+            </p>
+          </BrandColumn>
+
+          <FooterLinkColumn>
+            <ColumnTitle>Shop & Discover</ColumnTitle>
+            <StyledFooterLink to="/">Trending Products</StyledFooterLink>
+            <StyledFooterLink to="/">Featured Deals</StyledFooterLink>
+            <StyledFooterLink to="/">VIP Discounts</StyledFooterLink>
+            <StyledFooterLink to="/">Customer Reviews</StyledFooterLink>
+          </FooterLinkColumn>
+
+          <FooterLinkColumn>
+            <ColumnTitle>Customer Support</ColumnTitle>
+            <StyledFooterLink to="/cart">My Shopping Cart</StyledFooterLink>
+            <StyledFooterLink to="/">Order Tracking</StyledFooterLink>
+            <StyledFooterLink to="/">Returns & Warranty</StyledFooterLink>
+            <StyledFooterLink to="/">Shipping Information</StyledFooterLink>
+          </FooterLinkColumn>
+
+          <FooterLinkColumn>
+            <ColumnTitle>About & Legal</ColumnTitle>
+            <StyledFooterLink to="/">Our Mission</StyledFooterLink>
+            <StyledFooterLink to="/">Privacy Policy</StyledFooterLink>
+            <StyledFooterLink to="/">Terms of Service</StyledFooterLink>
+            <StyledFooterLink to="/">Security Certification</StyledFooterLink>
+          </FooterLinkColumn>
+        </FooterTopRow>
+
+        <FooterBottomRow>
+          <Copyright>
+            © {new Date().getFullYear()} ShopNow. All rights reserved. Built for the next generation of commerce.
+          </Copyright>
+
+          <SocialLinks>
+            <SocialButton href="https://twitter.com" target="_blank" rel="noreferrer" aria-label="Twitter">
+              <FaTwitter />
+            </SocialButton>
+            <SocialButton href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram">
+              <FaInstagram />
+            </SocialButton>
+            <SocialButton href="https://facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook">
+              <FaFacebookF />
+            </SocialButton>
+            <SocialButton href="https://youtube.com" target="_blank" rel="noreferrer" aria-label="YouTube">
+              <FaYoutube />
+            </SocialButton>
+          </SocialLinks>
+        </FooterBottomRow>
       </FooterWrap>
     </FooterContainer>
   );

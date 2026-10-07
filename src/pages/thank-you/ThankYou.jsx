@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from "react";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { useNavigate } from "react-router-dom";
-import { Check, Package, Home, ShoppingBag, ArrowLeft, Sparkles, Truck } from "lucide-react";
+import { 
+  Check, 
+  Package, 
+  Home, 
+  Sparkles, 
+  Truck, 
+  Clock, 
+  ShieldCheck,
+  ShoppingBag
+} from "lucide-react";
+import { fireConfetti } from "../../utils/confetti";
 import {
   FullWidthWrapper,
   Container,
@@ -10,6 +20,7 @@ import {
   OrderTitle,
   OrderMessage,
   OrderNumber,
+  TimelineTracker,
   OrderDetails,
   ActionButtons,
   PrimaryButton,
@@ -18,176 +29,130 @@ import {
 
 const ThankYou = () => {
   const navigate = useNavigate();
-  const [orderNumber, setOrderNumber] = useState('');
-  const [orderDetails, setOrderDetails] = useState(null);
-  const [cart] = useLocalStorage("cart", []);
+  const [cart, setCart] = useLocalStorage("cart", []);
+  const [orderInfo, setOrderInfo] = useState(null);
 
   useEffect(() => {
-    // Generate order number
-    const generateOrderNumber = () => {
-      const timestamp = Date.now().toString(36).toUpperCase();
-      const random = Math.random().toString(36).substring(2, 8).toUpperCase();
-      return `ORD-${timestamp}-${random}`;
-    };
+    // Fire confetti celebration burst!
+    fireConfetti({ count: 120, y: 0.35, burstUp: true });
 
-    // Generate order details
-    const generateOrderDetails = () => {
-      const subtotal = cart.reduce((total, item) => 
-        total + (item.price * (item.quantity || 1)), 0);
-      const tax = subtotal * 0.08;
-      const shipping = subtotal > 100 ? 0 : 15;
-      const total = subtotal + tax + shipping;
+    // Read customer data and compute order summary
+    const savedCustomer = JSON.parse(localStorage.getItem('checkoutCustomer') || '{}');
+    const orderNum = 'SN-' + Math.floor(100000 + Math.random() * 900000);
 
-      return {
-        orderNumber: generateOrderNumber(),
-        date: new Date().toLocaleDateString('en-US', { 
-          year: 'numeric', 
-          month: 'long', 
-          day: 'numeric' 
-        }),
-        items: cart.length,
-        subtotal,
-        tax,
-        shipping,
-        total,
-        paymentMethod: 'Credit Card', // This could be passed from checkout
-        shippingAddress: '123 MG Road, Brigade Road, Bangalore, Karnataka 560001' // This could be passed from checkout
-      };
-    };
+    const subtotal = cart.reduce((total, item) => total + item.price * (item.quantity || 1), 0);
+    const shipping = subtotal >= 100 || subtotal === 0 ? 0 : 15;
+    const tax = subtotal * 0.08;
+    const total = subtotal + shipping + tax;
 
-    const details = generateOrderDetails();
-    setOrderDetails(details);
-    setOrderNumber(details.orderNumber);
+    setOrderInfo({
+      orderNumber: orderNum,
+      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+      customerName: savedCustomer.firstName ? `${savedCustomer.firstName} ${savedCustomer.lastName}` : 'Valued Customer',
+      email: savedCustomer.email || 'customer@example.com',
+      shippingAddress: savedCustomer.address ? `${savedCustomer.address}, ${savedCustomer.city}, ${savedCustomer.state} ${savedCustomer.zipCode}` : '123 Market St, California 90210',
+      total: total > 0 ? total.toFixed(2) : '149.00',
+      itemCount: cart.length || 1,
+    });
 
-    // Clear cart after order is placed
-    // Note: This is already handled in checkout, but we ensure it's cleared here too
-    if (cart.length > 0) {
-      // Store order details in localStorage for reference
-      localStorage.setItem('lastOrder', JSON.stringify(details));
-    }
-  }, [cart]);
-
-  const handleContinueShopping = () => {
-    navigate('/');
-  };
-
-  const handleViewOrders = () => {
-    // Navigate to orders page (you can implement this later)
-    navigate('/');
-  };
-
-  const handleTrackOrder = () => {
-    // Navigate to order tracking page (you can implement this later)
-    navigate('/');
-  };
-
-  if (!orderDetails) {
-    return (
-      <FullWidthWrapper>
-        <Container>
-          <div>Loading order details...</div>
-        </Container>
-      </FullWidthWrapper>
-    );
-  }
+    // Clear cart
+    setCart([]);
+  }, []);
 
   return (
     <FullWidthWrapper>
       <Container>
         <SuccessCard>
           <SuccessIcon>
-            <Check size={64} />
+            <Check size={48} strokeWidth={3} />
           </SuccessIcon>
-          
+
           <OrderTitle>Thank You for Your Order!</OrderTitle>
-          
+
           <OrderMessage>
-            Your order has been successfully placed and will be delivered soon. 
-            We've sent a confirmation email with all the order details.
+            Your order has been confirmed and our fulfillment center is carefully packaging your items. We've sent your receipt and tracking details to <strong>{orderInfo?.email}</strong>.
           </OrderMessage>
-          
+
           <OrderNumber>
-            <div className="order-label">Order Number</div>
-            <div className="order-value">{orderNumber}</div>
+            <span className="order-label">Order Confirmation:</span>
+            <span className="order-value">{orderInfo?.orderNumber || 'SN-789421'}</span>
           </OrderNumber>
-          
+
+          {/* Timeline tracker */}
+          <TimelineTracker>
+            <div className="step completed">
+              <div className="circle">
+                <Check size={18} />
+              </div>
+              <span className="label">Confirmed</span>
+            </div>
+
+            <div className="step active">
+              <div className="circle">
+                <Package size={18} />
+              </div>
+              <span className="label">Packaging</span>
+            </div>
+
+            <div className="step">
+              <div className="circle">
+                <Truck size={18} />
+              </div>
+              <span className="label">In Transit</span>
+            </div>
+
+            <div className="step">
+              <div className="circle">
+                <Clock size={18} />
+              </div>
+              <span className="label">Delivered</span>
+            </div>
+          </TimelineTracker>
+
+          {/* Order Details */}
           <OrderDetails>
             <h3>
-              <Package size={20} />
-              Order Summary
+              <Package size={20} className="text-blue-500" />
+              Receipt Details
             </h3>
+
+            <div className="detail-row">
+              <span className="label">Customer Name</span>
+              <span className="value">{orderInfo?.customerName}</span>
+            </div>
+
             <div className="detail-row">
               <span className="label">Order Date</span>
-              <span className="value">{orderDetails.date}</span>
+              <span className="value">{orderInfo?.date}</span>
             </div>
+
             <div className="detail-row">
-              <span className="label">Items</span>
-              <span className="value">{orderDetails.items} items</span>
+              <span className="label">Delivery Destination</span>
+              <span className="value">{orderInfo?.shippingAddress}</span>
             </div>
-            <div className="detail-row">
-              <span className="label">Subtotal</span>
-              <span className="value">${orderDetails.subtotal.toFixed(2)}</span>
-            </div>
-            <div className="detail-row">
-              <span className="label">Tax</span>
-              <span className="value">${orderDetails.tax.toFixed(2)}</span>
-            </div>
-            <div className="detail-row">
-              <span className="label">Shipping</span>
-              <span className="value">
-                {orderDetails.shipping === 0 ? 'FREE' : `$${orderDetails.shipping.toFixed(2)}`}
-              </span>
-            </div>
-            <div className="detail-row">
-              <span className="label">Total</span>
-              <span className="value" style={{ color: '#059669', fontSize: '1.25rem' }}>
-                ${orderDetails.total.toFixed(2)}
-              </span>
-            </div>
-          </OrderDetails>
-          
-          <OrderDetails>
-            <h3>
-              <Truck size={20} />
-              Shipping Information
-            </h3>
-            <div className="detail-row">
-              <span className="label">Shipping Address</span>
-              <span className="value">{orderDetails.shippingAddress}</span>
-            </div>
-            <div className="detail-row">
-              <span className="label">Payment Method</span>
-              <span className="value">{orderDetails.paymentMethod}</span>
-            </div>
+
             <div className="detail-row">
               <span className="label">Estimated Delivery</span>
-              <span className="value">3-5 Business Days</span>
+              <span className="value" style={{ color: '#10b981' }}>2-3 Business Days (Express)</span>
+            </div>
+
+            <div className="detail-row">
+              <span className="label">Total Paid</span>
+              <span className="value" style={{ fontSize: '1.15rem', color: '#2563eb' }}>
+                ${orderInfo?.total}
+              </span>
             </div>
           </OrderDetails>
-          
+
           <ActionButtons>
-            <PrimaryButton onClick={handleContinueShopping}>
-              <Sparkles size={20} />
+            <PrimaryButton onClick={() => navigate("/")}>
+              <Sparkles size={18} />
               Continue Shopping
             </PrimaryButton>
-            
-            <SecondaryButton onClick={handleTrackOrder}>
-              <Package size={20} />
-              Track Order
+            <SecondaryButton onClick={() => window.print()}>
+              Print Receipt
             </SecondaryButton>
           </ActionButtons>
-          
-          <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-            <SecondaryButton onClick={() => navigate('/')} style={{ 
-              background: 'transparent', 
-              border: 'none', 
-              color: '#64748b',
-              fontSize: '0.875rem'
-            }}>
-              <ArrowLeft size={16} style={{ marginRight: '0.5rem' }} />
-              Back to Home
-            </SecondaryButton>
-          </div>
         </SuccessCard>
       </Container>
     </FullWidthWrapper>

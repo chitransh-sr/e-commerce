@@ -1,82 +1,112 @@
 import React, { useState, useRef } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+import { 
+  Star, 
+  ChevronLeft, 
+  ChevronRight, 
+  CheckCircle, 
+  Quote, 
+  MessageSquareHeart 
+} from 'lucide-react';
 import reviews from './customerReviewData';
 
-const ReviewsContainer = styled.section`
-  padding: 4rem 2rem;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 24px;
-  margin: 3rem auto;
-  box-shadow: 0 -20px 60px rgba(102, 126, 234, 0.15), 0 -8px 30px rgba(0, 0, 0, 0.08);
-  max-width: 1200px;
-  overflow: hidden;
-  position: relative;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 -30px 80px rgba(102, 126, 234, 0.25), 0 -12px 40px rgba(0, 0, 0, 0.15);
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
-    border-radius: 24px 24px 0 0;
-  }
-
-  /* Dark mode styles */
-  [data-theme="dark"] & {
-    background: rgba(30, 41, 59, 0.8);
-    border: none;
-    box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.3), 0 -8px 30px rgba(0, 0, 0, 0.2);
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 `;
 
-const ReviewsTitle = styled.h2`
-  font-size: 3rem;
-  color: #ffffff;
-  margin: 2rem 0;
-  text-align: center;
-  font-weight: 800;
+const ReviewsContainer = styled.section`
+  padding: 4rem 2rem;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(226, 232, 240, 0.85);
+  border-radius: 32px;
+  margin: 4rem auto;
+  box-shadow: 
+    0 25px 60px -15px rgba(59, 130, 246, 0.1),
+    0 0 0 1px rgba(0, 0, 0, 0.02);
+  max-width: 1400px;
   position: relative;
-  padding-bottom: 2rem;
-  font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  overflow: hidden;
+  transition: all 0.3s ease;
 
-  &::after {
-    content: '';
-    display: block;
-    width: 120px;
-    height: 4px;
-    background: linear-gradient(90deg, #667eea, #764ba2);
-    border-radius: 2px;
-    margin: 1rem auto;
+  html[data-theme="dark"] & {
+    background: rgba(15, 23, 42, 0.7);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5);
   }
 
-  svg {
-    width: 36px;
-    height: 36px;
-    fill: #764ba2;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: -15px;
+  @media (max-width: 768px) {
+    padding: 2.5rem 1rem;
+    margin: 2.5rem auto;
+  }
+`;
+
+const SectionHeader = styled.div`
+  text-align: center;
+  margin-bottom: 3rem;
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: rgba(59, 130, 246, 0.1);
+    color: #2563eb;
+    border-radius: 9999px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+
+    html[data-theme="dark"] & {
+      background: rgba(96, 165, 250, 0.15);
+      color: #60a5fa;
+    }
+  }
+
+  h2 {
+    font-size: 2.4rem;
+    font-weight: 900;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+
+    span {
+      background: linear-gradient(135deg, #2563eb 0%, #8b5cf6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    html[data-theme="dark"] & {
+      color: #f1f5f9;
+      span {
+        background: linear-gradient(135deg, #60a5fa 0%, #c084fc 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+  }
+
+  p {
+    font-size: 1rem;
+    color: #64748b;
+    margin-top: 6px;
+
+    html[data-theme="dark"] & {
+      color: #94a3b8;
+    }
   }
 `;
 
 const ReviewsWrapper = styled.div`
   position: relative;
-  max-width: 1400px;
+  max-width: 1300px;
   margin: 0 auto;
 `;
 
@@ -84,161 +114,115 @@ const NavigationButton = styled.button`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: none;
+  ${props => (props.direction === 'left' ? 'left: -20px;' : 'right: -20px;')}
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  background: white;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  color: #1e293b;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 10;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-  color: white;
-  font-size: 1.25rem;
-  font-weight: 600;
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  overflow: hidden;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    transition: left 0.6s ease;
-  }
-  
-  &:hover::before {
-    left: 100%;
-  }
-  
-  &:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover:not(:disabled) {
     transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6), 0 0 30px rgba(102, 126, 234, 0.2);
+    background: #eff6ff;
+    color: #2563eb;
+    border-color: #bfdbfe;
+    box-shadow: 0 12px 30px rgba(59, 130, 246, 0.25);
   }
-  
-  &:active {
-    transform: translateY(-50%) scale(0.95);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+
+  &:active:not(:disabled) {
+    transform: translateY(-50%) scale(0.92);
   }
-  
+
   &:disabled {
-    opacity: 0.5;
+    opacity: 0.3;
     cursor: not-allowed;
-    transform: translateY(-50%) scale(1);
-    
-    &:hover {
-      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  }
+
+  html[data-theme="dark"] & {
+    background: #1e293b;
+    border-color: rgba(255, 255, 255, 0.12);
+    color: #f1f5f9;
+
+    &:hover:not(:disabled) {
+      background: #334155;
+      color: #60a5fa;
+      border-color: rgba(96, 165, 250, 0.4);
     }
   }
-  
-  svg {
-    width: 24px;
-    height: 24px;
-    stroke: white;
-    stroke-width: 2;
-  }
-  
-  ${props => props.direction === 'left' ? 'left: -25px;' : 'right: -25px;'}
-  
-  @media (max-width: 768px) {
-    width: 40px;
-    height: 40px;
-    
-    ${props => props.direction === 'left' ? 'left: -20px;' : 'right: -20px;'}
-  }
-`;
 
-const ReviewsContent = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
-  padding: 2rem;
-  overflow: hidden;
-  position: relative;
-  
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    padding: 1rem;
+    display: none;
   }
 `;
 
 const ReviewsSlider = styled.div`
   display: flex;
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
-  
-  @media (max-width: 768px) {
-    flex-direction: column;
+`;
+
+const SlidePage = styled.div`
+  min-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+  padding: 0 0.5rem;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 680px) {
+    grid-template-columns: 1fr;
   }
 `;
 
 const ReviewCard = styled.div`
-  background: rgba(59, 130, 246, 0.05);
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(14px);
+  border-radius: 24px;
   padding: 2rem;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(59, 130, 246, 0.1);
-  transition: all 0.3s ease;
+  border: 1px solid rgba(226, 232, 240, 0.85);
   position: relative;
-  overflow: hidden;
-  
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 6px 20px -6px rgba(0, 0, 0, 0.05);
+
   &:hover {
-    background: rgba(59, 130, 246, 0.08);
-    border-color: rgba(249, 115, 22, 0.2);
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1);
-    transform: scale(1.02);
+    transform: translateY(-6px);
+    border-color: rgba(59, 130, 246, 0.35);
+    box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.15);
   }
 
-  &::before {
-    content: '';
+  .quote-bg {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #3b82f6, #f97316, #10b981);
-    border-radius: 12px 12px 0 0;
-  }
-  
-  &::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.05), transparent);
-    transform: rotate(45deg);
-    transition: all 0.6s ease;
-    opacity: 0;
+    top: 1.5rem;
+    right: 1.5rem;
+    color: rgba(59, 130, 246, 0.08);
+    pointer-events: none;
   }
 
-  &:hover::after {
-    opacity: 1;
-    top: -100%;
-    right: -100%;
-  }
-
-  @media (max-width: 768px) {
-    padding: 1.5rem;
-  }
-
-  /* Dark mode styles */
-  [data-theme="dark"] & {
-    background: rgba(249, 115, 22, 0.1);
-    border-color: rgba(249, 115, 22, 0.2);
+  html[data-theme="dark"] & {
+    background: rgba(30, 41, 59, 0.65);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 25px -6px rgba(0, 0, 0, 0.4);
 
     &:hover {
-      background: rgba(249, 115, 22, 0.15);
-      border-color: rgba(59, 130, 246, 0.3);
-      box-shadow: 0 4px 15px rgba(249, 115, 22, 0.2);
+      border-color: rgba(99, 102, 241, 0.4);
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6);
+    }
+
+    .quote-bg {
+      color: rgba(255, 255, 255, 0.04);
     }
   }
 `;
@@ -246,260 +230,205 @@ const ReviewCard = styled.div`
 const ProfileContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  gap: 14px;
+  margin-bottom: 1.25rem;
 `;
 
 const ProfileImage = styled.div`
-  width: 70px;
-  height: 70px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
-  background: ${props => props.color || '#3b82f6'};
+  background: ${props => props.color || 'linear-gradient(135deg, #3b82f6, #2563eb)'};
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-weight: bold;
-  margin-right: 1.5rem;
-  overflow: hidden;
-  border: 4px solid transparent;
-  background-clip: padding-box;
-  position: relative;
-  font-size: 1.2rem;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: -4px;
-    left: -4px;
-    right: -4px;
-    bottom: -4px;
-    background: linear-gradient(135deg, #3b82f6, #f97316, #10b981);
-    border-radius: 50%;
-    z-index: -1;
-  }
+  font-weight: 700;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
 
   img {
     width: 100%;
     height: 100%;
+    border-radius: 50%;
     object-fit: cover;
   }
 `;
 
 const UserInfo = styled.div`
   flex: 1;
-`;
 
-const UserName = styled.h3`
-  margin: 0;
-  color: #1e293b;
-  font-size: 1.3rem;
-  font-weight: 700;
-  transition: color 0.3s ease;
-  font-family: 'Inter', sans-serif;
-  
-  ${ReviewCard}:hover & {
-    color: #3b82f6;
+  .name-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
 
-  /* Dark mode styles */
-  [data-theme="dark"] & {
-    color: #f1f5f9;
+  h4 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 1.05rem;
+    font-weight: 700;
 
-    ${ReviewCard}:hover & {
-      color: #f97316;
+    html[data-theme="dark"] & {
+      color: #f1f5f9;
     }
   }
-`;
 
-const ReviewDate = styled.p`
-  margin: 0;
-  color: #64748b;
-  font-size: 0.95rem;
-  font-weight: 500;
+  .verified-badge {
+    color: #10b981;
+    display: inline-flex;
+    align-items: center;
+  }
 
-  /* Dark mode styles */
-  [data-theme="dark"] & {
+  .date {
+    margin: 0;
     color: #94a3b8;
+    font-size: 0.8rem;
+    font-weight: 500;
   }
 `;
 
 const RatingContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.3rem;
-  margin: 1rem 0;
-`;
-
-const StarFull = styled.svg.attrs({
-  viewBox: '0 0 24 24',
-  children: <path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"/>,
-})`
-  width: 24px;
-  height: 24px;
-  fill: ${props => props.$filled ? '#f97316' : '#e2e8f0'};
-  transition: all 0.3s ease;
-  drop-shadow: 0 2px 4px rgba(249, 115, 22, 0.2);
-`;
-
-const StarHalf = styled.svg.attrs({
-  viewBox: '0 0 24 24',
-  children: (
-    <path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6zM12 2v14.8l-3.6 2.8 1.4-4.2-3.6-2.8h4.4l1.4-4.2z"/>
-  ),
-})`
-  width: 24px;
-  height: 24px;
-  fill: #f97316;
-  drop-shadow: 0 2px 4px rgba(249, 115, 22, 0.2);
+  gap: 3px;
+  margin-bottom: 1rem;
+  color: #f59e0b;
 `;
 
 const ReviewText = styled.p`
   color: #475569;
-  line-height: 1.7;
+  line-height: 1.65;
+  font-size: 0.95rem;
   margin: 0;
-  font-size: 1.05rem;
-  transition: color 0.3s ease;
-  font-family: 'Inter', sans-serif;
-  font-weight: 400;
-  
-  ${ReviewCard}:hover & {
-    color: #1e293b;
-  }
 
-  /* Dark mode styles */
-  [data-theme="dark"] & {
-    color: #94a3b8;
-
-    ${ReviewCard}:hover & {
-      color: #f1f5f9;
-    }
+  html[data-theme="dark"] & {
+    color: #cbd5e1;
   }
 `;
 
-const getStars = (rating) => {
-  const stars = [];
-  const fullStars = Math.floor(rating);
-  const hasHalfStar = rating % 1 >= 0.5;
+const DotsContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2.5rem;
+`;
 
-  for (let i = 0; i < fullStars; i++) {
-    stars.push(<StarFull key={i} $filled />);
+const Dot = styled.button`
+  width: ${({ $isActive }) => ($isActive ? '26px' : '8px')};
+  height: 8px;
+  border-radius: 9999px;
+  background: ${({ $isActive }) => ($isActive ? '#2563eb' : '#cbd5e1')};
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  html[data-theme="dark"] & {
+    background: ${({ $isActive }) => ($isActive ? '#60a5fa' : '#475569')};
   }
-
-  if (hasHalfStar) {
-    stars.push(<StarHalf key={stars.length} />);
-  }
-
-  while (stars.length < 5) {
-    stars.push(<StarFull key={stars.length} $filled={false} />);
-  }
-
-  return stars;
-};
-
-const CustomerReview = ({ review }) => {
-  return (
-    <ReviewCard>
-      <ProfileContainer>
-        <ProfileImage color={review.user.color}>
-          {review.user.image ? (
-            <img src={review.user.image} alt={review.user.name} />
-          ) : (
-            review.user.initials
-          )}
-        </ProfileImage>
-        <UserInfo>
-          <UserName>{review.user.name}</UserName>
-          <ReviewDate>{new Date(review.date).toLocaleDateString()}</ReviewDate>
-        </UserInfo>
-      </ProfileContainer>
-      <RatingContainer>
-        {getStars(review.rating)}
-      </RatingContainer>
-      <ReviewText>{review.text}</ReviewText>
-    </ReviewCard>
-  );
-};
+`;
 
 const CustomerReviews = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const reviewsPerPage = 3;
   const totalPages = Math.ceil(reviews.length / reviewsPerPage);
-  const scrollContainerRef = useRef(null);
-  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const handleNext = () => {
-    if (currentPage < totalPages - 1 && !isTransitioning) {
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setCurrentPage(currentPage + 1);
-        setTimeout(() => setIsTransitioning(false), 50);
-      }, 100);
-    }
+    setCurrentPage((prev) => (prev + 1) % totalPages);
   };
 
   const handlePrev = () => {
-    if (currentPage > 0 && !isTransitioning) {
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setCurrentPage(currentPage - 1);
-        setTimeout(() => setIsTransitioning(false), 50);
-      }, 100);
-    }
-  };
-
-  const getCurrentReviews = () => {
-    const startIndex = currentPage * reviewsPerPage;
-    const endIndex = startIndex + reviewsPerPage;
-    return reviews.slice(startIndex, endIndex);
+    setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages);
   };
 
   return (
     <ReviewsContainer id="customer-reviews">
-      <ReviewsTitle>
-        Customer Reviews
-      </ReviewsTitle>
+      <SectionHeader>
+        <div className="badge">
+          <MessageSquareHeart size={16} />
+          Customer Experiences
+        </div>
+        <h2>
+          Loved by Over <span>50,000+</span> Shoppers
+        </h2>
+        <p>Real verified reviews from our worldwide customer community.</p>
+      </SectionHeader>
+
       <ReviewsWrapper>
         <NavigationButton 
           direction="left" 
           onClick={handlePrev}
-          disabled={currentPage === 0 || isTransitioning}
+          aria-label="Previous reviews"
         >
-          <svg fill="none" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M15 18l-6-6 6-6" />
-          </svg>
+          <ChevronLeft size={22} />
         </NavigationButton>
+
+        <div style={{ overflow: 'hidden' }}>
+          <ReviewsSlider style={{ transform: `translateX(-${currentPage * 100}%)` }}>
+            {Array.from({ length: totalPages }).map((_, pageIndex) => (
+              <SlidePage key={pageIndex}>
+                {reviews.slice(pageIndex * reviewsPerPage, (pageIndex + 1) * reviewsPerPage).map((review, idx) => (
+                  <ReviewCard key={review.id || idx}>
+                    <Quote size={48} className="quote-bg" />
+                    <ProfileContainer>
+                      <ProfileImage color={review.user.color}>
+                        {review.user.image ? (
+                          <img src={review.user.image} alt={review.user.name} />
+                        ) : (
+                          review.user.initials
+                        )}
+                      </ProfileImage>
+                      <UserInfo>
+                        <div className="name-row">
+                          <h4>{review.user.name}</h4>
+                          <span className="verified-badge" title="Verified Buyer">
+                            <CheckCircle size={15} />
+                          </span>
+                        </div>
+                        <p className="date">{new Date(review.date).toLocaleDateString()}</p>
+                      </UserInfo>
+                    </ProfileContainer>
+
+                    <RatingContainer>
+                      {Array.from({ length: 5 }).map((_, starIdx) => (
+                        <Star 
+                          key={starIdx} 
+                          size={16} 
+                          fill={starIdx < review.rating ? '#f59e0b' : 'none'} 
+                        />
+                      ))}
+                    </RatingContainer>
+
+                    <ReviewText>"{review.text}"</ReviewText>
+                  </ReviewCard>
+                ))}
+              </SlidePage>
+            ))}
+          </ReviewsSlider>
+        </div>
+
         <NavigationButton 
           direction="right" 
           onClick={handleNext}
-          disabled={currentPage === totalPages - 1 || isTransitioning}
+          aria-label="Next reviews"
         >
-          <svg fill="none" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M9 18l6-6-6-6" />
-          </svg>
+          <ChevronRight size={22} />
         </NavigationButton>
-        <ReviewsContent>
-          <ReviewsSlider 
-            ref={scrollContainerRef}
-            style={{
-              transform: `translateX(-${currentPage * 100}%)`,
-            }}
-          >
-            {Array.from({ length: totalPages }).map((_, pageIndex) => (
-              <div key={pageIndex} style={{ 
-                minWidth: '100%', 
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-                gap: '2rem',
-                padding: '0 2rem'
-              }}>
-                {reviews.slice(pageIndex * reviewsPerPage, (pageIndex + 1) * reviewsPerPage).map((review, reviewIndex) => (
-                  <CustomerReview key={`${pageIndex}-${reviewIndex}`} review={review} />
-                ))}
-              </div>
-            ))}
-          </ReviewsSlider>
-        </ReviewsContent>
       </ReviewsWrapper>
+
+      <DotsContainer>
+        {Array.from({ length: totalPages }).map((_, dotIdx) => (
+          <Dot
+            key={dotIdx}
+            $isActive={dotIdx === currentPage}
+            onClick={() => setCurrentPage(dotIdx)}
+            aria-label={`Go to review page ${dotIdx + 1}`}
+          />
+        ))}
+      </DotsContainer>
     </ReviewsContainer>
   );
 };

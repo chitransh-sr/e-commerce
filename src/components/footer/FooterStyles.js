@@ -2,14 +2,14 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const FooterContainer = styled.footer`
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-top: 1px solid rgba(226, 232, 240, 0.9);
   position: relative;
-  border-radius: 24px 24px 0 0;
-  margin-top: 4rem;
-  box-shadow: 0 -20px 60px rgba(102, 126, 234, 0.15), 0 -8px 30px rgba(0, 0, 0, 0.08);
-  
+  margin-top: 5rem;
+  box-shadow: 0 -15px 40px rgba(0, 0, 0, 0.03);
+
   &::before {
     content: '';
     position: absolute;
@@ -17,354 +17,159 @@ export const FooterContainer = styled.footer`
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
-    border-radius: 24px 24px 0 0;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
   }
 
-  /* Dark mode styles */
-  [data-theme="dark"] & {
-    background: rgba(30, 41, 59, 0.8);
-    border: none;
-    box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.3), 0 -8px 30px rgba(0, 0, 0, 0.2);
+  html[data-theme="dark"] & {
+    background: rgba(10, 15, 29, 0.95);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.5);
   }
 `;
 
 export const FooterWrap = styled.div`
-  padding: 60px 24px 40px;
+  padding: 60px 24px 35px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   width: 100%;
-  overflow-x: hidden;
+`;
 
-  /* Dark mode styles */
-  [data-theme="dark"] & {
-    background: #1e293b;
+export const FooterTopRow = styled.div`
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 3.5rem;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
 `;
 
-export const FooterLinksContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 1200px;
-  margin-bottom: 3rem;
-  gap: 1.5rem;
-  overflow-x: hidden;
-
-  @media screen and (max-width: 820px) {
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  @media screen and (max-width: 1024px) {
-    flex-wrap: wrap;
-  }
-
-  /* Dark mode styles */
-  [data-theme="dark"] & {
-    color: #f1f5f9;
-  }
-`;
-
-export const FooterLinksWrapper = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: space-between;
-  margin: 0;
-  gap: 1.5rem;
-  min-width: 0;
-
-  @media screen and (max-width: 820px) {
-    flex-direction: column;
-    margin: 0;
-    width: 100%;
-    gap: 1rem;
-  }
-
-  /* Dark mode styles */
-  [data-theme="dark"] & {
-    color: #f1f5f9;
-  }
-`;
-
-export const FooterLinkItems = styled.div`
+export const BrandColumn = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  color: #1e293b;
-  margin: 0;
-  min-width: 0;
-  flex: 1;
-  max-width: 280px;
-  box-sizing: border-box;
-  padding: 20px;
-  background: rgba(59, 130, 246, 0.05);
-  border-radius: 12px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(59, 130, 246, 0.1);
-  transition: all 0.3s ease;
+  gap: 14px;
 
-  &:hover {
-    background: rgba(59, 130, 246, 0.08);
-    border-color: rgba(249, 115, 22, 0.2);
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1);
-  }
+  p {
+    color: #64748b;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 340px;
 
-  @media screen and (max-width: 820px) {
-    width: 100%;
-    margin: 8px 0;
-    align-items: center;
-    text-align: center;
-    max-width: none;
-  }
-
-  /* Dark mode styles */
-  [data-theme="dark"] & {
-    color: #f1f5f9;
-    background: rgba(249, 115, 22, 0.1);
-    border-color: rgba(249, 115, 22, 0.2);
-
-    &:hover {
-      background: rgba(249, 115, 22, 0.15);
-      border-color: rgba(59, 130, 246, 0.3);
-      box-shadow: 0 4px 15px rgba(249, 115, 22, 0.2);
+    html[data-theme="dark"] & {
+      color: #94a3b8;
     }
   }
 `;
 
-export const FooterLinkTitle = styled.h1`
-  font-size: 16px;
-  margin-bottom: 20px;
-  font-weight: 700;
+export const FooterLinkColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+export const ColumnTitle = styled.h4`
+  font-size: 1rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  letter-spacing: 0.8px;
+  color: #0f172a;
+  margin-bottom: 6px;
 
-  @media screen and (max-width: 820px) {
-    margin-bottom: 0.8rem;
-  }
-
-  /* Dark mode styles */
-  [data-theme="dark"] & {
-    background: linear-gradient(135deg, #f97316, #ea580c);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  html[data-theme="dark"] & {
+    color: #f1f5f9;
   }
 `;
 
-export const FooterLink = styled(Link)`
+export const StyledFooterLink = styled(Link)`
   color: #64748b;
   text-decoration: none;
-  margin-bottom: 0.75rem;
-  font-size: 14px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  padding-left: 0;
-
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -2px;
-    width: 0;
-    height: 2px;
-    background: linear-gradient(90deg, #3b82f6, #f97316);
-    transition: all 0.3s ease;
-  }
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.25s ease;
+  width: fit-content;
 
   &:hover {
-    color: #3b82f6;
-    padding-left: 8px;
-    
-    &::before {
-      width: 100%;
-    }
+    color: #2563eb;
+    transform: translateX(4px);
   }
 
-  @media screen and (max-width: 820px) {
-    margin-bottom: 0.8rem;
-  }
-
-  /* Dark mode styles */
-  [data-theme="dark"] & {
+  html[data-theme="dark"] & {
     color: #94a3b8;
 
     &:hover {
-      color: #f97316;
+      color: #60a5fa;
     }
   }
 `;
 
-export const SocialMedia = styled.section`
-  width: 100%;
-  max-width: 1200px;
-  overflow-x: hidden;
-
-  /* Dark mode styles */
-  [data-theme="dark"] & {
-    background: #1e293b;
-  }
-`;
-
-export const SocialMediaWrap = styled.div`
+export const FooterBottomRow = styled.div`
+  border-top: 1px solid rgba(226, 232, 240, 0.8);
+  padding-top: 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  padding-top: 2.5rem;
-  width: 100%;
-  min-width: 0;
-  gap: 2rem;
   flex-wrap: wrap;
+  gap: 1.5rem;
 
-  @media screen and (max-width: 820px) {
+  @media (max-width: 768px) {
     flex-direction: column;
-    gap: 1.5rem;
     text-align: center;
   }
-  
-  @media screen and (max-width: 640px) {
-    padding: 2rem 1rem 1rem;
-  }
 
-  /* Dark mode styles */
-  [data-theme="dark"] & {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  html[data-theme="dark"] & {
+    border-color: rgba(255, 255, 255, 0.08);
   }
 `;
 
-export const SocialLogo = styled(Link)`
-  color: #1e293b;
-  cursor: pointer;
-  text-decoration: none;
-  font-size: 1.8rem;
-  font-weight: 700;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-family: 'Inter', sans-serif;
-  white-space: nowrap;
-  min-width: 0;
-  flex-shrink: 0;
- 
-  &:hover {
-    transform: scale(1.05);
-    color: #3b82f6;
-    
-    & span {
-      color: #f97316;
-      text-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
-    }
-  }
-  
-  span {
-    color: #f97316;
-    transition: all 0.3s ease;
-  }
-
-  /* Dark mode styles */
-  [data-theme="dark"] & {
-    color: #f1f5f9;
-
-    &:hover {
-      color: #f97316;
-    }
-  }
-`;
-
-export const WebsiteRights = styled.small`
-  color: #64748b;
-  font-size: 13px;
+export const Copyright = styled.div`
+  color: #94a3b8;
+  font-size: 0.85rem;
   font-weight: 500;
-  white-space: nowrap;
-  min-width: 0;
-  flex-shrink: 1;
-  text-align: center;
-
-  @media screen and (max-width: 820px) {
-    margin: 8px 0;
-  }
-  
-  @media screen and (max-width: 640px) {
-    font-size: 12px;
-  }
-
-  /* Dark mode styles */
-  [data-theme="dark"] & {
-    color: #94a3b8;
-  }
 `;
 
-export const SocialIcons = styled.div`
+export const SocialLinks = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 16px;
-  flex-shrink: 0;
-  min-width: 0;
-
-  @media screen and (max-width: 820px) {
-    width: 100%;
-    justify-content: center;
-    gap: 20px;
-  }
-  
-  @media screen and (max-width: 640px) {
-    gap: 16px;
-  }
-
-  /* Dark mode styles */
-  [data-theme="dark"] & {
-    color: #94a3b8;
-  }
+  gap: 12px;
 `;
 
-export const SocialIconLink = styled.a`
-  color: #64748b;
-  font-size: 20px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 10px;
-  border-radius: 50%;
-  background: rgba(59, 130, 246, 0.05);
-  border: 1px solid rgba(59, 130, 246, 0.1);
+export const SocialButton = styled.a`
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(241, 245, 249, 0.8);
+  border: 1px solid rgba(226, 232, 240, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 44px;
-  min-height: 44px;
-  flex-shrink: 0;
+  color: #475569;
+  font-size: 1.1rem;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:hover {
-    color: #ffffff;
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
-    transform: translateY(-4px);
-    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.25);
+    color: white;
+    background: linear-gradient(135deg, #2563eb, #8b5cf6);
     border-color: transparent;
-  }
-  
-  @media screen and (max-width: 640px) {
-    font-size: 18px;
-    padding: 8px;
-    min-width: 40px;
-    min-height: 40px;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
   }
 
-  /* Dark mode styles */
-  [data-theme="dark"] & {
-    color: #94a3b8;
-    background: rgba(249, 115, 22, 0.1);
-    border-color: rgba(249, 115, 22, 0.2);
+  html[data-theme="dark"] & {
+    background: rgba(30, 41, 59, 0.8);
+    border-color: rgba(255, 255, 255, 0.08);
+    color: #cbd5e1;
 
     &:hover {
-      color: #ffffff;
-      background: linear-gradient(135deg, #f97316, #ea580c);
-      box-shadow: 0 8px 25px rgba(249, 115, 22, 0.3);
+      background: linear-gradient(135deg, #3b82f6, #ec4899);
     }
   }
 `;

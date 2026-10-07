@@ -7,33 +7,35 @@ import Checkout from './pages/checkout/Checkout';
 import ThankYou from './pages/thank-you/ThankYou';
 import NewsletterSubscription from './components/newsletter/Newsletter';
 import CarauselApp from './components/carousel/Carousel';
-import Footer from './components/footer/Footer'
-import ProductDetails  from './pages/product/Product';
-import GoToTop from './components/gototop/gototop'
+import Footer from './components/footer/Footer';
+import ProductDetails from './pages/product/Product';
+import GoToTop from './components/gototop/gototop';
 import CustomerReviews from './components/customer-reviews/customerReview';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { ToastProvider } from './contexts/ToastContext';
 import './index.css';
 
 const HomeLayout = () => (
   <>
     <Header />
-    <CarauselApp/>
+    <CarauselApp />
     <Categories>
       {({ selectedCategory }) => (
         <Products selectedCategory={selectedCategory} />
       )}
     </Categories>
     <CustomerReviews />
-    <NewsletterSubscription/>
-    <GoToTop/>
-    <Footer/>
+    <NewsletterSubscription />
+    <GoToTop />
+    <Footer />
   </>
 );
+
 const ProductLayout = () => (
   <>
     <Header />
     <ProductDetails />
-    <GoToTop/>
+    <GoToTop />
     <Footer />
   </>
 );
@@ -41,15 +43,17 @@ const ProductLayout = () => (
 function App() {
   return (
     <ThemeProvider>
-      <div className="theme-scrollbar">
+      <div className="theme-scrollbar min-h-screen">
         <Router>
-          <Routes>
-            <Route path="/" element={<HomeLayout />} />
-            <Route path="/product" element={<ProductLayout/>} />
-            <Route path="/cart" element={<Cart/>}/>
-            <Route path="/checkout" element={<Checkout/>}/>
-            <Route path="/thank-you" element={<ThankYou/>}/>
-          </Routes>
+          <ToastProvider>
+            <Routes>
+              <Route path="/" element={<HomeLayout />} />
+              <Route path="/product" element={<ProductLayout />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/thank-you" element={<ThankYou />} />
+            </Routes>
+          </ToastProvider>
         </Router>
       </div>
     </ThemeProvider>
