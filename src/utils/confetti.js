@@ -13,8 +13,8 @@ export const fireConfetti = (options = {}) => {
 
   const ctx = canvas.getContext('2d');
   const dpr = window.devicePixelRatio || 1;
-  const width = (canvas.width = window.innerWidth * dpr);
-  const height = (canvas.height = window.innerHeight * dpr);
+  canvas.width = window.innerWidth * dpr;
+  canvas.height = window.innerHeight * dpr;
   ctx.scale(dpr, dpr);
 
   const colors = options.colors || [

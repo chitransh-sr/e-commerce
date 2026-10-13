@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import useLocalStorage from "../../hooks/useLocalStorage";
+import { useState, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import useLocalStorage from "../../hooks/useLocalStorage";
 import { useToast } from "../../contexts/ToastContext";
 import { 
   ShoppingBag, 
@@ -10,8 +10,8 @@ import {
   ArrowLeft, 
   Truck, 
   ShieldCheck, 
-  Sparkles,
-  ArrowRight
+  ArrowRight,
+  XCircle
 } from "lucide-react";
 import {
   FullWidthWrapper,
@@ -30,7 +30,7 @@ import {
   Divider,
   TotalPrice,
   CheckoutButton,
-  EmptyCart
+  EmptyCart,
 } from "./CartStyles";
 
 const Cart = () => {
@@ -41,28 +41,25 @@ const Cart = () => {
   const [promoApplied, setPromoApplied] = useState("");
   const { showToast } = useToast();
 
-  const updateQuantity = (productId, newQuantity) => {
+  const updateQuantity = useCallback((productId, newQuantity) => {
     const numericQuantity = Math.max(1, Number(newQuantity) || 1);
     setCart((prev) =>
       prev.map((item) =>
         item.id === productId ? { ...item, quantity: numericQuantity } : item
       )
     );
-  };
+  }, []);
 
-  const removeFromCart = (productId, title) => {
+  const removeFromCart = useCallback((productId, title) => {
     setCart((prev) => prev.filter((item) => item.id !== productId));
     showToast({
       heading: "Item Removed",
       message: `${title || "Product"} was removed from your cart.`,
     });
-  };
+  }, [setCart, showToast]);
 
-  const getSubtotal = () => {
-    return cart.reduce((total, item) => total + item.price * (item.quantity || 1), 0);
-  };
 
-  const handleApplyPromo = () => {
+  const handleApplyPromo = useCallback(() => {
     const code = promoInput.trim().toUpperCase();
     if (code === "VIP15" || code === "NEXTGEN") {
       setDiscountPercent(15);
@@ -78,18 +75,33 @@ const Cart = () => {
         message: "Try code VIP15 or NEXTGEN for 15% off!",
       });
     }
-  };
+  }, [promoInput, showToast]);
 
-  const subtotal = getSubtotal();
-  const discountAmount = (subtotal * discountPercent) / 100;
-  const discountedSubtotal = subtotal - discountAmount;
-  const isFreeShipping = discountedSubtotal >= 100;
-  const shippingCost = isFreeShipping || cart.length === 0 ? 0 : 15;
-  const tax = discountedSubtotal * 0.08;
-  const finalTotal = discountedSubtotal + shippingCost + tax;
+  const [subtotal, discountAmount, discountedSubtotal, isFreeShipping, shippingCost, tax, finalTotal] = useMemo(() => {
+    const subtotal = cart.reduce((total, item) => total + item.price * (item.quantity || 1), 0);
+    const discountAmount = (subtotal * discountPercent) / 100;
+    const discountedSubtotal = subtotal - discountAmount;
+    const isFreeShipping = discountedSubtotal >= 5000;
+    const shippingCost = isFreeShipping || cart.length === 0 ? 0 : 500;
+    const tax = discountedSubtotal * 0.18;
+    const finalTotal = discountedSubtotal + shippingCost + tax;
+    return [subtotal, discountAmount, discountedSubtotal, isFreeShipping, shippingCost, tax, finalTotal];
+  }, [cart, discountPercent]);
 
-  const freeShippingProgress = Math.min(100, (discountedSubtotal / 100) * 100);
-  const amountNeededForFreeShipping = Math.max(0, 100 - discountedSubtotal);
+  const freeShippingProgress = Math.min(100, (discountedSubtotal / 5000) * 100);
+  const amountNeededForFreeShipping = Math.max(0, 5000 - discountedSubtotal);
+
+  const handleCheckout = useCallback(() => {
+    navigate("/checkout");
+  }, [navigate]);
+
+  const handleClearCart = useCallback(() => {
+    setCart([]);
+    showToast({
+      heading: "Cart Cleared",
+      message: "All items have been removed from your cart.",
+    });
+  }, [setCart, showToast]);
 
   return (
     <FullWidthWrapper>
@@ -105,6 +117,17 @@ const Cart = () => {
           <span className="item-count">
             {cart.length} {cart.length === 1 ? "item" : "items"}
           </span>
+          {cart.length > 1 && (
+            <button
+              className="clear-btn"
+              onClick={handleClearCart}
+              aria-label="Clear cart"
+              title="Clear cart"
+            >
+              <XCircle size={16} />
+              Clear All
+            </button>
+          )}
         </CartHeader>
 
         {cart.length === 0 ? (
@@ -113,7 +136,7 @@ const Cart = () => {
               <ShoppingBag size={42} />
             </div>
             <h2>Your bag is currently empty</h2>
-            <p>Explore our catalog of premium products and add your favorites!</p>
+            <p>Discover our curated collection of premium products and add your favorites!</p>
             <button className="shop-btn" onClick={() => navigate("/")}>
               Start Shopping
             </button>
@@ -130,7 +153,7 @@ const Cart = () => {
                   </span>
                 ) : (
                   <span>
-                    Add <strong>${amountNeededForFreeShipping.toFixed(2)}</strong> more to get <strong>FREE Express Shipping</strong>!
+                    Add <strong>₹{amountNeededForFreeShipping.toFixed(2)}</strong> more to get <strong>FREE Express Shipping</strong>!
                   </span>
                 )}
               </div>
@@ -157,7 +180,7 @@ const Cart = () => {
                       />
                       <div className="details">
                         <h3 title={item.title}>{item.title}</h3>
-                        <div className="price">${item.price}</div>
+                        <div className="price">₹{item.price}</div>
                       </div>
                     </div>
 
@@ -200,13 +223,20 @@ const Cart = () => {
                     placeholder="Promo code (VIP15)"
                     value={promoInput}
                     onChange={(e) => setPromoInput(e.target.value)}
+                    aria-label="Promo code"
                   />
-                  <button onClick={handleApplyPromo}>Apply</button>
+                  <button 
+                    onClick={handleApplyPromo} 
+                    disabled={!promoInput.trim()}
+                    aria-label="Apply promo code"
+                  >
+                    Apply
+                  </button>
                 </PromoCodeBox>
 
                 <PriceRow>
                   <span>Subtotal</span>
-                  <span className="value">${subtotal.toFixed(2)}</span>
+                  <span className="value">₹{subtotal.toFixed(2)}</span>
                 </PriceRow>
 
                 {discountPercent > 0 && (
@@ -215,7 +245,7 @@ const Cart = () => {
                       Discount ({promoApplied} -15%)
                     </span>
                     <span className="discount-text">
-                      -${discountAmount.toFixed(2)}
+                      -₹{discountAmount.toFixed(2)}
                     </span>
                   </PriceRow>
                 )}
@@ -223,26 +253,31 @@ const Cart = () => {
                 <PriceRow>
                   <span>Estimated Shipping</span>
                   <span className="value">
-                    {shippingCost === 0 ? "FREE" : `$${shippingCost.toFixed(2)}`}
+                    {shippingCost === 0 ? "FREE" : `₹${shippingCost.toFixed(2)}`}
                   </span>
                 </PriceRow>
 
                 <PriceRow>
                   <span>Estimated Tax (8%)</span>
-                  <span className="value">${tax.toFixed(2)}</span>
+                  <span className="value">₹{tax.toFixed(2)}</span>
                 </PriceRow>
 
                 <Divider />
 
                 <TotalPrice>
                   <span>Total</span>
-                  <span className="total-amount">${finalTotal.toFixed(2)}</span>
+                  <span className="total-amount">₹{finalTotal.toFixed(2)}</span>
                 </TotalPrice>
 
-                <CheckoutButton onClick={() => navigate("/checkout")}>
+                <CheckoutButton onClick={handleCheckout}>
                   Proceed to Checkout
                   <ArrowRight size={18} />
                 </CheckoutButton>
+                
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', color: '#94a3b8', fontSize: '0.85rem', marginTop: '1rem' }}>
+                  <ShieldCheck size={16} className="text-emerald-500" />
+                  <span>256-Bit Encrypted & PCI-DSS Certified</span>
+                </div>
               </OrderSummaryCard>
             </CartLayout>
           </>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { 
   FooterContainer,
   FooterWrap,
@@ -12,9 +11,9 @@ import {
   SocialLinks,
   SocialButton
 } from './FooterStyles';
-import { LogoWrapper, LogoBadge, LogoText } from '../header/HeaderStyles';
+import { LogoWrapper, LogoBadge } from '../header/HeaderStyles';
 import { Sparkles } from 'lucide-react';
-import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube, FaGithub } from 'react-icons/fa';
+import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 
 const Footer = () => {
   return (
@@ -26,37 +25,64 @@ const Footer = () => {
               <LogoBadge>
                 <Sparkles size={20} />
               </LogoBadge>
-              <LogoText>
-                Shop<span>Now</span>
-              </LogoText>
+              <span style={{ 
+                fontSize: '1.5rem', 
+                fontWeight: 800,
+                background: 'linear-gradient(135deg, #0f172a 0%, #2563eb 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
+              }}>
+                Shop<span style={{
+                  background: 'linear-gradient(135deg, #f97316 0%, #ec4899 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
+                }}>Now</span></span>
             </LogoWrapper>
             <p>
               The next-generation marketplace delivering curated premium lifestyle goods, gadgets, and apparel with lightning-fast worldwide delivery.
             </p>
+            
+            <SocialLinks>
+              <SocialButton href="https://twitter.com" target="_blank" rel="noreferrer" aria-label="Twitter">
+                <FaTwitter />
+              </SocialButton>
+              <SocialButton href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram">
+                <FaInstagram />
+              </SocialButton>
+              <SocialButton href="https://facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook">
+                <FaFacebookF />
+              </SocialButton>
+              <SocialButton href="https://youtube.com" target="_blank" rel="noreferrer" aria-label="YouTube">
+                <FaYoutube />
+              </SocialButton>
+            </SocialLinks>
           </BrandColumn>
 
           <FooterLinkColumn>
-            <ColumnTitle>Shop & Discover</ColumnTitle>
+            <ColumnTitle>Shop</ColumnTitle>
             <StyledFooterLink to="/">Trending Products</StyledFooterLink>
             <StyledFooterLink to="/">Featured Deals</StyledFooterLink>
             <StyledFooterLink to="/">VIP Discounts</StyledFooterLink>
-            <StyledFooterLink to="/">Customer Reviews</StyledFooterLink>
+            <StyledFooterLink to="/">New Arrivals</StyledFooterLink>
+            <StyledFooterLink to="/">Gift Cards</StyledFooterLink>
           </FooterLinkColumn>
 
           <FooterLinkColumn>
-            <ColumnTitle>Customer Support</ColumnTitle>
-            <StyledFooterLink to="/cart">My Shopping Cart</StyledFooterLink>
+            <ColumnTitle>Support</ColumnTitle>
+            <StyledFooterLink to="/cart">My Shopping Bag</StyledFooterLink>
             <StyledFooterLink to="/">Order Tracking</StyledFooterLink>
             <StyledFooterLink to="/">Returns & Warranty</StyledFooterLink>
             <StyledFooterLink to="/">Shipping Information</StyledFooterLink>
+            <StyledFooterLink to="/">FAQs</StyledFooterLink>
           </FooterLinkColumn>
 
           <FooterLinkColumn>
-            <ColumnTitle>About & Legal</ColumnTitle>
-            <StyledFooterLink to="/">Our Mission</StyledFooterLink>
+            <ColumnTitle>Company</ColumnTitle>
+            <StyledFooterLink to="/">About Us</StyledFooterLink>
+            <StyledFooterLink to="/">Careers</StyledFooterLink>
+            <StyledFooterLink to="/">Blog</StyledFooterLink>
             <StyledFooterLink to="/">Privacy Policy</StyledFooterLink>
             <StyledFooterLink to="/">Terms of Service</StyledFooterLink>
-            <StyledFooterLink to="/">Security Certification</StyledFooterLink>
           </FooterLinkColumn>
         </FooterTopRow>
 
@@ -64,21 +90,6 @@ const Footer = () => {
           <Copyright>
             © {new Date().getFullYear()} ShopNow. All rights reserved. Built for the next generation of commerce.
           </Copyright>
-
-          <SocialLinks>
-            <SocialButton href="https://twitter.com" target="_blank" rel="noreferrer" aria-label="Twitter">
-              <FaTwitter />
-            </SocialButton>
-            <SocialButton href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram">
-              <FaInstagram />
-            </SocialButton>
-            <SocialButton href="https://facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook">
-              <FaFacebookF />
-            </SocialButton>
-            <SocialButton href="https://youtube.com" target="_blank" rel="noreferrer" aria-label="YouTube">
-              <FaYoutube />
-            </SocialButton>
-          </SocialLinks>
         </FooterBottomRow>
       </FooterWrap>
     </FooterContainer>

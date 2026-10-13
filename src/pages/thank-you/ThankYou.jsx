@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { useNavigate } from "react-router-dom";
-import { 
-  Check, 
-  Package, 
-  Home, 
-  Sparkles, 
-  Truck, 
-  Clock, 
-  ShieldCheck,
-  ShoppingBag
+import {
+  Check,
+  Package,
+  Sparkles,
+  Truck,
+  Clock,
+  Download
 } from "lucide-react";
 import { fireConfetti } from "../../utils/confetti";
 import {
@@ -24,7 +22,8 @@ import {
   OrderDetails,
   ActionButtons,
   PrimaryButton,
-  SecondaryButton
+  SecondaryButton,
+  OrderSummaryMini,
 } from "./ThankYouStyles";
 
 const ThankYou = () => {
@@ -34,7 +33,7 @@ const ThankYou = () => {
 
   useEffect(() => {
     // Fire confetti celebration burst!
-    fireConfetti({ count: 120, y: 0.35, burstUp: true });
+    fireConfetti({ count: 150, y: 0.35, burstUp: true });
 
     // Read customer data and compute order summary
     const savedCustomer = JSON.parse(localStorage.getItem('checkoutCustomer') || '{}');
@@ -42,7 +41,7 @@ const ThankYou = () => {
 
     const subtotal = cart.reduce((total, item) => total + item.price * (item.quantity || 1), 0);
     const shipping = subtotal >= 100 || subtotal === 0 ? 0 : 15;
-    const tax = subtotal * 0.08;
+    const tax = subtotal * 0.18;
     const total = subtotal + shipping + tax;
 
     setOrderInfo({
@@ -59,18 +58,23 @@ const ThankYou = () => {
     setCart([]);
   }, []);
 
+  const handlePrintReceipt = () => {
+    window.print();
+  };
+
   return (
     <FullWidthWrapper>
       <Container>
         <SuccessCard>
           <SuccessIcon>
-            <Check size={48} strokeWidth={3} />
+            <Check size={52} strokeWidth={3} />
           </SuccessIcon>
 
           <OrderTitle>Thank You for Your Order!</OrderTitle>
 
           <OrderMessage>
-            Your order has been confirmed and our fulfillment center is carefully packaging your items. We've sent your receipt and tracking details to <strong>{orderInfo?.email}</strong>.
+            Your order has been confirmed and our fulfillment center is carefully packaging your items. 
+            We&apos;ve sent your receipt and tracking details to <strong>{orderInfo?.email}</strong>.
           </OrderMessage>
 
           <OrderNumber>
@@ -78,32 +82,48 @@ const ThankYou = () => {
             <span className="order-value">{orderInfo?.orderNumber || 'SN-789421'}</span>
           </OrderNumber>
 
+          {/* Order Summary Mini */}
+          <OrderSummaryMini>
+            <div className="summary-item">
+              <span className="label">Order Date</span>
+              <span className="value">{orderInfo?.date || ""}</span>
+            </div>
+            <div className="summary-item">
+              <span className="label">Estimated Delivery</span>
+              <span className="value">2-3 Business Days (Express)</span>
+            </div>
+            <div className="summary-item">
+              <span className="label">Total Paid</span>
+              <span className="value total">₹{orderInfo?.total || "1,299.00"}</span>
+            </div>
+          </OrderSummaryMini>
+
           {/* Timeline tracker */}
           <TimelineTracker>
             <div className="step completed">
               <div className="circle">
-                <Check size={18} />
+                <Check size={20} />
               </div>
               <span className="label">Confirmed</span>
             </div>
 
             <div className="step active">
               <div className="circle">
-                <Package size={18} />
+                <Package size={20} />
               </div>
               <span className="label">Packaging</span>
             </div>
 
             <div className="step">
               <div className="circle">
-                <Truck size={18} />
+                <Truck size={20} />
               </div>
               <span className="label">In Transit</span>
             </div>
 
             <div className="step">
               <div className="circle">
-                <Clock size={18} />
+                <Clock size={20} />
               </div>
               <span className="label">Delivered</span>
             </div>
@@ -112,44 +132,48 @@ const ThankYou = () => {
           {/* Order Details */}
           <OrderDetails>
             <h3>
-              <Package size={20} className="text-blue-500" />
+              <Package size={22} className="text-blue-500" />
               Receipt Details
             </h3>
 
             <div className="detail-row">
               <span className="label">Customer Name</span>
-              <span className="value">{orderInfo?.customerName}</span>
+              <span className="value">{orderInfo?.customerName || "Valued Customer"}</span>
+            </div>
+
+            <div className="detail-row">
+              <span className="label">Order Number</span>
+              <span className="value order-num">{orderInfo?.orderNumber || "SN-789421"}</span>
             </div>
 
             <div className="detail-row">
               <span className="label">Order Date</span>
-              <span className="value">{orderInfo?.date}</span>
+              <span className="value">{orderInfo?.date || new Date().toLocaleDateString()}</span>
             </div>
 
             <div className="detail-row">
               <span className="label">Delivery Destination</span>
-              <span className="value">{orderInfo?.shippingAddress}</span>
+              <span className="value">{orderInfo?.shippingAddress || "Shipping address"}</span>
             </div>
 
             <div className="detail-row">
-              <span className="label">Estimated Delivery</span>
-              <span className="value" style={{ color: '#10b981' }}>2-3 Business Days (Express)</span>
+              <span className="label">Contact</span>
+              <span className="value">{orderInfo?.email || "customer@example.com"}</span>
             </div>
 
-            <div className="detail-row">
-              <span className="label">Total Paid</span>
-              <span className="value" style={{ fontSize: '1.15rem', color: '#2563eb' }}>
-                ${orderInfo?.total}
-              </span>
+            <div className="detail-row highlight">
+              <span className="label">Total Amount</span>
+              <span className="value amount">₹{orderInfo?.total || "1,299.00"}</span>
             </div>
           </OrderDetails>
 
           <ActionButtons>
             <PrimaryButton onClick={() => navigate("/")}>
-              <Sparkles size={18} />
+              <Sparkles size={20} />
               Continue Shopping
             </PrimaryButton>
-            <SecondaryButton onClick={() => window.print()}>
+            <SecondaryButton onClick={handlePrintReceipt}>
+              <Download size={18} />
               Print Receipt
             </SecondaryButton>
           </ActionButtons>

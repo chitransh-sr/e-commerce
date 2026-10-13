@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import styled, { keyframes } from 'styled-components';
+import { useState } from 'react';
+import styled from 'styled-components';
 import { 
   Star, 
   ChevronLeft, 
@@ -10,16 +10,6 @@ import {
 } from 'lucide-react';
 import reviews from './customerReviewData';
 
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
 
 const ReviewsContainer = styled.section`
   padding: 4rem 2rem;
@@ -402,7 +392,7 @@ const CustomerReviews = () => {
                       ))}
                     </RatingContainer>
 
-                    <ReviewText>"{review.text}"</ReviewText>
+                    <ReviewText>&ldquo;{review.text}&rdquo;</ReviewText>
                   </ReviewCard>
                 ))}
               </SlidePage>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { useToast } from "../../contexts/ToastContext";
@@ -32,16 +32,48 @@ import {
   ButtonGroup,
   AddToCartBtn,
   BuyNowBtn,
-  FeatureChips
+  FeatureChips,
+  ThumbnailGrid,
+  Thumbnail,
 } from "./ProductStyles";
 
 const ProductDetails = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const product = state?.product;
-  const [quantity, setQuantity] = useState(1);
-  const [cart, setCart] = useLocalStorage("cart", []);
+  const [, setCart] = useLocalStorage("cart", []);
   const { showToast } = useToast();
+  const [quantity, setQuantity] = useState(1);
+
+  const handleAddToCart = useCallback(() => {
+    const qty = Number(quantity) || 1;
+    setCart((prev) => {
+      const existing = prev.find((item) => item.id === product.id);
+      if (existing) {
+        return prev.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + qty }
+            : item
+        );
+      }
+      return [...prev, { ...product, quantity: qty }];
+    });
+
+    showToast({
+      heading: "Added to Bag",
+      message: `${qty}x ${product.title} added to your cart!`,
+      image: product.thumbnail,
+      showCartButton: true,
+    });
+  }, [quantity, product, setCart, showToast]);
+
+  const handleBuyNow = useCallback(() => {
+    handleAddToCart();
+    navigate("/checkout");
+  }, [handleAddToCart, navigate]);
+
+  const originalPrice = product ? Math.round(product.price * 1.25) : 0;
+  const discountPercent = product ? Math.round((1 - product.price / originalPrice) * 100) : 0;
 
   if (!product) {
     return (
@@ -70,35 +102,6 @@ const ProductDetails = () => {
     );
   }
 
-  const handleAddToCart = () => {
-    const qty = Number(quantity) || 1;
-    setCart((prev) => {
-      const existing = prev.find((item) => item.id === product.id);
-      if (existing) {
-        return prev.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + qty }
-            : item
-        );
-      }
-      return [...prev, { ...product, quantity: qty }];
-    });
-
-    showToast({
-      heading: "Added to Bag",
-      message: `${qty}x ${product.title} added to your cart!`,
-      image: product.thumbnail,
-      showCartButton: true,
-    });
-  };
-
-  const handleBuyNow = () => {
-    handleAddToCart();
-    navigate("/checkout");
-  };
-
-  const originalPrice = Math.round(product.price * 1.25);
-
   return (
     <Container>
       <BreadcrumbRow>
@@ -113,6 +116,11 @@ const ProductDetails = () => {
 
       <ProductDetailGrid>
         <ImageGalleryWrapper>
+          <ThumbnailGrid>
+            {product.images?.slice(0, 4).map((img, idx) => (
+              <Thumbnail key={idx} src={img} alt={`${product.title} - view ${idx + 1}`} />
+            ))}
+          </ThumbnailGrid>
           <MainImageCard>
             <img src={product.thumbnail} alt={product.title} />
           </MainImageCard>
@@ -140,9 +148,13 @@ const ProductDetails = () => {
           </RatingRow>
 
           <PriceRow>
-            <span className="price">${product.price}</span>
-            <span className="original-price">${originalPrice}</span>
-            <span className="save-badge">Save 20%</span>
+            <span className="price">₹{product.price}</span>
+            {discountPercent > 0 && (
+              <>
+                <span className="original-price">₹{originalPrice}</span>
+                <span className="save-badge">Save {discountPercent}%</span>
+              </>
+            )}
           </PriceRow>
 
           <Description>{product.description}</Description>
@@ -169,11 +181,11 @@ const ProductDetails = () => {
             </QuantityControlRow>
 
             <ButtonGroup>
-              <AddToCartBtn onClick={handleAddToCart}>
+              <AddToCartBtn onClick={handleAddToCart} aria-label="Add to cart">
                 <ShoppingBag size={20} />
                 Add to Cart
               </AddToCartBtn>
-              <BuyNowBtn onClick={handleBuyNow}>
+              <BuyNowBtn onClick={handleBuyNow} aria-label="Buy now">
                 <Zap size={20} />
                 Buy Now
               </BuyNowBtn>
@@ -192,6 +204,10 @@ const ProductDetails = () => {
             <div className="chip">
               <RotateCcw size={18} className="text-purple-500" />
               <span>30-Day Returns</span>
+            </div>
+            <div className="chip">
+              <Star size={18} className="text-amber-500" />
+              <span>Premium Quality</span>
             </div>
           </FeatureChips>
         </ProductInfoWrapper>

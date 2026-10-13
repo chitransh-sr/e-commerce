@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import { colors, spacing, borderRadius, shadows, transitions } from '../../design-system/tokens';
 
 const fadeIn = keyframes`
   from {
@@ -11,10 +12,15 @@ const fadeIn = keyframes`
   }
 `;
 
+
 export const FullWidthWrapper = styled.div`
-  min-height: 100vh;
-  padding: 2rem 1.5rem 5rem;
+  min-height: calc(100vh - 80px);
+  padding: ${spacing['5xl']} ${spacing.xl} ${spacing['6xl']};
   animation: ${fadeIn} 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+
+  @media (max-width: 768px) {
+    padding: ${spacing['3xl']} ${spacing.sm} ${spacing['4xl']};
+  }
 `;
 
 export const Container = styled.div`
@@ -25,32 +31,38 @@ export const Container = styled.div`
 export const BackButton = styled.button`
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border-radius: 12px;
+  gap: ${spacing.sm};
+  padding: ${spacing.sm} ${spacing.xl};
+  border-radius: ${borderRadius.lg};
   background: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  color: #334155;
-  font-size: 0.9rem;
+  border: 1px solid ${colors.border.light};
+  color: ${colors.text.secondary};
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  margin-bottom: 2rem;
+  transition: ${transitions.emphasis};
+  margin-bottom: ${spacing.xl};
 
   &:hover {
-    background: #eff6ff;
-    color: #2563eb;
+    background: ${colors.primary[50]};
+    color: ${colors.primary[600]};
     transform: translateX(-3px);
   }
 
-  html[data-theme='dark'] & {
+  @media (max-width: 768px) {
+    margin-bottom: ${spacing.md};
+    padding: ${spacing.sm} ${spacing.lg};
+    font-size: 0.9rem;
+  }
+
+  [data-theme='dark'] & {
     background: rgba(30, 41, 59, 0.8);
-    border-color: rgba(255, 255, 255, 0.1);
-    color: #cbd5e1;
+    border-color: ${colors.border.dark};
+    color: ${colors.text.secondaryDark};
 
     &:hover {
       background: rgba(51, 65, 85, 0.9);
-      color: #60a5fa;
+      color: ${colors.primary[300]};
     }
   }
 `;
@@ -58,32 +70,70 @@ export const BackButton = styled.button`
 export const CartHeader = styled.div`
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-bottom: 1.5rem;
+  gap: ${spacing.md};
+  margin-bottom: ${spacing['3xl']};
+  flex-wrap: wrap;
 
   h1 {
-    font-size: 2.2rem;
-    font-weight: 900;
-    color: #0f172a;
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: ${colors.text.primary};
     letter-spacing: -0.03em;
   }
 
   .item-count {
-    padding: 4px 12px;
-    background: rgba(59, 130, 246, 0.1);
-    color: #2563eb;
+    padding: 4px 14px;
+    background: rgba(37, 99, 235, 0.1);
+    color: ${colors.primary[600]};
     border-radius: 9999px;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 700;
   }
 
-  html[data-theme='dark'] & {
+  .clear-btn {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background: transparent;
+    border: 1px solid ${colors.danger[200]};
+    color: ${colors.danger[500]};
+    border-radius: ${borderRadius.md};
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: ${transitions.fast};
+
+    &:hover {
+      background: ${colors.danger[50]};
+      color: ${colors.danger[600]};
+    }
+
+    [data-theme='dark'] & {
+      border-color: ${colors.danger[800]};
+      color: ${colors.danger[400]};
+
+      &:hover {
+        background: rgba(239, 68, 68, 0.1);
+        color: ${colors.danger[300]};
+      }
+    }
+  }
+
+  [data-theme='dark'] & {
     h1 {
-      color: #f1f5f9;
+      color: ${colors.text.primaryDark};
     }
     .item-count {
       background: rgba(96, 165, 250, 0.15);
-      color: #60a5fa;
+      color: ${colors.primary[300]};
+    }
+  }
+
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 1.875rem;
     }
   }
 `;
@@ -92,23 +142,23 @@ export const CartHeader = styled.div`
 export const ShippingProgressBarCard = styled.div`
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  border-radius: 20px;
-  padding: 1.25rem 1.5rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  border: 1px solid ${colors.border.light};
+  border-radius: ${borderRadius['2xl']};
+  padding: ${spacing.xl};
+  margin-bottom: ${spacing['3xl']};
+  box-shadow: ${shadows.sm};
 
   .message {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: ${spacing.sm};
     font-size: 0.95rem;
     font-weight: 600;
-    color: #334155;
-    margin-bottom: 10px;
+    color: ${colors.text.secondary};
+    margin-bottom: ${spacing.md};
 
     strong {
-      color: #2563eb;
+      color: ${colors.primary[600]};
     }
   }
 
@@ -122,24 +172,24 @@ export const ShippingProgressBarCard = styled.div`
     .bar-fill {
       height: 100%;
       border-radius: 9999px;
-      background: linear-gradient(90deg, #3b82f6, #10b981);
+      background: ${colors.gradients.primary};
       transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
   }
 
-  html[data-theme='dark'] & {
+  [data-theme='dark'] & {
     background: rgba(15, 23, 42, 0.8);
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: ${colors.border.dark};
 
     .message {
-      color: #cbd5e1;
+      color: ${colors.text.secondaryDark};
       strong {
-        color: #60a5fa;
+        color: ${colors.primary[300]};
       }
     }
 
     .bar-bg {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.08);
     }
   }
 `;
@@ -147,51 +197,52 @@ export const ShippingProgressBarCard = styled.div`
 export const CartLayout = styled.div`
   display: grid;
   grid-template-columns: 1fr 380px;
-  gap: 2.5rem;
+  gap: ${spacing['3xl']};
   align-items: flex-start;
 
   @media (max-width: 960px) {
     grid-template-columns: 1fr;
+    gap: ${spacing['3xl']};
   }
 `;
 
 export const CartItemsList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: ${spacing.md};
 `;
 
 export const CartItemCard = styled.div`
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(18px);
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  border-radius: 20px;
-  padding: 1.25rem 1.5rem;
+  border: 1px solid ${colors.border.light};
+  border-radius: ${borderRadius['2xl']};
+  padding: ${spacing.xl};
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1.5rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  gap: ${spacing.xl};
+  box-shadow: ${shadows.xs};
+  transition: ${transitions.emphasis};
 
   &:hover {
-    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.12);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.12);
     border-color: rgba(59, 130, 246, 0.3);
   }
 
   .item-left {
     display: flex;
     align-items: center;
-    gap: 1.25rem;
+    gap: ${spacing.xl};
     min-width: 0;
     flex: 1;
 
     img {
       width: 72px;
       height: 72px;
-      border-radius: 14px;
+      border-radius: ${borderRadius.md};
       object-fit: cover;
-      background: #f1f5f9;
+      background: ${colors.gray[100]};
       flex-shrink: 0;
     }
 
@@ -199,9 +250,9 @@ export const CartItemCard = styled.div`
       min-width: 0;
 
       h3 {
-        font-size: 1.05rem;
+        font-size: 1.1rem;
         font-weight: 700;
-        color: #0f172a;
+        color: ${colors.text.primary};
         margin-bottom: 4px;
         white-space: nowrap;
         overflow: hidden;
@@ -211,7 +262,7 @@ export const CartItemCard = styled.div`
       .price {
         font-size: 1.15rem;
         font-weight: 800;
-        color: #2563eb;
+        color: ${colors.primary[600]};
       }
     }
   }
@@ -219,13 +270,13 @@ export const CartItemCard = styled.div`
   .item-right {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: ${spacing.xl};
     flex-shrink: 0;
   }
 
-  html[data-theme='dark'] & {
+  [data-theme='dark'] & {
     background: rgba(15, 23, 42, 0.8);
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: ${colors.border.dark};
 
     .item-left {
       img {
@@ -233,11 +284,11 @@ export const CartItemCard = styled.div`
       }
 
       .details h3 {
-        color: #f1f5f9;
+        color: ${colors.text.primaryDark};
       }
 
       .details .price {
-        color: #60a5fa;
+        color: ${colors.primary[300]};
       }
     }
   }
@@ -245,12 +296,17 @@ export const CartItemCard = styled.div`
   @media (max-width: 600px) {
     flex-direction: column;
     align-items: flex-start;
+    text-align: left;
 
     .item-right {
       width: 100%;
       justify-content: space-between;
-      border-top: 1px solid rgba(226, 232, 240, 0.8);
-      padding-top: 12px;
+      border-top: 1px solid ${colors.border.light};
+      padding-top: ${spacing.md};
+
+      [data-theme='dark'] & {
+        border-color: ${colors.border.dark};
+      }
     }
   }
 `;
@@ -259,25 +315,25 @@ export const QuantityControls = styled.div`
   display: flex;
   align-items: center;
   background: rgba(241, 245, 249, 0.9);
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  border-radius: 12px;
+  border: 1px solid ${colors.border.light};
+  border-radius: ${borderRadius.md};
   overflow: hidden;
 
   button {
-    width: 34px;
-    height: 34px;
+    width: 38px;
+    height: 38px;
     border: none;
     background: transparent;
-    color: #1e293b;
+    color: ${colors.text.primary};
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: ${transitions.fast};
 
     &:hover:not(:disabled) {
-      background: rgba(59, 130, 246, 0.15);
-      color: #2563eb;
+      background: rgba(37, 99, 235, 0.12);
+      color: ${colors.primary[600]};
     }
 
     &:disabled {
@@ -287,23 +343,28 @@ export const QuantityControls = styled.div`
   }
 
   span {
-    min-width: 36px;
+    min-width: 40px;
     text-align: center;
     font-size: 0.95rem;
     font-weight: 700;
-    color: #0f172a;
+    color: ${colors.text.primary};
   }
 
-  html[data-theme='dark'] & {
+  [data-theme='dark'] & {
     background: rgba(30, 41, 59, 0.8);
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: ${colors.border.dark};
 
     button {
-      color: #f1f5f9;
+      color: ${colors.text.primaryDark};
+
+      &:hover:not(:disabled) {
+        background: rgba(96, 165, 250, 0.15);
+        color: ${colors.primary[300]};
+      }
     }
 
     span {
-      color: #f1f5f9;
+      color: ${colors.text.primaryDark};
     }
   }
 `;
@@ -311,18 +372,18 @@ export const QuantityControls = styled.div`
 export const RemoveButton = styled.button`
   background: transparent;
   border: none;
-  color: #94a3b8;
+  color: ${colors.text.disabled};
   padding: 8px;
-  border-radius: 10px;
+  border-radius: ${borderRadius.md};
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: ${transitions.fast};
 
   &:hover {
-    color: #ef4444;
-    background: rgba(239, 68, 68, 0.1);
+    color: ${colors.danger[500]};
+    background: rgba(239, 68, 68, 0.08);
   }
 `;
 
@@ -330,78 +391,93 @@ export const RemoveButton = styled.button`
 export const OrderSummaryCard = styled.div`
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  border-radius: 24px;
-  padding: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  border: 1px solid ${colors.border.light};
+  border-radius: ${borderRadius['2xl']};
+  padding: ${spacing['3xl']};
+  box-shadow: ${shadows.lg};
+  position: sticky;
+  top: 120px;
 
   h3 {
-    font-size: 1.35rem;
+    font-size: 1.5rem;
     font-weight: 800;
-    color: #0f172a;
-    margin-bottom: 1.5rem;
+    color: ${colors.text.primary};
+    margin-bottom: ${spacing.xl};
     letter-spacing: -0.02em;
   }
 
-  html[data-theme='dark'] & {
+  [data-theme='dark'] & {
     background: rgba(15, 23, 42, 0.85);
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: ${colors.border.dark};
 
     h3 {
-      color: #f1f5f9;
+      color: ${colors.text.primaryDark};
     }
   }
 `;
 
 export const PromoCodeBox = styled.div`
   display: flex;
-  gap: 8px;
-  margin-bottom: 1.5rem;
+  gap: ${spacing.sm};
+  margin-bottom: ${spacing.xl};
 
   input {
     flex: 1;
-    padding: 10px 14px;
-    border: 1px solid rgba(226, 232, 240, 0.9);
-    border-radius: 12px;
+    padding: ${spacing.sm} ${spacing.md};
+    border: 1.5px solid ${colors.border.light};
+    border-radius: ${borderRadius.lg};
     font-size: 0.9rem;
     font-weight: 600;
     text-transform: uppercase;
     background: white;
-    color: #0f172a;
+    color: ${colors.text.primary};
+    transition: ${transitions.standard};
 
     &::placeholder {
       text-transform: none;
       font-weight: 400;
-      color: #94a3b8;
+      color: ${colors.text.disabled};
     }
 
     &:focus {
       outline: none;
-      border-color: #3b82f6;
+      border-color: ${colors.primary[400]};
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
     }
   }
 
   button {
-    padding: 10px 18px;
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    padding: ${spacing.sm} ${spacing.lg};
+    background: ${colors.gradients.primary};
     color: white;
     border: none;
-    border-radius: 12px;
+    border-radius: ${borderRadius.md};
     font-size: 0.85rem;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: ${transitions.fast};
+    box-shadow: ${colors.effects?.glow?.primary || '0 4px 14px rgba(37, 99, 235, 0.3)'};
 
-    &:hover {
-      opacity: 0.9;
+    &:hover:not(:disabled) {
+      opacity: 0.92;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
   }
 
-  html[data-theme='dark'] & {
+  [data-theme='dark'] & {
     input {
       background: rgba(30, 41, 59, 0.8);
-      border-color: rgba(255, 255, 255, 0.1);
-      color: #f1f5f9;
+      border-color: ${colors.border.dark};
+      color: ${colors.text.primaryDark};
+
+      &:focus {
+        border-color: ${colors.primary[400]};
+        box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.18);
+      }
     }
   }
 `;
@@ -410,35 +486,35 @@ export const PriceRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.85rem;
+  margin-bottom: ${spacing.md};
   font-size: 0.95rem;
-  color: #64748b;
+  color: ${colors.text.secondary};
 
   .value {
     font-weight: 600;
-    color: #0f172a;
+    color: ${colors.text.primary};
   }
 
   .discount-text {
-    color: #10b981;
+    color: ${colors.success[600]};
     font-weight: 700;
   }
 
-  html[data-theme='dark'] & {
-    color: #94a3b8;
+  [data-theme='dark'] & {
+    color: ${colors.text.secondaryDark};
     .value {
-      color: #f1f5f9;
+      color: ${colors.text.primaryDark};
     }
   }
 `;
 
 export const Divider = styled.div`
   height: 1px;
-  background: rgba(226, 232, 240, 0.8);
-  margin: 1.25rem 0;
+  background: ${colors.border.light};
+  margin: ${spacing.xl} 0;
 
-  html[data-theme='dark'] & {
-    background: rgba(255, 255, 255, 0.08);
+  [data-theme='dark'] & {
+    background: ${colors.border.dark};
   }
 `;
 
@@ -448,8 +524,8 @@ export const TotalPrice = styled.div`
   align-items: center;
   font-size: 1.35rem;
   font-weight: 900;
-  color: #0f172a;
-  margin-bottom: 1.5rem;
+  color: ${colors.text.primary};
+  margin-bottom: ${spacing.xl};
 
   .total-amount {
     background: linear-gradient(135deg, #2563eb, #1d4ed8);
@@ -457,8 +533,8 @@ export const TotalPrice = styled.div`
     -webkit-text-fill-color: transparent;
   }
 
-  html[data-theme='dark'] & {
-    color: #f1f5f9;
+  [data-theme='dark'] & {
+    color: ${colors.text.primaryDark};
     .total-amount {
       background: linear-gradient(135deg, #60a5fa, #818cf8);
       -webkit-background-clip: text;
@@ -469,20 +545,20 @@ export const TotalPrice = styled.div`
 
 export const CheckoutButton = styled.button`
   width: 100%;
-  padding: 1.1rem;
-  background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+  padding: ${spacing.lg};
+  background: ${colors.gradients.primary};
   color: white;
   border: none;
-  border-radius: 16px;
-  font-size: 1rem;
+  border-radius: ${borderRadius.xl};
+  font-size: 1.05rem;
   font-weight: 700;
   cursor: pointer;
   box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  gap: ${spacing.sm};
+  transition: ${transitions.emphasis};
 
   &:hover {
     transform: translateY(-2px);
@@ -493,9 +569,13 @@ export const CheckoutButton = styled.button`
     transform: scale(0.96);
   }
 
-  html[data-theme='dark'] & {
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  [data-theme='dark'] & {
+    background: ${colors.gradients.violet};
     box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+
+    &:hover {
+      box-shadow: 0 12px 30px rgba(99, 102, 241, 0.5);
+    }
   }
 `;
 
@@ -504,18 +584,18 @@ export const EmptyCart = styled.div`
   padding: 5rem 2rem;
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  border-radius: 32px;
+  border: 1px solid ${colors.border.light};
+  border-radius: ${borderRadius['3xl']};
   max-width: 600px;
   margin: 3rem auto;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.05);
+  box-shadow: ${shadows['2xl']};
 
   .icon-wrapper {
     width: 90px;
     height: 90px;
     border-radius: 50%;
-    background: rgba(59, 130, 246, 0.1);
-    color: #2563eb;
+    background: rgba(37, 99, 235, 0.1);
+    color: ${colors.primary[600]};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -525,26 +605,26 @@ export const EmptyCart = styled.div`
   h2 {
     font-size: 2rem;
     font-weight: 800;
-    color: #0f172a;
+    color: ${colors.text.primary};
     margin-bottom: 0.5rem;
   }
 
   p {
-    color: #64748b;
+    color: ${colors.text.secondary};
     margin-bottom: 2rem;
   }
 
   .shop-btn {
     padding: 12px 32px;
-    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    background: ${colors.gradients.primary};
     color: white;
     border: none;
-    border-radius: 16px;
+    border-radius: ${borderRadius.xl};
     font-weight: 700;
     font-size: 0.95rem;
     cursor: pointer;
     box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
-    transition: all 0.25s ease;
+    transition: ${transitions.emphasis};
 
     &:hover {
       transform: translateY(-2px);
@@ -552,15 +632,23 @@ export const EmptyCart = styled.div`
     }
   }
 
-  html[data-theme='dark'] & {
+  [data-theme='dark'] & {
     background: rgba(15, 23, 42, 0.85);
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: ${colors.border.dark};
 
     h2 {
-      color: #f1f5f9;
+      color: ${colors.text.primaryDark};
     }
     p {
-      color: #94a3b8;
+      color: ${colors.text.secondaryDark};
+    }
+    .shop-btn {
+      background: ${colors.gradients.violet};
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+
+      &:hover {
+        box-shadow: 0 12px 30px rgba(99, 102, 241, 0.5);
+      }
     }
   }
 `;

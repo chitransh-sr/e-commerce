@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import { 
   ChevronLeft, 
   ChevronRight, 
-  Sparkles, 
   LayoutGrid 
 } from 'lucide-react';
 import { 
@@ -15,8 +14,11 @@ import {
   CategoryIcon, 
   NavArrow,
   LoadingSpinner, 
-  ErrorMessage 
+  ErrorMessage,
+  CategoryBadge,
 } from './CategoriesStyles';
+
+import PropTypes from 'prop-types';
 
 const categoryIcons = {
   'All': '✨',
@@ -58,22 +60,23 @@ const Categories = ({ children }) => {
   const [canScrollRight, setCanScrollRight] = useState(true);
   const containerRef = useRef(null);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const response = await axios.get('https://dummyjson.com/products/category-list');
-        setCategories(response.data);
-      } catch (err) {
-        console.error('Error fetching categories:', err);
-        setError('Failed to load categories.');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCategories();
+  const fetchCategories = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await axios.get('https://dummyjson.com/products/category-list');
+      setCategories(response.data);
+    } catch (err) {
+      console.error('Error fetching categories:', err);
+      setError('Failed to load categories.');
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
 
   useEffect(() => {
     localStorage.setItem('selectedCategory', selectedCategory || '');
@@ -96,21 +99,24 @@ const Categories = ({ children }) => {
     }
   }, [categories, loading]);
 
-  const scrollLeft = () => {
+  const scrollLeft = useCallback(() => {
     if (containerRef.current) {
-      containerRef.current.scrollBy({ left: -260, behavior: 'smooth' });
+      containerRef.current.scrollBy({ left: -280, behavior: 'smooth' });
     }
-  };
+  }, []);
 
-  const scrollRight = () => {
+  const scrollRight = useCallback(() => {
     if (containerRef.current) {
-      containerRef.current.scrollBy({ left: 260, behavior: 'smooth' });
+      containerRef.current.scrollBy({ left: 280, behavior: 'smooth' });
     }
-  };
+  }, []);
 
-  const getCategoryIcon = (category) => {
+  // Display categories
+  const displayedCategories = categories;
+
+  const getCategoryIcon = useCallback((category) => {
     return categoryIcons[category] || '🛍️';
-  };
+  }, []);
 
   return (
     <CategorySectionWrapper id='products-category'>
@@ -126,6 +132,9 @@ const Categories = ({ children }) => {
               : "Explore our full catalog across all departments"}
           </p>
         </div>
+        <CategoryBadge>
+          {displayedCategories.length} Categories
+        </CategoryBadge>
       </CategoryHeader>
 
       <CategoriesContainer>
@@ -142,35 +151,45 @@ const Categories = ({ children }) => {
         ) : error ? (
           <ErrorMessage>{error}</ErrorMessage>
         ) : (
-          <CategoriesScrollContainer ref={containerRef}>
-            <CategoryButton
-              onClick={() => setSelectedCategory(null)}
-              $isSelected={!selectedCategory}
-            >
-              <CategoryIcon>{getCategoryIcon('All')}</CategoryIcon>
-              All Products
-            </CategoryButton>
-
-            {categories.map((category, index) => (
+          <>
+            <CategoriesScrollContainer ref={containerRef}>
               <CategoryButton
-                key={index}
-                onClick={() => setSelectedCategory(category)}
-                $isSelected={selectedCategory === category}
+                onClick={() => setSelectedCategory(null)}
+                $isSelected={!selectedCategory}
+                aria-pressed={!selectedCategory}
               >
-                <CategoryIcon>{getCategoryIcon(category)}</CategoryIcon>
-                {category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}
+                <CategoryIcon $gradient="linear-gradient(135deg, #3b82f6, #8b5cf6)">
+                  {getCategoryIcon('All')}
+                </CategoryIcon>
+                <span>All Products</span>
               </CategoryButton>
-            ))}
-          </CategoriesScrollContainer>
-        )}
 
-        <NavArrow 
-          onClick={scrollRight} 
-          disabled={!canScrollRight} 
-          aria-label="Scroll categories right"
-        >
-          <ChevronRight size={20} />
-        </NavArrow>
+              {displayedCategories.map((category, index) => (
+                <CategoryButton
+                  key={index}
+                  onClick={() => setSelectedCategory(category)}
+                  $isSelected={selectedCategory === category}
+                  aria-pressed={selectedCategory === category}
+                >
+                  <CategoryIcon>
+                    {getCategoryIcon(category)}
+                  </CategoryIcon>
+                  <span>
+                    {category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}
+                  </span>
+                </CategoryButton>
+              ))}
+            </CategoriesScrollContainer>
+
+            <NavArrow 
+              onClick={scrollRight} 
+              disabled={!canScrollRight} 
+              aria-label="Scroll categories right"
+            >
+              <ChevronRight size={20} />
+            </NavArrow>
+          </>
+        )}
       </CategoriesContainer>
 
       {children({ selectedCategory })}
@@ -179,3 +198,6 @@ const Categories = ({ children }) => {
 };
 
 export default Categories;
+Categories.propTypes = {
+  children: PropTypes.func,
+};

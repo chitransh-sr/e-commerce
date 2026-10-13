@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import { colors, spacing, borderRadius, shadows, transitions } from '../../design-system/tokens';
 
 const fadeIn = keyframes`
   from {
@@ -11,15 +12,14 @@ const fadeIn = keyframes`
   }
 `;
 
-const shimmer = keyframes`
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-`;
-
 export const FullWidthWrapper = styled.div`
-  min-height: 100vh;
-  padding: 2rem 1.5rem 5rem;
+  min-height: calc(100vh - 80px);
+  padding: ${spacing['4xl']} ${spacing.xl} ${spacing['6xl']};
   animation: ${fadeIn} 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+
+  @media (max-width: 768px) {
+    padding: ${spacing['3xl']} ${spacing.sm} ${spacing['4xl']};
+  }
 `;
 
 export const Container = styled.div`
@@ -30,66 +30,72 @@ export const Container = styled.div`
 export const BackButton = styled.button`
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border-radius: 12px;
+  gap: ${spacing.sm};
+  padding: ${spacing.sm} ${spacing.xl};
+  border-radius: ${borderRadius.lg};
   background: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  color: #334155;
-  font-size: 0.9rem;
+  border: 1px solid ${colors.border.light};
+  color: ${colors.text.secondary};
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  margin-bottom: 2rem;
+  transition: ${transitions.emphasis};
+  margin-bottom: ${spacing.xl};
 
   &:hover {
-    background: #eff6ff;
-    color: #2563eb;
+    background: ${colors.primary[50]};
+    color: ${colors.primary[600]};
     transform: translateX(-3px);
   }
 
-  html[data-theme='dark'] & {
+  [data-theme='dark'] & {
     background: rgba(30, 41, 59, 0.8);
-    border-color: rgba(255, 255, 255, 0.1);
-    color: #cbd5e1;
+    border-color: ${colors.border.dark};
+    color: ${colors.text.secondaryDark};
 
     &:hover {
       background: rgba(51, 65, 85, 0.9);
-      color: #60a5fa;
+      color: ${colors.primary[300]};
     }
   }
 `;
 
+export const CheckoutSteps = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${spacing.sm};
+  margin-bottom: ${spacing['3xl']};
+`;
+
+export const CheckoutStep = styled.div`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: ${({ $active }) =>
+    $active ? colors.gradients.primary : 'rgba(148, 153, 175, 0.3)'};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 700;
+  transition: ${transitions.emphasis};
+  box-shadow: ${({ $active }) =>
+    $active ? '0 4px 14px rgba(37, 99, 235, 0.3)' : 'none'};
+`;
+
 export const CheckoutHeader = styled.div`
-  margin-bottom: 2rem;
-
-  h1 {
-    font-size: 2.2rem;
-    font-weight: 900;
-    color: #0f172a;
-    letter-spacing: -0.03em;
-  }
-
-  p {
-    color: #64748b;
-    font-size: 0.95rem;
-    margin-top: 4px;
-  }
-
-  html[data-theme='dark'] & {
-    h1 {
-      color: #f1f5f9;
-    }
-    p {
-      color: #94a3b8;
-    }
-  }
+  margin-bottom: ${spacing.xl};
+  display: flex;
+  align-items: center;
+  gap: ${spacing.lg};
+  flex-wrap: wrap;
 `;
 
 export const CheckoutLayout = styled.div`
   display: grid;
   grid-template-columns: 1fr 400px;
-  gap: 2.5rem;
+  gap: ${spacing['3xl']};
   align-items: flex-start;
 
   @media (max-width: 960px) {
@@ -100,42 +106,46 @@ export const CheckoutLayout = styled.div`
 export const CheckoutFormSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: ${spacing['3xl']};
 `;
 
 export const SectionCard = styled.div`
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  border-radius: 24px;
-  padding: 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  border: 1px solid ${colors.border.light};
+  border-radius: ${borderRadius['2xl']};
+  padding: ${spacing['3xl']};
+  box-shadow: ${shadows.sm};
 
   h2 {
     font-size: 1.35rem;
     font-weight: 800;
-    color: #0f172a;
-    margin-bottom: 1.5rem;
+    color: ${colors.text.primary};
+    margin-bottom: ${spacing.xl};
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: ${spacing.sm};
     letter-spacing: -0.02em;
   }
 
-  html[data-theme='dark'] & {
+  [data-theme='dark'] & {
     background: rgba(15, 23, 42, 0.85);
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: ${colors.border.dark};
 
     h2 {
-      color: #f1f5f9;
+      color: ${colors.text.primaryDark};
     }
+  }
+
+  @media (max-width: 600px) {
+    padding: ${spacing.xl};
   }
 `;
 
 export const FormGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
+  gap: ${spacing.xl};
 
   @media (max-width: 600px) {
     grid-template-columns: 1fr;
@@ -145,71 +155,73 @@ export const FormGrid = styled.div`
 export const FormGroup = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin-bottom: 1.25rem;
+  gap: ${spacing.xs};
+  margin-bottom: ${spacing.xl};
 
   label {
     font-size: 0.88rem;
     font-weight: 700;
-    color: #334155;
+    color: ${colors.text.secondary};
 
-    html[data-theme='dark'] & {
-      color: #cbd5e1;
+    [data-theme='dark'] & {
+      color: ${colors.text.secondaryDark};
     }
   }
 
   input, select {
-    padding: 12px 16px;
-    border: 1.5px solid rgba(226, 232, 240, 0.9);
-    border-radius: 14px;
+    padding: ${spacing.md} ${spacing.lg};
+    border: 1.5px solid ${colors.border.light};
+    border-radius: ${borderRadius.lg};
     font-size: 0.95rem;
     background: white;
-    color: #0f172a;
-    transition: all 0.25s ease;
+    color: ${colors.text.primary};
+    transition: ${transitions.standard};
 
     &::placeholder {
-      color: #94a3b8;
+      color: ${colors.text.disabled};
     }
 
     &:focus {
       outline: none;
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+      border-color: ${colors.primary[400]};
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
     }
 
-    html[data-theme='dark'] & {
+    [data-theme='dark'] & {
       background: rgba(30, 41, 59, 0.8);
-      border-color: rgba(255, 255, 255, 0.1);
-      color: #f1f5f9;
+      border-color: ${colors.border.dark};
+      color: ${colors.text.primaryDark};
 
       &:focus {
-        border-color: #60a5fa;
+        border-color: ${colors.primary[400]};
+        box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.18);
       }
     }
   }
 `;
 
 export const ErrorText = styled.span`
-  color: #ef4444;
+  color: ${colors.danger[500]};
   font-size: 0.8rem;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: ${spacing.xs};
 `;
 
 /* Futuristic Virtual Credit Card */
 export const VirtualCard = styled.div`
   width: 100%;
-  max-width: 380px;
-  height: 220px;
-  margin: 0 auto 2rem;
-  border-radius: 20px;
-  padding: 1.75rem;
+  max-width: 400px;
+  height: 240px;
+  margin: 0 auto ${spacing['3xl']};
+  border-radius: ${borderRadius['2xl']};
+  padding: ${spacing['2xl']};
   background: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #312e81 100%);
   color: white;
   position: relative;
   overflow: hidden;
-  box-shadow: 
-    0 20px 40px -10px rgba(49, 46, 129, 0.5),
-    0 0 0 1px rgba(255, 255, 255, 0.15);
+  box-shadow: ${shadows['2xl']};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -223,6 +235,7 @@ export const VirtualCard = styled.div`
     height: 200%;
     background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
     pointer-events: none;
+    animation: var(--shine) 6s linear infinite;
   }
 
   .card-top {
@@ -243,6 +256,7 @@ export const VirtualCard = styled.div`
       font-weight: 800;
       letter-spacing: 1px;
       font-style: italic;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     }
   }
 
@@ -250,7 +264,7 @@ export const VirtualCard = styled.div`
     font-size: 1.35rem;
     font-weight: 700;
     letter-spacing: 2px;
-    font-family: monospace;
+    font-family: 'Courier New', monospace;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   }
 
@@ -270,40 +284,46 @@ export const VirtualCard = styled.div`
       font-size: 0.95rem;
       font-weight: 700;
       letter-spacing: 0.5px;
-      text-transform: uppercase;
     }
+  }
+
+  @media (max-width: 600px) {
+    max-width: 100%;
+    height: 200px;
+    padding: ${spacing.xl};
   }
 `;
 
 export const PaymentMethodGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 1.75rem;
+  gap: ${spacing.md};
+  margin-bottom: ${spacing['3xl']};
 `;
 
 export const PaymentOption = styled.div`
-  padding: 1rem 1.25rem;
-  border-radius: 16px;
-  border: 2px solid ${({ $isSelected }) => ($isSelected ? '#2563eb' : 'rgba(226, 232, 240, 0.9)')};
-  background: ${({ $isSelected }) => ($isSelected ? 'rgba(59, 130, 246, 0.08)' : 'white')};
+  padding: ${spacing.xl};
+  border: 2px solid ${({ $isSelected }) => ($isSelected ? colors.primary[600] : 'rgba(226, 232, 240, 0.9)')};
+  border-radius: ${borderRadius.xl};
+  background: ${({ $isSelected }) => ($isSelected ? 'rgba(37, 99, 235, 0.05)' : 'white')};
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: ${spacing.md};
   font-weight: 700;
   font-size: 0.95rem;
-  color: #0f172a;
-  transition: all 0.25s ease;
+  color: ${colors.text.primary};
+  transition: ${transitions.emphasis};
+  box-shadow: ${shadows.xs};
 
   &:hover {
-    border-color: #3b82f6;
+    border-color: ${colors.primary[400]};
   }
 
-  html[data-theme='dark'] & {
-    background: ${({ $isSelected }) => ($isSelected ? 'rgba(96, 165, 250, 0.15)' : 'rgba(30, 41, 59, 0.8)')};
-    border-color: ${({ $isSelected }) => ($isSelected ? '#60a5fa' : 'rgba(255, 255, 255, 0.1)')};
-    color: #f1f5f9;
+  [data-theme='dark'] & {
+    background: ${({ $isSelected }) => ($isSelected ? 'rgba(96, 165, 250, 0.1)' : 'rgba(30, 41, 59, 0.8)')};
+    border-color: ${({ $isSelected }) => ($isSelected ? colors.primary[400] : 'rgba(255, 255, 255, 0.1)')};
+    color: ${colors.text.primaryDark};
   }
 `;
 
@@ -311,41 +331,41 @@ export const PaymentOption = styled.div`
 export const OrderSummarySidebar = styled.div`
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  border-radius: 24px;
-  padding: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  border: 1px solid ${colors.border.light};
+  border-radius: ${borderRadius['2xl']};
+  padding: ${spacing['3xl']};
+  box-shadow: ${shadows.lg};
   position: sticky;
-  top: 100px;
+  top: 120px;
 
   h3 {
-    font-size: 1.35rem;
+    font-size: 1.5rem;
     font-weight: 800;
-    color: #0f172a;
-    margin-bottom: 1.5rem;
+    color: ${colors.text.primary};
+    margin-bottom: ${spacing.xl};
   }
 
   .items-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    max-height: 240px;
+    gap: ${spacing.md};
+    max-height: 280px;
     overflow-y: auto;
-    margin-bottom: 1.5rem;
-    padding-right: 4px;
+    margin-bottom: ${spacing.xl};
+    padding-right: ${spacing.xs};
   }
 
   .order-item {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: ${spacing.md};
 
     img {
       width: 48px;
       height: 48px;
-      border-radius: 10px;
+      border-radius: ${borderRadius.md};
       object-fit: cover;
-      background: #f1f5f9;
+      background: ${colors.gray[100]};
     }
 
     .info {
@@ -355,7 +375,7 @@ export const OrderSummarySidebar = styled.div`
       .title {
         font-size: 0.85rem;
         font-weight: 600;
-        color: #0f172a;
+        color: ${colors.text.primary};
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -363,31 +383,37 @@ export const OrderSummarySidebar = styled.div`
 
       .qty {
         font-size: 0.75rem;
-        color: #64748b;
+        color: ${colors.text.secondary};
       }
     }
 
     .price {
       font-size: 0.9rem;
       font-weight: 700;
-      color: #2563eb;
+      color: ${colors.primary[600]};
     }
   }
 
-  html[data-theme='dark'] & {
+  [data-theme='dark'] & {
     background: rgba(15, 23, 42, 0.85);
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: ${colors.border.dark};
 
     h3 {
-      color: #f1f5f9;
+      color: ${colors.text.primaryDark};
     }
 
-    .order-item .info .title {
-      color: #f1f5f9;
-    }
-
-    .order-item .price {
-      color: #60a5fa;
+    .order-item {
+      .info {
+        .title {
+          color: ${colors.text.primaryDark};
+        }
+        .qty {
+          color: ${colors.text.secondaryDark};
+        }
+      }
+      .price {
+        color: ${colors.primary[300]};
+      }
     }
   }
 `;
@@ -396,30 +422,30 @@ export const PriceRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.85rem;
+  margin-bottom: ${spacing.md};
   font-size: 0.95rem;
-  color: #64748b;
+  color: ${colors.text.secondary};
 
   .value {
     font-weight: 600;
-    color: #0f172a;
+    color: ${colors.text.primary};
   }
 
-  html[data-theme='dark'] & {
-    color: #94a3b8;
+  [data-theme='dark'] & {
+    color: ${colors.text.secondaryDark};
     .value {
-      color: #f1f5f9;
+      color: ${colors.text.primaryDark};
     }
   }
 `;
 
 export const Divider = styled.div`
   height: 1px;
-  background: rgba(226, 232, 240, 0.8);
-  margin: 1.25rem 0;
+  background: ${colors.border.light};
+  margin: ${spacing.xl} 0;
 
-  html[data-theme='dark'] & {
-    background: rgba(255, 255, 255, 0.08);
+  [data-theme='dark'] & {
+    background: ${colors.border.dark};
   }
 `;
 
@@ -429,8 +455,8 @@ export const TotalPrice = styled.div`
   align-items: center;
   font-size: 1.4rem;
   font-weight: 900;
-  color: #0f172a;
-  margin-bottom: 1.5rem;
+  color: ${colors.text.primary};
+  margin-bottom: ${spacing.xl};
 
   .amount {
     background: linear-gradient(135deg, #2563eb, #1d4ed8);
@@ -438,8 +464,8 @@ export const TotalPrice = styled.div`
     -webkit-text-fill-color: transparent;
   }
 
-  html[data-theme='dark'] & {
-    color: #f1f5f9;
+  [data-theme='dark'] & {
+    color: ${colors.text.primaryDark};
     .amount {
       background: linear-gradient(135deg, #60a5fa, #818cf8);
       -webkit-background-clip: text;
@@ -450,20 +476,20 @@ export const TotalPrice = styled.div`
 
 export const PlaceOrderButton = styled.button`
   width: 100%;
-  padding: 1.2rem;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  padding: ${spacing.lg};
+  background: ${colors.gradients.success};
   color: white;
   border: none;
-  border-radius: 16px;
-  font-size: 1.05rem;
+  border-radius: ${borderRadius.xl};
+  font-size: 1.1rem;
   font-weight: 800;
   cursor: pointer;
   box-shadow: 0 8px 25px rgba(16, 185, 129, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  gap: ${spacing.sm};
+  transition: ${transitions.emphasis};
 
   &:hover:not(:disabled) {
     transform: translateY(-2px);

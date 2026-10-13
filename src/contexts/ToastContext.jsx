@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import { createContext, useContext, useState, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
-import { CheckCircle2, ShoppingBag, X } from 'lucide-react';
+import { CheckCircle2, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const ToastContext = createContext(null);
@@ -239,6 +240,17 @@ const ToastItem = ({ toast, onClose }) => {
   );
 };
 
+ToastItem.propTypes = {
+  toast: PropTypes.shape({
+    image: PropTypes.string,
+    title: PropTypes.string,
+    heading: PropTypes.string,
+    message: PropTypes.string,
+    showCartButton: PropTypes.bool,
+  }).isRequired,
+  onClose: PropTypes.func.isRequired,
+};
+
 export const useToast = () => {
   const context = useContext(ToastContext);
   if (!context) {
@@ -247,4 +259,10 @@ export const useToast = () => {
     };
   }
   return context;
+};
+
+export default ToastContext;
+
+ToastProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
