@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Mail, Sparkles, Send, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { useState } from 'react';
+import { Mail, Sparkles, Send, CheckCircle2, ShieldCheck, Trophy } from 'lucide-react';
 import { fireConfetti } from '../../utils/confetti';
 import { useToast } from '../../contexts/ToastContext';
 import { 
@@ -12,7 +12,11 @@ import {
   Input, 
   Button, 
   TrustRow,
-  SuccessMessage 
+  SuccessMessage,
+  BenefitsList,
+  BenefitItem,
+  StatsRow,
+  StatItem,
 } from './NewsletterStyles';
 
 const NewsletterSubscription = () => {
@@ -42,17 +46,32 @@ const NewsletterSubscription = () => {
   return (
     <NewsletterContainer id='newsletter'>
       <VipBadge>
-        <Sparkles size={16} />
+        <Sparkles size={18} />
         VIP Club Exclusive
       </VipBadge>
 
       <Title>
-        Get <span>15% Off</span> Your First Order
+        Join the <span>ShopNow VIP</span> & Save <span>15%+</span>
       </Title>
 
       <Description>
-        Join our exclusive insider list for limited seasonal drops, private sales, and curated product previews before anyone else.
+        Unlock exclusive member-only deals, early access to new collections, birthday rewards, and personalized recommendations.
       </Description>
+
+      <BenefitsList>
+        <BenefitItem>
+          <Trophy size={18} />
+          <span>Early access to sales & drops</span>
+        </BenefitItem>
+        <BenefitItem>
+          <Sparkles size={18} />
+          <span>Birthday surprise every year</span>
+        </BenefitItem>
+        <BenefitItem>
+          <CheckCircle2 size={18} />
+          <span>VIP-only customer service line</span>
+        </BenefitItem>
+      </BenefitsList>
 
       <Form onSubmit={handleSubmit}>
         <InputWrapper>
@@ -78,6 +97,21 @@ const NewsletterSubscription = () => {
           Welcome to the VIP Club! Your 15% code is <strong>VIP15</strong>
         </SuccessMessage>
       )}
+
+      <StatsRow>
+        <StatItem>
+          <span className="number">50K+</span>
+          <span className="label">Happy Members</span>
+        </StatItem>
+        <StatItem>
+          <span className="number">15%</span>
+          <span className="label">Welcome Discount</span>
+        </StatItem>
+        <StatItem>
+          <span className="number">4.9/5</span>
+          <span className="label">Member Rating</span>
+        </StatItem>
+      </StatsRow>
 
       <TrustRow>
         <ShieldCheck size={16} className="text-emerald-500" />

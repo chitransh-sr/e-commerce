@@ -1,18 +1,14 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../../contexts/ToastContext";
-import { 
-  ArrowLeft, 
-  CreditCard, 
-  Truck, 
-  ShieldCheck, 
-  Lock, 
-  CheckCircle2, 
-  Sparkles,
-  MapPin,
-  User,
-  Phone
+import {
+  ArrowLeft,
+  CreditCard,
+  Truck,
+  ShieldCheck,
+  Lock,
+  MapPin
 } from "lucide-react";
 import {
   FullWidthWrapper,
@@ -32,12 +28,14 @@ import {
   PriceRow,
   Divider,
   TotalPrice,
-  PlaceOrderButton
+  PlaceOrderButton,
+  CheckoutSteps,
+  CheckoutStep,
 } from "./CheckoutStyles";
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const [cart, setCart] = useLocalStorage("cart", []);
+  const [cart] = useLocalStorage("cart", []);
   const { showToast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -65,28 +63,28 @@ const Checkout = () => {
     }
   }, [cart, navigate, isProcessing]);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: '' }));
     }
-  };
+  }, [errors]);
 
-  const formatCardNumber = (val) => {
+  const formatCardNumber = useCallback((val) => {
     const cleaned = val.replace(/\D/g, '').substring(0, 16);
     return cleaned.replace(/(\d{4})(?=\d)/g, '$1 ');
-  };
+  }, []);
 
-  const handleCardNumberChange = (e) => {
+  const handleCardNumberChange = useCallback((e) => {
     const formatted = formatCardNumber(e.target.value);
     setFormData((prev) => ({ ...prev, cardNumber: formatted }));
     if (errors.cardNumber) {
       setErrors((prev) => ({ ...prev, cardNumber: '' }));
     }
-  };
+  }, [formatCardNumber, errors.cardNumber]);
 
-  const handleExpiryChange = (e) => {
+  const handleExpiryChange = useCallback((e) => {
     let val = e.target.value.replace(/\D/g, '').substring(0, 4);
     if (val.length >= 2) {
       val = val.substring(0, 2) + '/' + val.substring(2);
@@ -95,9 +93,9 @@ const Checkout = () => {
     if (errors.expiryDate) {
       setErrors((prev) => ({ ...prev, expiryDate: '' }));
     }
-  };
+  }, [errors.expiryDate]);
 
-  const validate = () => {
+  const validate = useCallback(() => {
     const newErrors = {};
     if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Valid email is required";
@@ -124,9 +122,9 @@ const Checkout = () => {
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  };
+  }, [formData]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = useCallback((e) => {
     e.preventDefault();
     if (!validate()) {
       showToast({
@@ -147,15 +145,14 @@ const Checkout = () => {
       localStorage.setItem('checkoutCustomer', JSON.stringify(formData));
       navigate('/thank-you');
     }, 1800);
-  };
+  }, [validate, showToast, formData, navigate]);
 
-  const getSubtotal = () => {
-    return cart.reduce((total, item) => total + item.price * (item.quantity || 1), 0);
-  };
-
-  const subtotal = getSubtotal();
-  const shipping = subtotal >= 100 ? 0 : 15;
-  const tax = subtotal * 0.08;
+  const subtotal = useMemo(() =>
+    cart.reduce((total, item) => total + item.price * (item.quantity || 1), 0),
+    [cart]
+  );
+  const shipping = subtotal >= 5000 ? 0 : 500;
+  const tax = subtotal * 0.18;
   const total = subtotal + shipping + tax;
 
   // Masked Card Number Display
@@ -171,9 +168,22 @@ const Checkout = () => {
         </BackButton>
 
         <CheckoutHeader>
-          <h1>Secure Checkout</h1>
-          <p>Complete your delivery and payment details below</p>
+          <CheckoutSteps>
+            <CheckoutStep $active>1</CheckoutStep>
+            <span>Delivery</span>
+          </CheckoutSteps>
+          <CheckoutSteps>
+            <CheckoutStep $active={formData.paymentMethod}>2</CheckoutStep>
+            <span>Payment</span>
+          </CheckoutSteps>
+          <CheckoutSteps>
+            <CheckoutStep>3</CheckoutStep>
+            <span>Confirm</span>
+          </CheckoutSteps>
         </CheckoutHeader>
+
+        <h2 className="section-title">Secure Checkout</h2>
+        <p className="section-subtitle">Complete your delivery and payment details below</p>
 
         <CheckoutLayout>
           <CheckoutFormSection>
@@ -181,7 +191,7 @@ const Checkout = () => {
             <SectionCard>
               <h2>
                 <MapPin size={22} className="text-blue-500" />
-                1. Delivery & Contact Details
+                Delivery & Contact Details
               </h2>
 
               <FormGroup>
@@ -192,8 +202,9 @@ const Checkout = () => {
                   placeholder="alex.johnson@example.com"
                   value={formData.email}
                   onChange={handleInputChange}
+                  aria-describedby="email-error"
                 />
-                {errors.email && <ErrorText>{errors.email}</ErrorText>}
+                {errors.email && <ErrorText id="email-error">{errors.email}</ErrorText>}
               </FormGroup>
 
               <FormGrid>
@@ -205,8 +216,9 @@ const Checkout = () => {
                     placeholder="Alex"
                     value={formData.firstName}
                     onChange={handleInputChange}
+                    aria-describedby="firstName-error"
                   />
-                  {errors.firstName && <ErrorText>{errors.firstName}</ErrorText>}
+                  {errors.firstName && <ErrorText id="firstName-error">{errors.firstName}</ErrorText>}
                 </FormGroup>
 
                 <FormGroup>
@@ -217,8 +229,9 @@ const Checkout = () => {
                     placeholder="Johnson"
                     value={formData.lastName}
                     onChange={handleInputChange}
+                    aria-describedby="lastName-error"
                   />
-                  {errors.lastName && <ErrorText>{errors.lastName}</ErrorText>}
+                  {errors.lastName && <ErrorText id="lastName-error">{errors.lastName}</ErrorText>}
                 </FormGroup>
               </FormGrid>
 
@@ -230,8 +243,9 @@ const Checkout = () => {
                   placeholder="742 Evergreen Terrace, Suite 100"
                   value={formData.address}
                   onChange={handleInputChange}
+                  aria-describedby="address-error"
                 />
-                {errors.address && <ErrorText>{errors.address}</ErrorText>}
+                {errors.address && <ErrorText id="address-error">{errors.address}</ErrorText>}
               </FormGroup>
 
               <FormGrid>
@@ -243,19 +257,25 @@ const Checkout = () => {
                     placeholder="Springfield"
                     value={formData.city}
                     onChange={handleInputChange}
+                    aria-describedby="city-error"
                   />
-                  {errors.city && <ErrorText>{errors.city}</ErrorText>}
+                  {errors.city && <ErrorText id="city-error">{errors.city}</ErrorText>}
                 </FormGroup>
 
                 <FormGroup>
                   <label>State / Region *</label>
-                  <input
-                    type="text"
+                  <select
                     name="state"
-                    placeholder="California"
                     value={formData.state}
                     onChange={handleInputChange}
-                  />
+                    aria-label="State"
+                  >
+                    <option value="California">California</option>
+                    <option value="New York">New York</option>
+                    <option value="Texas">Texas</option>
+                    <option value="Florida">Florida</option>
+                    <option value="Washington">Washington</option>
+                  </select>
                 </FormGroup>
               </FormGrid>
 
@@ -268,8 +288,9 @@ const Checkout = () => {
                     placeholder="90210"
                     value={formData.zipCode}
                     onChange={handleInputChange}
+                    aria-describedby="zipCode-error"
                   />
-                  {errors.zipCode && <ErrorText>{errors.zipCode}</ErrorText>}
+                  {errors.zipCode && <ErrorText id="zipCode-error">{errors.zipCode}</ErrorText>}
                 </FormGroup>
 
                 <FormGroup>
@@ -280,8 +301,9 @@ const Checkout = () => {
                     placeholder="+1 (555) 019-2834"
                     value={formData.phone}
                     onChange={handleInputChange}
+                    aria-describedby="phone-error"
                   />
-                  {errors.phone && <ErrorText>{errors.phone}</ErrorText>}
+                  {errors.phone && <ErrorText id="phone-error">{errors.phone}</ErrorText>}
                 </FormGroup>
               </FormGrid>
             </SectionCard>
@@ -290,13 +312,14 @@ const Checkout = () => {
             <SectionCard>
               <h2>
                 <CreditCard size={22} className="text-blue-500" />
-                2. Payment Method
+                Payment Method
               </h2>
 
               <PaymentMethodGrid>
                 <PaymentOption
                   $isSelected={formData.paymentMethod === 'creditCard'}
                   onClick={() => setFormData((prev) => ({ ...prev, paymentMethod: 'creditCard' }))}
+                  aria-pressed={formData.paymentMethod === 'creditCard'}
                 >
                   <CreditCard size={20} className="text-blue-500" />
                   Credit / Debit Card
@@ -305,6 +328,7 @@ const Checkout = () => {
                 <PaymentOption
                   $isSelected={formData.paymentMethod === 'cod'}
                   onClick={() => setFormData((prev) => ({ ...prev, paymentMethod: 'cod' }))}
+                  aria-pressed={formData.paymentMethod === 'cod'}
                 >
                   <Truck size={20} className="text-emerald-500" />
                   Cash on Delivery
@@ -314,7 +338,7 @@ const Checkout = () => {
               {formData.paymentMethod === 'creditCard' && (
                 <>
                   {/* Holographic Interactive Virtual Card */}
-                  <VirtualCard>
+                  <VirtualCard aria-label="Card preview">
                     <div className="card-top">
                       <div className="chip" />
                       <div className="brand">
@@ -333,22 +357,26 @@ const Checkout = () => {
                       </div>
                       <div>
                         <div className="label">Expires</div>
-                        <div className="val">{formData.expiryDate || 'MM/YY'}</div>
+                        <div className="val">{formData.expiryDate || 'MM/YY'}  •  ••</div>
                       </div>
                     </div>
                   </VirtualCard>
 
                   <FormGroup>
                     <label>Card Number *</label>
-                    <input
-                      type="text"
-                      name="cardNumber"
-                      placeholder="4000 1234 5678 9010"
-                      value={formData.cardNumber}
-                      onChange={handleCardNumberChange}
-                      maxLength={19}
-                    />
-                    {errors.cardNumber && <ErrorText>{errors.cardNumber}</ErrorText>}
+                    <div style={{ position: 'relative' }}>
+                      <input
+                        type="text"
+                        name="cardNumber"
+                        placeholder="4000 1234 5678 9010"
+                        value={formData.cardNumber}
+                        onChange={handleCardNumberChange}
+                        maxLength={19}
+                        aria-describedby="cardNumber-error"
+                      />
+                      <CreditCard size={18} style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+                    </div>
+                    {errors.cardNumber && <ErrorText id="cardNumber-error">{errors.cardNumber}</ErrorText>}
                   </FormGroup>
 
                   <FormGroup>
@@ -359,8 +387,9 @@ const Checkout = () => {
                       placeholder="Alex Johnson"
                       value={formData.cardName}
                       onChange={handleInputChange}
+                      aria-describedby="cardName-error"
                     />
-                    {errors.cardName && <ErrorText>{errors.cardName}</ErrorText>}
+                    {errors.cardName && <ErrorText id="cardName-error">{errors.cardName}</ErrorText>}
                   </FormGroup>
 
                   <FormGrid>
@@ -373,8 +402,9 @@ const Checkout = () => {
                         value={formData.expiryDate}
                         onChange={handleExpiryChange}
                         maxLength={5}
+                        aria-describedby="expiryDate-error"
                       />
-                      {errors.expiryDate && <ErrorText>{errors.expiryDate}</ErrorText>}
+                      {errors.expiryDate && <ErrorText id="expiryDate-error">{errors.expiryDate}</ErrorText>}
                     </FormGroup>
 
                     <FormGroup>
@@ -391,8 +421,9 @@ const Checkout = () => {
                           }))
                         }
                         maxLength={4}
+                        aria-describedby="cvv-error"
                       />
-                      {errors.cvv && <ErrorText>{errors.cvv}</ErrorText>}
+                      {errors.cvv && <ErrorText id="cvv-error">{errors.cvv}</ErrorText>}
                     </FormGroup>
                   </FormGrid>
                 </>
@@ -412,7 +443,7 @@ const Checkout = () => {
                     <div className="title">{item.title}</div>
                     <div className="qty">Qty: {item.quantity || 1}</div>
                   </div>
-                  <div className="price">${item.price * (item.quantity || 1)}</div>
+                  <div className="price">₹{item.price * (item.quantity || 1)}</div>
                 </div>
               ))}
             </div>
@@ -421,40 +452,44 @@ const Checkout = () => {
 
             <PriceRow>
               <span>Subtotal</span>
-              <span className="value">${subtotal.toFixed(2)}</span>
+              <span className="value">₹{subtotal.toFixed(2)}</span>
             </PriceRow>
 
             <PriceRow>
               <span>Shipping</span>
-              <span className="value">{shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}</span>
+              <span className="value">{shipping === 0 ? "FREE" : `₹${shipping.toFixed(2)}`}</span>
             </PriceRow>
 
             <PriceRow>
-              <span>Estimated Tax (8%)</span>
-              <span className="value">${tax.toFixed(2)}</span>
+              <span>Estimated Tax (18%)</span>
+              <span className="value">₹{tax.toFixed(2)}</span>
             </PriceRow>
 
             <Divider />
 
             <TotalPrice>
               <span>Total</span>
-              <span className="amount">${total.toFixed(2)}</span>
+              <span className="amount">₹{total.toFixed(2)}</span>
             </TotalPrice>
 
-            <PlaceOrderButton onClick={handleSubmit} disabled={isProcessing}>
+            <PlaceOrderButton
+              onClick={handleSubmit}
+              disabled={isProcessing}
+              aria-label="Place order"
+            >
               {isProcessing ? (
                 <span>Authorizing Order...</span>
               ) : (
                 <>
                   <Lock size={18} />
-                  Place Order • ${total.toFixed(2)}
+                  Place Order • ₹{total.toFixed(2)}
                 </>
               )}
             </PlaceOrderButton>
 
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', color: '#64748b', fontSize: '0.8rem', marginTop: '1rem' }}>
+            <div className="security-note" role="status" aria-label="Secure payment information">
               <ShieldCheck size={16} className="text-emerald-500" />
-              <span>256-Bit Encrypted & PCI-DSS Certified</span>
+              <span>256-Bit Encrypted &amp; PCI-DSS Certified</span>
             </div>
           </OrderSummarySidebar>
         </CheckoutLayout>

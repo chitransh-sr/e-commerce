@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import { colors, spacing, borderRadius, shadows, transitions } from '../../design-system/tokens';
 
 const fadeInUp = keyframes`
   from {
@@ -11,46 +12,51 @@ const fadeInUp = keyframes`
   }
 `;
 
+
 export const Container = styled.div`
   max-width: 1400px;
   margin: 0 auto;
-  padding: 2rem 2rem 5rem;
+  padding: ${spacing['5xl']} ${spacing.xl} ${spacing['6xl']};
   animation: ${fadeInUp} 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 
   @media (max-width: 768px) {
-    padding: 1rem 1rem 3rem;
+    padding: ${spacing['3xl']} ${spacing.md} ${spacing['4xl']};
   }
 `;
 
-export const BreadcrumbRow = styled.div`
+export const BreadcrumbRow = styled.nav`
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 2rem;
-  font-size: 0.9rem;
-  color: #64748b;
+  gap: ${spacing.sm};
+  margin-bottom: ${spacing.xl};
+  font-size: 0.95rem;
+  color: ${colors.text.secondary};
+  padding: 0 ${spacing.sm};
 
   .link {
     cursor: pointer;
-    color: #3b82f6;
+    color: ${colors.primary[600]};
     font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: ${spacing.xs};
     transition: color 0.2s ease;
 
     &:hover {
-      color: #1d4ed8;
+      color: ${colors.primary[700]};
       text-decoration: underline;
     }
   }
 
   .separator {
-    color: #cbd5e1;
+    color: ${colors.gray[300]};
+    [data-theme='dark'] & {
+      color: ${colors.gray[600]};
+    }
   }
 
   .current {
-    color: #0f172a;
+    color: ${colors.text.primary};
     font-weight: 600;
     white-space: nowrap;
     overflow: hidden;
@@ -58,40 +64,45 @@ export const BreadcrumbRow = styled.div`
     max-width: 300px;
   }
 
-  html[data-theme='dark'] & {
-    color: #94a3b8;
+  [data-theme='dark'] & {
+    color: ${colors.text.secondaryDark};
     .current {
-      color: #f1f5f9;
+      color: ${colors.text.primaryDark};
     }
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.85rem;
   }
 `;
 
 export const ProductDetailGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1.25fr;
-  gap: 3.5rem;
+  gap: ${spacing['5xl']};
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  padding: 3rem;
-  border-radius: 32px;
-  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.06);
+  border: 1px solid ${colors.border.light};
+  padding: ${spacing['3xl']};
+  border-radius: ${borderRadius['3xl']};
+  box-shadow: ${shadows.lg};
+  gap: ${spacing['4xl']} !important;
 
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
-    gap: 2.5rem;
-    padding: 2rem;
+    gap: ${spacing['3xl']};
+    padding: ${spacing['2xl']};
   }
 
   @media (max-width: 640px) {
-    padding: 1.5rem;
-    border-radius: 24px;
+    padding: ${spacing.xl};
+    border-radius: ${borderRadius['2xl']};
   }
 
-  html[data-theme='dark'] & {
+  [data-theme='dark'] & {
     background: rgba(15, 23, 42, 0.85);
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: ${colors.border.dark};
     box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.5);
   }
 `;
@@ -99,20 +110,50 @@ export const ProductDetailGrid = styled.div`
 export const ImageGalleryWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: ${spacing.md};
+`;
+
+export const ThumbnailGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: ${spacing.sm};
+  margin-bottom: ${spacing.md};
+
+  @media (max-width: 640px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+`;
+
+export const Thumbnail = styled.img`
+  width: 100%;
+  height: 72px;
+  object-fit: cover;
+  border-radius: ${borderRadius.md};
+  border: 2px solid ${colors.border.light};
+  cursor: pointer;
+  transition: ${transitions.fast};
+
+  &:hover {
+    border-color: ${colors.primary[400]};
+    transform: scale(1.05);
+  }
+
+  [data-theme='dark'] & {
+    border-color: ${colors.border.dark};
+  }
 `;
 
 export const MainImageCard = styled.div`
   position: relative;
   width: 100%;
-  height: 440px;
+  height: 480px;
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-  border-radius: 24px;
-  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: ${borderRadius['2xl']};
+  border: 1px solid ${colors.border.light};
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2.5rem;
+  padding: ${spacing['2xl']};
   overflow: hidden;
 
   img {
@@ -120,20 +161,22 @@ export const MainImageCard = styled.div`
     max-height: 100%;
     object-fit: contain;
     transition: transform 0.4s ease;
+  }
 
-    &:hover {
-      transform: scale(1.08);
+  &:hover {
+    img {
+      transform: scale(1.05);
     }
   }
 
-  html[data-theme='dark'] & {
+  [data-theme='dark'] & {
     background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: ${colors.border.dark};
   }
 
   @media (max-width: 640px) {
-    height: 320px;
-    padding: 1.5rem;
+    height: 360px;
+    padding: ${spacing.lg};
   }
 `;
 
@@ -146,34 +189,34 @@ export const ProductInfoWrapper = styled.div`
 export const CategoryPill = styled.div`
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: ${spacing.xs};
   padding: 6px 14px;
-  background: rgba(59, 130, 246, 0.1);
-  color: #2563eb;
+  background: rgba(37, 99, 235, 0.1);
+  color: ${colors.primary[600]};
   border-radius: 9999px;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   width: fit-content;
-  margin-bottom: 1rem;
+  margin-bottom: ${spacing.md};
 
-  html[data-theme='dark'] & {
+  [data-theme='dark'] & {
     background: rgba(96, 165, 250, 0.15);
-    color: #60a5fa;
+    color: ${colors.primary[300]};
   }
 `;
 
 export const Title = styled.h1`
   font-size: 2.4rem;
-  font-weight: 900;
-  color: #0f172a;
+  font-weight: 800;
+  color: ${colors.text.primary};
   line-height: 1.2;
-  margin-bottom: 1rem;
+  margin-bottom: ${spacing.md};
   letter-spacing: -0.03em;
 
-  html[data-theme='dark'] & {
-    color: #f1f5f9;
+  [data-theme='dark'] & {
+    color: ${colors.text.primaryDark};
   }
 
   @media (max-width: 768px) {
@@ -184,40 +227,40 @@ export const Title = styled.h1`
 export const RatingRow = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 1.5rem;
+  gap: ${spacing.md};
+  margin-bottom: ${spacing.xl};
 
   .stars {
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: 2px;
     color: #f59e0b;
   }
 
   .score {
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 700;
-    color: #0f172a;
+    color: ${colors.text.primary};
   }
 
   .in-stock {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 4px 10px;
+    gap: ${spacing.xs};
+    padding: 4px 12px;
     background: rgba(16, 185, 129, 0.12);
-    color: #059669;
+    color: ${colors.success[700]};
     border-radius: 9999px;
-    font-size: 0.78rem;
+    font-size: 0.8rem;
     font-weight: 700;
   }
 
-  html[data-theme='dark'] & {
+  [data-theme='dark'] & {
     .score {
-      color: #f1f5f9;
+      color: ${colors.text.primaryDark};
     }
     .in-stock {
-      color: #34d399;
+      color: ${colors.success[400]};
       background: rgba(16, 185, 129, 0.2);
     }
   }
@@ -226,19 +269,19 @@ export const RatingRow = styled.div`
 export const PriceRow = styled.div`
   display: flex;
   align-items: baseline;
-  gap: 14px;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+  gap: ${spacing.xl};
+  margin-bottom: ${spacing.xl};
+  padding-bottom: ${spacing.xl};
+  border-bottom: 1px solid ${colors.border.light};
 
   .price {
-    font-size: 2.6rem;
-    font-weight: 900;
+    font-size: 2.5rem;
+    font-weight: 800;
     background: linear-gradient(135deg, #2563eb, #1d4ed8);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 
-    html[data-theme='dark'] & {
+    [data-theme='dark'] & {
       background: linear-gradient(135deg, #60a5fa, #818cf8);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -247,55 +290,55 @@ export const PriceRow = styled.div`
 
   .original-price {
     font-size: 1.25rem;
-    color: #94a3b8;
+    color: ${colors.text.disabled};
     text-decoration: line-through;
     font-weight: 500;
   }
 
   .save-badge {
-    background: #10b981;
+    background: ${colors.success[500]};
     color: white;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     font-weight: 800;
-    padding: 4px 8px;
+    padding: 4px 10px;
     border-radius: 8px;
   }
 
-  html[data-theme='dark'] & {
-    border-color: rgba(255, 255, 255, 0.08);
+  [data-theme='dark'] & {
+    border-color: ${colors.border.dark};
   }
 `;
 
 export const Description = styled.p`
   font-size: 1.05rem;
   line-height: 1.7;
-  color: #475569;
-  margin-bottom: 2rem;
+  color: ${colors.text.secondary};
+  margin-bottom: ${spacing.xl};
 
-  html[data-theme='dark'] & {
-    color: #cbd5e1;
+  [data-theme='dark'] & {
+    color: ${colors.text.secondaryDark};
   }
 `;
 
 export const ActionsSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  margin-bottom: 2.5rem;
+  gap: ${spacing.xl};
+  margin-bottom: ${spacing['3xl']};
 `;
 
 export const QuantityControlRow = styled.div`
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: ${spacing.xl};
 
   span.label {
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 700;
-    color: #0f172a;
+    color: ${colors.text.primary};
 
-    html[data-theme='dark'] & {
-      color: #f1f5f9;
+    [data-theme='dark'] & {
+      color: ${colors.text.primaryDark};
     }
   }
 `;
@@ -304,25 +347,25 @@ export const Stepper = styled.div`
   display: flex;
   align-items: center;
   background: rgba(241, 245, 249, 0.9);
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  border-radius: 14px;
+  border: 1px solid ${colors.border.light};
+  border-radius: ${borderRadius.lg};
   overflow: hidden;
 
   button {
-    width: 38px;
-    height: 38px;
+    width: 42px;
+    height: 42px;
     border: none;
     background: transparent;
-    color: #1e293b;
+    color: ${colors.text.primary};
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: ${transitions.fast};
 
     &:hover:not(:disabled) {
-      background: rgba(59, 130, 246, 0.15);
-      color: #2563eb;
+      background: rgba(37, 99, 235, 0.12);
+      color: ${colors.primary[600]};
     }
 
     &:disabled {
@@ -332,34 +375,34 @@ export const Stepper = styled.div`
   }
 
   .count {
-    min-width: 44px;
+    min-width: 48px;
     text-align: center;
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 700;
-    color: #0f172a;
+    color: ${colors.text.primary};
   }
 
-  html[data-theme='dark'] & {
+  [data-theme='dark'] & {
     background: rgba(30, 41, 59, 0.8);
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: ${colors.border.dark};
 
     button {
-      color: #f1f5f9;
+      color: ${colors.text.primaryDark};
       &:hover:not(:disabled) {
-        background: rgba(96, 165, 250, 0.2);
-        color: #60a5fa;
+        background: rgba(96, 165, 250, 0.15);
+        color: ${colors.primary[300]};
       }
     }
 
     .count {
-      color: #f1f5f9;
+      color: ${colors.text.primaryDark};
     }
   }
 `;
 
 export const ButtonGroup = styled.div`
   display: flex;
-  gap: 14px;
+  gap: ${spacing.md};
 
   @media (max-width: 600px) {
     flex-direction: column;
@@ -368,20 +411,20 @@ export const ButtonGroup = styled.div`
 
 export const AddToCartBtn = styled.button`
   flex: 1;
-  padding: 1.1rem 2rem;
-  background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+  padding: ${spacing.lg} ${spacing['2xl']};
+  background: ${colors.gradients.primary};
   color: white;
   border: none;
-  border-radius: 16px;
-  font-size: 1rem;
+  border-radius: ${borderRadius.lg};
+  font-size: 1.1rem;
   font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  gap: ${spacing.sm};
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+  transition: ${transitions.emphasis};
 
   &:hover {
     transform: translateY(-2px);
@@ -392,32 +435,36 @@ export const AddToCartBtn = styled.button`
     transform: scale(0.96);
   }
 
-  html[data-theme='dark'] & {
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+  [data-theme='dark'] & {
+    background: ${colors.gradients.violet};
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+
+    &:hover {
+      box-shadow: 0 12px 30px rgba(99, 102, 241, 0.5);
+    }
   }
 `;
 
 export const BuyNowBtn = styled.button`
   flex: 1;
-  padding: 1.1rem 2rem;
-  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  padding: ${spacing.lg} ${spacing['2xl']};
+  background: ${colors.gradients.warm};
   color: white;
   border: none;
-  border-radius: 16px;
-  font-size: 1rem;
+  border-radius: ${borderRadius.lg};
+  font-size: 1.1rem;
   font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  box-shadow: 0 8px 24px rgba(249, 115, 22, 0.35);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  gap: ${spacing.sm};
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+  transition: ${transitions.emphasis};
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(249, 115, 22, 0.5);
+    box-shadow: 0 12px 30px rgba(245, 158, 11, 0.5);
   }
 
   &:active {
@@ -427,28 +474,37 @@ export const BuyNowBtn = styled.button`
 
 export const FeatureChips = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(226, 232, 240, 0.8);
+  grid-template-columns: repeat(2, 1fr);
+  gap: ${spacing.sm};
+  padding-top: ${spacing.xl};
+  border-top: 1px solid ${colors.border.light};
 
   .chip {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 0.85rem;
+    gap: ${spacing.sm};
+    font-size: 0.9rem;
     font-weight: 600;
-    color: #475569;
-  }
+    color: ${colors.text.secondary};
+    padding: ${spacing.sm} ${spacing.md};
+    background: rgba(248, 250, 252, 0.9);
+    border-radius: ${borderRadius.lg};
+    transition: ${transitions.fast};
 
-  html[data-theme='dark'] & {
-    border-color: rgba(255, 255, 255, 0.08);
-    .chip {
-      color: #94a3b8;
+    &:hover {
+      background: rgba(241, 245, 249, 0.9);
     }
   }
 
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
+  [data-theme='dark'] & {
+    border-color: ${colors.border.dark};
+    .chip {
+      color: ${colors.text.secondaryDark};
+      background: rgba(30, 41, 59, 0.7);
+    }
+  }
+
+  @media (min-width: 600px) {
+    grid-template-columns: repeat(4, 1fr);
   }
 `;

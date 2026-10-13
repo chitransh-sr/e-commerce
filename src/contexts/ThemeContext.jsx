@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 const ThemeContext = createContext();
 
@@ -100,3 +101,7 @@ export const ThemeProvider = ({ children }) => {
 };
 
 export default ThemeContext;
+
+ThemeProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
