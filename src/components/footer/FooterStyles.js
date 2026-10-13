@@ -1,36 +1,22 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { colors, spacing, borderRadius, transitions } from '../../design-system/tokens';
+import { colors, spacing, transitions } from '../../design-system/tokens';
+
+/* Bannoji footer: solid burgundy (#7A1E2B), cream text, gold hovers */
 
 export const FooterContainer = styled.footer`
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border-top: 1px solid ${colors.border.dark};
+  background: #7A1E2B;
+  border-top: none;
   position: relative;
   margin-top: ${spacing['6xl']};
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
-  color: ${colors.text.primaryDark};
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: ${colors.gradients.primary};
-    background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6);
-    background-size: 200% auto;
-    animation: var(--shine) 3s linear infinite;
-  }
+  color: #F5E9D7;
 `;
 
 export const FooterWrap = styled.div`
   padding: ${spacing['5xl']} ${spacing.xl} ${spacing['3xl']};
   display: flex;
   flex-direction: column;
-  max-width: 1400px;
+  max-width: 120rem;
   margin: 0 auto;
   width: 100%;
 
@@ -62,9 +48,10 @@ export const BrandColumn = styled.div`
   gap: ${spacing.md};
 
   p {
-    color: ${colors.text.secondaryDark};
-    font-size: 0.95rem;
-    line-height: 1.6;
+    color: #E8D9C4;
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 0.875rem;
+    line-height: 1.4;
     max-width: 340px;
   }
 
@@ -82,46 +69,30 @@ export const FooterLinkColumn = styled.div`
 `;
 
 export const ColumnTitle = styled.h4`
-  font-size: 1.05rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: ${colors.text.primaryDark};
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: #F5E9D7;
   margin-bottom: ${spacing.sm};
 `;
 
 export const StyledFooterLink = styled(Link)`
-  color: ${colors.text.secondaryDark};
+  color: #E8D9C4;
   text-decoration: none;
-  font-size: 0.95rem;
-  font-weight: 500;
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
   transition: ${transitions.fast};
   width: fit-content;
-  position: relative;
 
   &:hover {
-    color: ${colors.primary[400]};
-    transform: translateX(4px);
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 1px;
-    background: ${colors.primary[400]};
-    transition: width 0.25s ease;
-  }
-
-  &:hover::after {
-    width: 100%;
+    color: #C9A24C;
   }
 `;
 
 export const FooterBottomRow = styled.div`
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(245, 233, 215, 0.25);
   padding-top: ${spacing['3xl']};
   display: flex;
   justify-content: space-between;
@@ -136,9 +107,10 @@ export const FooterBottomRow = styled.div`
 `;
 
 export const Copyright = styled.div`
-  color: ${colors.text.secondaryDark};
-  font-size: 0.85rem;
-  font-weight: 500;
+  color: #E8D9C4;
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
 `;
 
 export const SocialLinks = styled.div`
@@ -151,21 +123,19 @@ export const SocialLinks = styled.div`
 export const SocialButton = styled.a`
   width: 42px;
   height: 42px;
-  border-radius: ${borderRadius.lg};
-  background: rgba(30, 41, 59, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid rgba(245, 233, 215, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${colors.text.secondaryDark};
+  color: #F5E9D7;
   font-size: 1.1rem;
-  transition: ${transitions.emphasis};
+  transition: ${transitions.fast};
 
   &:hover {
-    color: white;
-    background: ${colors.gradients.primary};
-    border-color: transparent;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+    color: #7A1E2B;
+    background: #C9A24C;
+    border-color: #C9A24C;
   }
 `;

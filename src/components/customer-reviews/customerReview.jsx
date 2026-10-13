@@ -13,24 +13,21 @@ import reviews from './customerReviewData';
 
 const ReviewsContainer = styled.section`
   padding: 4rem 2rem;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(226, 232, 240, 0.85);
-  border-radius: 32px;
+  background: #F5E9D7;
+  border: 1px solid #E8D9C4;
+  border-radius: 1rem;
   margin: 4rem auto;
-  box-shadow: 
-    0 25px 60px -15px rgba(59, 130, 246, 0.1),
-    0 0 0 1px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 12px 32px -12px rgba(122, 30, 43, 0.18);
   max-width: 1400px;
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
+  font-family: "Instrument Sans", sans-serif;
 
   html[data-theme="dark"] & {
-    background: rgba(15, 23, 42, 0.7);
-    border-color: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5);
+    background: #1F1F1F;
+    border-color: #E8D9C4;
+    box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.5);
   }
 
   @media (max-width: 768px) {
@@ -48,48 +45,47 @@ const SectionHeader = styled.div`
     align-items: center;
     gap: 6px;
     padding: 6px 14px;
-    background: rgba(59, 130, 246, 0.1);
-    color: #2563eb;
-    border-radius: 9999px;
+    background: #7A1E2B;
+    color: #F5E9D7;
+    border-radius: 100px;
     font-size: 0.82rem;
     font-weight: 700;
+    font-family: "Instrument Sans", sans-serif;
     margin-bottom: 0.75rem;
 
     html[data-theme="dark"] & {
-      background: rgba(96, 165, 250, 0.15);
-      color: #60a5fa;
+      background: #7A1E2B;
+      color: #F5E9D7;
     }
   }
 
   h2 {
+    font-family: "Instrument Serif", serif;
     font-size: 2.4rem;
     font-weight: 900;
-    color: #0f172a;
+    color: #7A1E2B;
     letter-spacing: -0.02em;
 
     span {
-      background: linear-gradient(135deg, #2563eb 0%, #8b5cf6 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #7A1E2B;
     }
 
     html[data-theme="dark"] & {
-      color: #f1f5f9;
+      color: #E8CFC0;
       span {
-        background: linear-gradient(135deg, #60a5fa 0%, #c084fc 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #C9A24C;
       }
     }
   }
 
   p {
+    font-family: "Instrument Sans", sans-serif;
     font-size: 1rem;
-    color: #64748b;
+    color: #1F1F1F;
     margin-top: 6px;
 
     html[data-theme="dark"] & {
-      color: #94a3b8;
+      color: #CBBFA9;
     }
   }
 `;
@@ -107,24 +103,24 @@ const NavigationButton = styled.button`
   ${props => (props.direction === 'left' ? 'left: -20px;' : 'right: -20px;')}
   width: 48px;
   height: 48px;
-  border-radius: 50%;
-  background: white;
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  color: #1e293b;
+  border-radius: 100px;
+  background: #7A1E2B;
+  border: 1px solid #7A1E2B;
+  color: #F5E9D7;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 10;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 25px rgba(122, 30, 43, 0.25);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:hover:not(:disabled) {
     transform: translateY(-50%) scale(1.1);
-    background: #eff6ff;
-    color: #2563eb;
-    border-color: #bfdbfe;
-    box-shadow: 0 12px 30px rgba(59, 130, 246, 0.25);
+    background: #C9A24C;
+    color: #1F1F1F;
+    border-color: #C9A24C;
+    box-shadow: 0 12px 30px rgba(201, 162, 76, 0.35);
   }
 
   &:active:not(:disabled) {
@@ -137,14 +133,14 @@ const NavigationButton = styled.button`
   }
 
   html[data-theme="dark"] & {
-    background: #1e293b;
-    border-color: rgba(255, 255, 255, 0.12);
-    color: #f1f5f9;
+    background: #7A1E2B;
+    border-color: #7A1E2B;
+    color: #F5E9D7;
 
     &:hover:not(:disabled) {
-      background: #334155;
-      color: #60a5fa;
-      border-color: rgba(96, 165, 250, 0.4);
+      background: #C9A24C;
+      color: #1F1F1F;
+      border-color: #C9A24C;
     }
   }
 
@@ -176,43 +172,41 @@ const SlidePage = styled.div`
 `;
 
 const ReviewCard = styled.div`
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(14px);
-  border-radius: 24px;
+  background: #FFFFFF;
+  border-radius: 1rem;
   padding: 2rem;
-  border: 1px solid rgba(226, 232, 240, 0.85);
+  border: 1px solid #E8D9C4;
   position: relative;
   display: flex;
   flex-direction: column;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 6px 20px -6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 6px 20px -6px rgba(122, 30, 43, 0.1);
+  font-family: "Instrument Sans", sans-serif;
 
   &:hover {
-    transform: translateY(-6px);
-    border-color: rgba(59, 130, 246, 0.35);
-    box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.15);
+    border-color: #C9A24C;
   }
 
   .quote-bg {
     position: absolute;
     top: 1.5rem;
     right: 1.5rem;
-    color: rgba(59, 130, 246, 0.08);
+    color: rgba(201, 162, 76, 0.25);
     pointer-events: none;
   }
 
   html[data-theme="dark"] & {
-    background: rgba(30, 41, 59, 0.65);
-    border-color: rgba(255, 255, 255, 0.08);
+    background: #2A2024;
+    border-color: #E8D9C4;
     box-shadow: 0 8px 25px -6px rgba(0, 0, 0, 0.4);
 
     &:hover {
-      border-color: rgba(99, 102, 241, 0.4);
+      border-color: #C9A24C;
       box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6);
     }
 
     .quote-bg {
-      color: rgba(255, 255, 255, 0.04);
+      color: rgba(201, 162, 76, 0.2);
     }
   }
 `;
@@ -228,14 +222,14 @@ const ProfileImage = styled.div`
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: ${props => props.color || 'linear-gradient(135deg, #3b82f6, #2563eb)'};
+  background: ${props => props.color || '#7A1E2B'};
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: #F5E9D7;
   font-weight: 700;
   font-size: 1.1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 12px rgba(122, 30, 43, 0.2);
   flex-shrink: 0;
 
   img {
@@ -257,24 +251,25 @@ const UserInfo = styled.div`
 
   h4 {
     margin: 0;
-    color: #0f172a;
+    font-family: "Instrument Serif", serif;
+    color: #7A1E2B;
     font-size: 1.05rem;
     font-weight: 700;
 
     html[data-theme="dark"] & {
-      color: #f1f5f9;
+      color: #E8CFC0;
     }
   }
 
   .verified-badge {
-    color: #10b981;
+    color: #C9A24C;
     display: inline-flex;
     align-items: center;
   }
 
   .date {
     margin: 0;
-    color: #94a3b8;
+    color: #CBBFA9;
     font-size: 0.8rem;
     font-weight: 500;
   }
@@ -285,17 +280,18 @@ const RatingContainer = styled.div`
   align-items: center;
   gap: 3px;
   margin-bottom: 1rem;
-  color: #f59e0b;
+  color: #C9A24C;
 `;
 
 const ReviewText = styled.p`
-  color: #475569;
+  color: #1F1F1F;
   line-height: 1.65;
   font-size: 0.95rem;
+  font-family: "Instrument Sans", sans-serif;
   margin: 0;
 
   html[data-theme="dark"] & {
-    color: #cbd5e1;
+    color: #F5E9D7;
   }
 `;
 
@@ -310,14 +306,14 @@ const DotsContainer = styled.div`
 const Dot = styled.button`
   width: ${({ $isActive }) => ($isActive ? '26px' : '8px')};
   height: 8px;
-  border-radius: 9999px;
-  background: ${({ $isActive }) => ($isActive ? '#2563eb' : '#cbd5e1')};
+  border-radius: 100px;
+  background: ${({ $isActive }) => ($isActive ? '#7A1E2B' : '#E8D9C4')};
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
 
   html[data-theme="dark"] & {
-    background: ${({ $isActive }) => ($isActive ? '#60a5fa' : '#475569')};
+    background: ${({ $isActive }) => ($isActive ? '#C9A24C' : '#CBBFA9')};
   }
 `;
 
@@ -387,7 +383,7 @@ const CustomerReviews = () => {
                         <Star 
                           key={starIdx} 
                           size={16} 
-                          fill={starIdx < review.rating ? '#f59e0b' : 'none'} 
+                          fill={starIdx < review.rating ? '#C9A24C' : 'none'} 
                         />
                       ))}
                     </RatingContainer>

@@ -1,4 +1,4 @@
-import { 
+import {
   FooterContainer,
   FooterWrap,
   FooterTopRow,
@@ -11,7 +11,7 @@ import {
   SocialLinks,
   SocialButton
 } from './FooterStyles';
-import { LogoWrapper, LogoBadge } from '../header/HeaderStyles';
+import { LogoWrapper, LogoBadge, LogoText } from '../header/HeaderStyles';
 import { Sparkles } from 'lucide-react';
 import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 
@@ -25,23 +25,12 @@ const Footer = () => {
               <LogoBadge>
                 <Sparkles size={20} />
               </LogoBadge>
-              <span style={{ 
-                fontSize: '1.5rem', 
-                fontWeight: 800,
-                background: 'linear-gradient(135deg, #0f172a 0%, #2563eb 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
-              }}>
-                Shop<span style={{
-                  background: 'linear-gradient(135deg, #f97316 0%, #ec4899 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent'
-                }}>Now</span></span>
+              <LogoText>Shop<span>Now</span></LogoText>
             </LogoWrapper>
             <p>
-              The next-generation marketplace delivering curated premium lifestyle goods, gadgets, and apparel with lightning-fast worldwide delivery.
+              Curated lifestyle finds — quality goods, honest prices, delivered with care.
             </p>
-            
+
             <SocialLinks>
               <SocialButton href="https://twitter.com" target="_blank" rel="noreferrer" aria-label="Twitter">
                 <FaTwitter />
@@ -60,35 +49,30 @@ const Footer = () => {
 
           <FooterLinkColumn>
             <ColumnTitle>Shop</ColumnTitle>
-            <StyledFooterLink to="/">Trending Products</StyledFooterLink>
-            <StyledFooterLink to="/">Featured Deals</StyledFooterLink>
-            <StyledFooterLink to="/">VIP Discounts</StyledFooterLink>
-            <StyledFooterLink to="/">New Arrivals</StyledFooterLink>
-            <StyledFooterLink to="/">Gift Cards</StyledFooterLink>
-          </FooterLinkColumn>
-
-          <FooterLinkColumn>
-            <ColumnTitle>Support</ColumnTitle>
+            <StyledFooterLink to="/new-arrivals">New Arrivals</StyledFooterLink>
             <StyledFooterLink to="/cart">My Shopping Bag</StyledFooterLink>
-            <StyledFooterLink to="/">Order Tracking</StyledFooterLink>
-            <StyledFooterLink to="/">Returns & Warranty</StyledFooterLink>
-            <StyledFooterLink to="/">Shipping Information</StyledFooterLink>
-            <StyledFooterLink to="/">FAQs</StyledFooterLink>
+            <StyledFooterLink to="/checkout">Checkout</StyledFooterLink>
           </FooterLinkColumn>
 
           <FooterLinkColumn>
-            <ColumnTitle>Company</ColumnTitle>
-            <StyledFooterLink to="/">About Us</StyledFooterLink>
-            <StyledFooterLink to="/">Careers</StyledFooterLink>
-            <StyledFooterLink to="/">Blog</StyledFooterLink>
-            <StyledFooterLink to="/">Privacy Policy</StyledFooterLink>
-            <StyledFooterLink to="/">Terms of Service</StyledFooterLink>
+            <ColumnTitle>Help</ColumnTitle>
+            <StyledFooterLink to="/contact">Contact Us</StyledFooterLink>
+            <StyledFooterLink to="/contact">Shipping & Returns</StyledFooterLink>
+            <StyledFooterLink to="/contact">Returns & Exchange</StyledFooterLink>
+            <StyledFooterLink to="/contact">FAQs</StyledFooterLink>
+          </FooterLinkColumn>
+
+          <FooterLinkColumn>
+            <ColumnTitle>Explore</ColumnTitle>
+            <StyledFooterLink to="/about">About Us</StyledFooterLink>
+            <StyledFooterLink to="/contact">Contact</StyledFooterLink>
+            <StyledFooterLink to="/">Home</StyledFooterLink>
           </FooterLinkColumn>
         </FooterTopRow>
 
         <FooterBottomRow>
           <Copyright>
-            © {new Date().getFullYear()} ShopNow. All rights reserved. Built for the next generation of commerce.
+            © {new Date().getFullYear()} ShopNow. All rights reserved.
           </Copyright>
         </FooterBottomRow>
       </FooterWrap>

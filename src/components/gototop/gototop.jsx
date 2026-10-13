@@ -6,8 +6,8 @@ const FloatingButton = styled.button`
   position: fixed;
   bottom: 30px;
   right: 30px;
-  background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: #7A1E2B;
+  border: none;
   border-radius: 50%;
   width: 52px;
   height: 52px;
@@ -16,17 +16,18 @@ const FloatingButton = styled.button`
   justify-content: center;
   cursor: pointer;
   z-index: 999;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.4);
-  color: white;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 4px 14px rgba(122, 30, 43, 0.28);
+  color: #F5E9D7;
   opacity: ${(props) => (props.$isVisible ? "1" : "0")};
   transform: ${(props) => (props.$isVisible ? "scale(1) translateY(0)" : "scale(0.8) translateY(20px)")};
   pointer-events: ${(props) => (props.$isVisible ? "auto" : "none")};
 
   &:hover {
-    transform: scale(1.12) translateY(-4px);
-    box-shadow: 0 14px 35px rgba(37, 99, 235, 0.6);
-    background: linear-gradient(135deg, #1d4ed8 0%, #4338ca 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(122, 30, 43, 0.35);
+    background: #C9A24C;
+    color: #1F1F1F;
   }
 
   &:active {
@@ -34,11 +35,14 @@ const FloatingButton = styled.button`
   }
 
   html[data-theme="dark"] & {
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+    background: #7A1E2B;
+    color: #F5E9D7;
+    box-shadow: 0 10px 30px rgba(122, 30, 43, 0.5);
 
     &:hover {
-      box-shadow: 0 14px 35px rgba(99, 102, 241, 0.6);
+      background: #C9A24C;
+      color: #1F1F1F;
+      box-shadow: 0 14px 35px rgba(201, 162, 76, 0.5);
     }
   }
 

@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { colors, spacing, borderRadius, shadows, transitions } from '../../design-system/tokens';
+import { spacing } from '../../design-system/tokens';
 
 const fadeIn = keyframes`
   from {
@@ -15,10 +15,16 @@ const fadeIn = keyframes`
 export const FullWidthWrapper = styled.div`
   min-height: calc(100vh - 80px);
   padding: ${spacing['4xl']} ${spacing.xl} ${spacing['6xl']};
+  background: #F5E9D7;
+  font-family: "Instrument Sans", sans-serif;
   animation: ${fadeIn} 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 
   @media (max-width: 768px) {
     padding: ${spacing['3xl']} ${spacing.sm} ${spacing['4xl']};
+  }
+
+  [data-theme='dark'] & {
+    background: #1A0F11;
   }
 `;
 
@@ -32,30 +38,33 @@ export const BackButton = styled.button`
   align-items: center;
   gap: ${spacing.sm};
   padding: ${spacing.sm} ${spacing.xl};
-  border-radius: ${borderRadius.lg};
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid ${colors.border.light};
-  color: ${colors.text.secondary};
+  border-radius: 100px;
+  background: #FFFFFF;
+  border: 1px solid #E8D9C4;
+  color: #7A1E2B;
+  font-family: "Instrument Sans", sans-serif;
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition: ${transitions.emphasis};
+  transition: all 0.2s ease;
   margin-bottom: ${spacing.xl};
 
   &:hover {
-    background: ${colors.primary[50]};
-    color: ${colors.primary[600]};
+    background: #F5E9D7;
+    color: #7A1E2B;
+    border-color: #C9A24C;
     transform: translateX(-3px);
   }
 
   [data-theme='dark'] & {
-    background: rgba(30, 41, 59, 0.8);
-    border-color: ${colors.border.dark};
-    color: ${colors.text.secondaryDark};
+    background: #2A161A;
+    border-color: #4A2E33;
+    color: #E8CFC0;
 
     &:hover {
-      background: rgba(51, 65, 85, 0.9);
-      color: ${colors.primary[300]};
+      background: #3A1E23;
+      color: #C9A24C;
+      border-color: #C9A24C;
     }
   }
 `;
@@ -72,16 +81,15 @@ export const CheckoutStep = styled.div`
   height: 32px;
   border-radius: 50%;
   background: ${({ $active }) =>
-    $active ? colors.gradients.primary : 'rgba(148, 153, 175, 0.3)'};
+    $active ? '#7A1E2B' : '#FFFFFF'};
+  border: 1px solid ${({ $active }) => ($active ? '#7A1E2B' : '#E8D9C4')};
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: ${({ $active }) => ($active ? '#F5E9D7' : '#9C7A6A')};
   font-size: 0.85rem;
   font-weight: 700;
-  transition: ${transitions.emphasis};
-  box-shadow: ${({ $active }) =>
-    $active ? '0 4px 14px rgba(37, 99, 235, 0.3)' : 'none'};
+  transition: all 0.2s ease;
 `;
 
 export const CheckoutHeader = styled.div`
@@ -90,6 +98,18 @@ export const CheckoutHeader = styled.div`
   align-items: center;
   gap: ${spacing.lg};
   flex-wrap: wrap;
+
+  h1, h2 {
+    font-family: "Instrument Serif", serif;
+    color: #7A1E2B;
+  }
+
+  [data-theme='dark'] & {
+    h1, h2 {
+      font-family: "Instrument Serif", serif;
+      color: #E8CFC0;
+    }
+  }
 `;
 
 export const CheckoutLayout = styled.div`
@@ -110,17 +130,17 @@ export const CheckoutFormSection = styled.div`
 `;
 
 export const SectionCard = styled.div`
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(20px);
-  border: 1px solid ${colors.border.light};
-  border-radius: ${borderRadius['2xl']};
+  background: #FFFFFF;
+  border: 1px solid #E8D9C4;
+  border-radius: 1rem;
   padding: ${spacing['3xl']};
-  box-shadow: ${shadows.sm};
+  box-shadow: 0 2px 8px rgba(122, 30, 43, 0.08);
 
   h2 {
+    font-family: "Instrument Serif", serif;
     font-size: 1.35rem;
-    font-weight: 800;
-    color: ${colors.text.primary};
+    font-weight: 400;
+    color: #7A1E2B;
     margin-bottom: ${spacing.xl};
     display: flex;
     align-items: center;
@@ -129,11 +149,12 @@ export const SectionCard = styled.div`
   }
 
   [data-theme='dark'] & {
-    background: rgba(15, 23, 42, 0.85);
-    border-color: ${colors.border.dark};
+    background: #2A161A;
+    border-color: #4A2E33;
 
     h2 {
-      color: ${colors.text.primaryDark};
+      font-family: "Instrument Serif", serif;
+      color: #E8CFC0;
     }
   }
 
@@ -161,47 +182,48 @@ export const FormGroup = styled.div`
   label {
     font-size: 0.88rem;
     font-weight: 700;
-    color: ${colors.text.secondary};
+    color: #5C4A3A;
 
     [data-theme='dark'] & {
-      color: ${colors.text.secondaryDark};
+      color: #E8CFC0;
     }
   }
 
   input, select {
     padding: ${spacing.md} ${spacing.lg};
-    border: 1.5px solid ${colors.border.light};
-    border-radius: ${borderRadius.lg};
+    border: 1px solid #E8D9C4;
+    border-radius: 8px;
     font-size: 0.95rem;
-    background: white;
-    color: ${colors.text.primary};
-    transition: ${transitions.standard};
+    font-family: "Instrument Sans", sans-serif;
+    background: #FFFFFF;
+    color: #1F1F1F;
+    transition: all 0.2s ease;
 
     &::placeholder {
-      color: ${colors.text.disabled};
+      color: #9C7A6A;
     }
 
     &:focus {
       outline: none;
-      border-color: ${colors.primary[400]};
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+      border-color: #7A1E2B;
+      box-shadow: 0 0 0 3px rgba(122, 30, 43, 0.12);
     }
 
     [data-theme='dark'] & {
-      background: rgba(30, 41, 59, 0.8);
-      border-color: ${colors.border.dark};
-      color: ${colors.text.primaryDark};
+      background: #1A0F11;
+      border-color: #4A2E33;
+      color: #F5E9D7;
 
       &:focus {
-        border-color: ${colors.primary[400]};
-        box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.18);
+        border-color: #C9A24C;
+        box-shadow: 0 0 0 3px rgba(201, 162, 76, 0.2);
       }
     }
   }
 `;
 
 export const ErrorText = styled.span`
-  color: ${colors.danger[500]};
+  color: #A4262C;
   font-size: 0.8rem;
   font-weight: 600;
   display: flex;
@@ -209,34 +231,23 @@ export const ErrorText = styled.span`
   gap: ${spacing.xs};
 `;
 
-/* Futuristic Virtual Credit Card */
+/* Bannoji Card Preview (solid) */
 export const VirtualCard = styled.div`
   width: 100%;
   max-width: 400px;
   height: 240px;
   margin: 0 auto ${spacing['3xl']};
-  border-radius: ${borderRadius['2xl']};
+  border-radius: 1rem;
   padding: ${spacing['2xl']};
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #312e81 100%);
-  color: white;
+  background: #7A1E2B;
+  border: 1px solid #C9A24C;
+  color: #F5E9D7;
   position: relative;
   overflow: hidden;
-  box-shadow: ${shadows['2xl']};
+  box-shadow: 0 4px 16px rgba(122, 30, 43, 0.25);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
-    pointer-events: none;
-    animation: var(--shine) 6s linear infinite;
-  }
 
   .card-top {
     display: flex;
@@ -247,8 +258,7 @@ export const VirtualCard = styled.div`
       width: 44px;
       height: 32px;
       border-radius: 6px;
-      background: linear-gradient(135deg, #fbbf24, #d97706);
-      box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
+      background: #C9A24C;
     }
 
     .brand {
@@ -256,7 +266,7 @@ export const VirtualCard = styled.div`
       font-weight: 800;
       letter-spacing: 1px;
       font-style: italic;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      color: #F5E9D7;
     }
   }
 
@@ -265,7 +275,7 @@ export const VirtualCard = styled.div`
     font-weight: 700;
     letter-spacing: 2px;
     font-family: 'Courier New', monospace;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    color: #F5E9D7;
   }
 
   .card-bottom {
@@ -278,12 +288,14 @@ export const VirtualCard = styled.div`
       text-transform: uppercase;
       opacity: 0.7;
       letter-spacing: 0.5px;
+      color: #E8D9C4;
     }
 
     .val {
       font-size: 0.95rem;
       font-weight: 700;
       letter-spacing: 0.5px;
+      color: #F5E9D7;
     }
   }
 
@@ -303,45 +315,45 @@ export const PaymentMethodGrid = styled.div`
 
 export const PaymentOption = styled.div`
   padding: ${spacing.xl};
-  border: 2px solid ${({ $isSelected }) => ($isSelected ? colors.primary[600] : 'rgba(226, 232, 240, 0.9)')};
-  border-radius: ${borderRadius.xl};
-  background: ${({ $isSelected }) => ($isSelected ? 'rgba(37, 99, 235, 0.05)' : 'white')};
+  border: 1px solid ${({ $isSelected }) => ($isSelected ? '#7A1E2B' : '#E8D9C4')};
+  border-radius: 8px;
+  background: ${({ $isSelected }) => ($isSelected ? 'rgba(122, 30, 43, 0.06)' : '#FFFFFF')};
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: ${spacing.md};
   font-weight: 700;
   font-size: 0.95rem;
-  color: ${colors.text.primary};
-  transition: ${transitions.emphasis};
-  box-shadow: ${shadows.xs};
+  color: #1F1F1F;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(122, 30, 43, 0.06);
 
   &:hover {
-    border-color: ${colors.primary[400]};
+    border-color: #C9A24C;
   }
 
   [data-theme='dark'] & {
-    background: ${({ $isSelected }) => ($isSelected ? 'rgba(96, 165, 250, 0.1)' : 'rgba(30, 41, 59, 0.8)')};
-    border-color: ${({ $isSelected }) => ($isSelected ? colors.primary[400] : 'rgba(255, 255, 255, 0.1)')};
-    color: ${colors.text.primaryDark};
+    background: ${({ $isSelected }) => ($isSelected ? 'rgba(201, 162, 76, 0.12)' : '#1A0F11')};
+    border-color: ${({ $isSelected }) => ($isSelected ? '#C9A24C' : '#4A2E33')};
+    color: #F5E9D7;
   }
 `;
 
 /* Summary Sidebar */
 export const OrderSummarySidebar = styled.div`
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(20px);
-  border: 1px solid ${colors.border.light};
-  border-radius: ${borderRadius['2xl']};
+  background: #FFFFFF;
+  border: 1px solid #E8D9C4;
+  border-radius: 1rem;
   padding: ${spacing['3xl']};
-  box-shadow: ${shadows.lg};
+  box-shadow: 0 2px 8px rgba(122, 30, 43, 0.08);
   position: sticky;
   top: 120px;
 
   h3 {
+    font-family: "Instrument Serif", serif;
     font-size: 1.5rem;
-    font-weight: 800;
-    color: ${colors.text.primary};
+    font-weight: 400;
+    color: #7A1E2B;
     margin-bottom: ${spacing.xl};
   }
 
@@ -363,9 +375,10 @@ export const OrderSummarySidebar = styled.div`
     img {
       width: 48px;
       height: 48px;
-      border-radius: ${borderRadius.md};
+      border-radius: 8px;
       object-fit: cover;
-      background: ${colors.gray[100]};
+      background: #F5E9D7;
+      border: 1px solid #E8D9C4;
     }
 
     .info {
@@ -375,7 +388,7 @@ export const OrderSummarySidebar = styled.div`
       .title {
         font-size: 0.85rem;
         font-weight: 600;
-        color: ${colors.text.primary};
+        color: #1F1F1F;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -383,36 +396,37 @@ export const OrderSummarySidebar = styled.div`
 
       .qty {
         font-size: 0.75rem;
-        color: ${colors.text.secondary};
+        color: #5C4A3A;
       }
     }
 
     .price {
       font-size: 0.9rem;
       font-weight: 700;
-      color: ${colors.primary[600]};
+      color: #7A1E2B;
     }
   }
 
   [data-theme='dark'] & {
-    background: rgba(15, 23, 42, 0.85);
-    border-color: ${colors.border.dark};
+    background: #2A161A;
+    border-color: #4A2E33;
 
     h3 {
-      color: ${colors.text.primaryDark};
+      font-family: "Instrument Serif", serif;
+      color: #E8CFC0;
     }
 
     .order-item {
       .info {
         .title {
-          color: ${colors.text.primaryDark};
+          color: #F5E9D7;
         }
         .qty {
-          color: ${colors.text.secondaryDark};
+          color: #E8CFC0;
         }
       }
       .price {
-        color: ${colors.primary[300]};
+        color: #C9A24C;
       }
     }
   }
@@ -424,28 +438,28 @@ export const PriceRow = styled.div`
   align-items: center;
   margin-bottom: ${spacing.md};
   font-size: 0.95rem;
-  color: ${colors.text.secondary};
+  color: #5C4A3A;
 
   .value {
     font-weight: 600;
-    color: ${colors.text.primary};
+    color: #1F1F1F;
   }
 
   [data-theme='dark'] & {
-    color: ${colors.text.secondaryDark};
+    color: #E8CFC0;
     .value {
-      color: ${colors.text.primaryDark};
+      color: #F5E9D7;
     }
   }
 `;
 
 export const Divider = styled.div`
   height: 1px;
-  background: ${colors.border.light};
+  background: #E8D9C4;
   margin: ${spacing.xl} 0;
 
   [data-theme='dark'] & {
-    background: ${colors.border.dark};
+    background: #4A2E33;
   }
 `;
 
@@ -455,21 +469,17 @@ export const TotalPrice = styled.div`
   align-items: center;
   font-size: 1.4rem;
   font-weight: 900;
-  color: ${colors.text.primary};
+  color: #1F1F1F;
   margin-bottom: ${spacing.xl};
 
   .amount {
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #7A1E2B;
   }
 
   [data-theme='dark'] & {
-    color: ${colors.text.primaryDark};
+    color: #F5E9D7;
     .amount {
-      background: linear-gradient(135deg, #60a5fa, #818cf8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #C9A24C;
     }
   }
 `;
@@ -477,24 +487,23 @@ export const TotalPrice = styled.div`
 export const PlaceOrderButton = styled.button`
   width: 100%;
   padding: ${spacing.lg};
-  background: ${colors.gradients.success};
-  color: white;
+  background: #7A1E2B;
+  color: #F5E9D7;
   border: none;
-  border-radius: ${borderRadius.xl};
+  border-radius: 100px;
   font-size: 1.1rem;
   font-weight: 800;
   cursor: pointer;
-  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: ${spacing.sm};
-  transition: ${transitions.emphasis};
+  transition: all 0.2s ease;
 
   &:hover:not(:disabled) {
+    background: #C9A24C;
+    color: #1F1F1F;
     transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(16, 185, 129, 0.5);
-    background: linear-gradient(135deg, #059669 0%, #047857 100%);
   }
 
   &:active:not(:disabled) {

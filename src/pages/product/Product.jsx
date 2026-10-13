@@ -80,18 +80,18 @@ const ProductDetails = () => {
       <Container>
         <div style={{ textAlign: "center", padding: "5rem 1rem" }}>
           <h2 style={{ fontSize: "1.8rem", marginBottom: "1rem" }}>No Product Selected</h2>
-          <p style={{ color: "#64748b", marginBottom: "1.5rem" }}>
+          <p style={{ color: "#5C554B", marginBottom: "1.5rem" }}>
             Please select a product from our catalog to view details.
           </p>
           <button
             onClick={() => navigate("/")}
             style={{
               padding: "12px 24px",
-              background: "#2563eb",
-              color: "white",
+              background: "#7A1E2B",
+              color: "#F5E9D7",
               border: "none",
-              borderRadius: "12px",
-              fontWeight: 700,
+              borderRadius: "100px",
+              fontWeight: 400,
               cursor: "pointer",
             }}
           >
