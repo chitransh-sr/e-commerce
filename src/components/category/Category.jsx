@@ -1,56 +1,34 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
-import { 
-  ChevronLeft, 
-  ChevronRight, 
-  LayoutGrid 
+import {
+  ChevronLeft,
+  ChevronRight,
+  ArrowRight,
+  LayoutGrid
 } from 'lucide-react';
-import { 
+import {
   CategorySectionWrapper,
   CategoryHeader,
-  CategoriesContainer, 
-  CategoriesScrollContainer, 
-  CategoryButton, 
-  CategoryIcon, 
-  NavArrow,
-  LoadingSpinner, 
-  ErrorMessage,
   CategoryBadge,
+  FiltersViewport,
+  FiltersScroll,
+  FilterChip,
+  ChipArrow,
+  NavArrow,
+  SkeletonChip,
+  LoadingRow,
+  ErrorMessage,
 } from './CategoriesStyles';
 
 import PropTypes from 'prop-types';
 
-const categoryIcons = {
-  'All': '✨',
-  'smartphones': '📱',
-  'laptops': '💻',
-  'fragrances': '🌸',
-  'skincare': '✨',
-  'groceries': '🛒',
-  'home-decoration': '🏠',
-  'furniture': '🪑',
-  'tops': '👕',
-  'womens-dresses': '👗',
-  'womens-shoes': '👠',
-  'mens-shirts': '👔',
-  'mens-shoes': '👟',
-  'mens-watches': '⌚',
-  'womens-watches': '⌚',
-  'womens-bags': '👜',
-  'womens-jewellery': '💍',
-  'sunglasses': '🕶️',
-  'automotive': '🚗',
-  'motorcycle': '🏍️',
-  'lighting': '💡',
-  'beauty': '💄',
-  'kitchen-accessories': '🍳',
-  'sports-accessories': '⚽',
-  'mobile-accessories': '🎧'
-};
+const formatName = (category) =>
+  category.charAt(0).toUpperCase() + category.slice(1).replace(/-/g, ' ');
 
-const Categories = ({ children }) => {
+const Categories = ({ children, initialCategory }) => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(() => {
+    if (initialCategory !== undefined) return initialCategory;
     const saved = localStorage.getItem('selectedCategory');
     return saved || null;
   });
@@ -65,7 +43,7 @@ const Categories = ({ children }) => {
       setLoading(true);
       setError(null);
       const response = await axios.get('https://dummyjson.com/products/category-list');
-      setCategories(response.data);
+      setCategories(Array.isArray(response.data) ? response.data : []);
     } catch (err) {
       console.error('Error fetching categories:', err);
       setError('Failed to load categories.');
@@ -77,6 +55,12 @@ const Categories = ({ children }) => {
   useEffect(() => {
     fetchCategories();
   }, [fetchCategories]);
+
+  useEffect(() => {
+    if (initialCategory !== undefined) {
+      setSelectedCategory(initialCategory);
+    }
+  }, [initialCategory]);
 
   useEffect(() => {
     localStorage.setItem('selectedCategory', selectedCategory || '');
@@ -93,104 +77,103 @@ const Categories = ({ children }) => {
 
     const container = containerRef.current;
     if (container) {
-      container.addEventListener('scroll', checkScrollability);
+      container.addEventListener('scroll', checkScrollability, { passive: true });
       checkScrollability();
       return () => container.removeEventListener('scroll', checkScrollability);
     }
   }, [categories, loading]);
 
-  const scrollLeft = useCallback(() => {
+  const scrollBy = useCallback((dir) => {
     if (containerRef.current) {
-      containerRef.current.scrollBy({ left: -280, behavior: 'smooth' });
+      containerRef.current.scrollBy({ left: dir * 400, behavior: 'smooth' });
     }
   }, []);
 
-  const scrollRight = useCallback(() => {
-    if (containerRef.current) {
-      containerRef.current.scrollBy({ left: 280, behavior: 'smooth' });
+  const selectCategory = useCallback((category, el) => {
+    setSelectedCategory(category);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     }
-  }, []);
-
-  // Display categories
-  const displayedCategories = categories;
-
-  const getCategoryIcon = useCallback((category) => {
-    return categoryIcons[category] || '🛍️';
   }, []);
 
   return (
     <CategorySectionWrapper id='products-category'>
       <CategoryHeader>
+        <CategoryBadge>
+          {categories.length > 0 ? `${categories.length} Categories` : 'Our Categories'}
+        </CategoryBadge>
         <div className="title-group">
-          <h3>
-            <LayoutGrid size={22} className="text-blue-500" />
-            Curated Categories
-          </h3>
+          <h3>Explore Our Collections</h3>
           <p>
-            {selectedCategory 
-              ? `Filtering by ${selectedCategory.replace('-', ' ')}` 
-              : "Explore our full catalog across all departments"}
+            {selectedCategory
+              ? `Showing ${formatName(selectedCategory)}`
+              : "Handpicked edits across all departments"}
           </p>
         </div>
-        <CategoryBadge>
-          {displayedCategories.length} Categories
-        </CategoryBadge>
       </CategoryHeader>
 
-      <CategoriesContainer>
-        <NavArrow 
-          onClick={scrollLeft} 
-          disabled={!canScrollLeft} 
-          aria-label="Scroll categories left"
-        >
-          <ChevronLeft size={20} />
-        </NavArrow>
+      {loading ? (
+        <LoadingRow aria-label="Loading categories">
+          {[0, 1, 2, 3, 4, 5].map((i) => (
+            <SkeletonChip key={i} />
+          ))}
+        </LoadingRow>
+      ) : error ? (
+        <ErrorMessage>{error}</ErrorMessage>
+      ) : (
+        <FiltersViewport>
+          <NavArrow
+            className="filters-arrow"
+            $position="left"
+            onClick={() => scrollBy(-1)}
+            disabled={!canScrollLeft}
+            aria-label="Scroll filters left"
+          >
+            <ChevronLeft size={18} />
+          </NavArrow>
 
-        {loading ? (
-          <LoadingSpinner />
-        ) : error ? (
-          <ErrorMessage>{error}</ErrorMessage>
-        ) : (
-          <>
-            <CategoriesScrollContainer ref={containerRef}>
-              <CategoryButton
-                onClick={() => setSelectedCategory(null)}
-                $isSelected={!selectedCategory}
-                aria-pressed={!selectedCategory}
-              >
-                <CategoryIcon $gradient="linear-gradient(135deg, #3b82f6, #8b5cf6)">
-                  {getCategoryIcon('All')}
-                </CategoryIcon>
-                <span>All Products</span>
-              </CategoryButton>
-
-              {displayedCategories.map((category, index) => (
-                <CategoryButton
-                  key={index}
-                  onClick={() => setSelectedCategory(category)}
-                  $isSelected={selectedCategory === category}
-                  aria-pressed={selectedCategory === category}
-                >
-                  <CategoryIcon>
-                    {getCategoryIcon(category)}
-                  </CategoryIcon>
-                  <span>
-                    {category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}
-                  </span>
-                </CategoryButton>
-              ))}
-            </CategoriesScrollContainer>
-
-            <NavArrow 
-              onClick={scrollRight} 
-              disabled={!canScrollRight} 
-              aria-label="Scroll categories right"
+          <FiltersScroll ref={containerRef}>
+            <FilterChip
+              onClick={(e) => selectCategory(null, e.currentTarget)}
+              $isSelected={!selectedCategory}
+              aria-pressed={!selectedCategory}
             >
-              <ChevronRight size={20} />
-            </NavArrow>
-          </>
-        )}
-      </CategoriesContainer>
+              <LayoutGrid size={15} />
+              <span>All Products</span>
+              <ChipArrow $isSelected={!selectedCategory}>
+                <ArrowRight size={13} />
+              </ChipArrow>
+            </FilterChip>
+
+            {categories.map((category) => {
+              const isSelected = selectedCategory === category;
+              return (
+                <FilterChip
+                  key={category}
+                  onClick={(e) => selectCategory(category, e.currentTarget)}
+                  $isSelected={isSelected}
+                  aria-pressed={isSelected}
+                >
+                  <span>{formatName(category)}</span>
+                  <ChipArrow $isSelected={isSelected}>
+                    <ArrowRight size={13} />
+                  </ChipArrow>
+                </FilterChip>
+              );
+            })}
+          </FiltersScroll>
+
+          <NavArrow
+            className="filters-arrow"
+            $position="right"
+            onClick={() => scrollBy(1)}
+            disabled={!canScrollRight}
+            aria-label="Scroll filters right"
+          >
+            <ChevronRight size={18} />
+          </NavArrow>
+        </FiltersViewport>
+      )}
 
       {children({ selectedCategory })}
     </CategorySectionWrapper>
@@ -200,4 +183,5 @@ const Categories = ({ children }) => {
 export default Categories;
 Categories.propTypes = {
   children: PropTypes.func,
+  initialCategory: PropTypes.string,
 };

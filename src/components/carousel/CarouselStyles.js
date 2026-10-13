@@ -2,34 +2,12 @@ import styled, { keyframes } from 'styled-components';
 import { colors, spacing, borderRadius, shadows, transitions, zIndex } from '../../design-system/tokens';
 
 const fadeIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const slideUpText = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const pulse = keyframes`
-  0%, 100% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.4); }
-  50% { box-shadow: 0 0 0 8px rgba(249, 115, 22, 0); }
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 `;
 
 export const HeroSection = styled.div`
-  max-width: 1400px;
+  max-width: 120rem;
   margin: ${spacing.xl} auto ${spacing['5xl']};
   padding: 0 ${spacing.xl};
 
@@ -42,39 +20,24 @@ export const HeroSection = styled.div`
 export const StyledCarouselContainer = styled.div`
   position: relative;
   overflow: hidden;
-  border-radius: ${borderRadius['3xl']};
-  box-shadow: ${shadows.xl};
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  animation: ${fadeIn} 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  background: #0f172a;
-  height: 720px;
-
-  [data-theme='dark'] & {
-    border-color: ${colors.border.dark};
-    box-shadow: ${shadows['3xl']};
-    height: 680px;
-  }
+  border-radius: ${borderRadius.xl};
+  box-shadow: ${shadows.md};
+  border: 1px solid ${colors.border.light};
+  animation: ${fadeIn} 0.4s ease-in-out;
+  background: #1F1F1F;
+  height: 640px;
 
   @media (max-width: 1024px) {
-    height: 560px;
-    border-radius: ${borderRadius['2xl']};
-
-    [data-theme='dark'] & {
-      height: 520px;
-    }
+    height: 520px;
   }
 
   @media (max-width: 768px) {
     height: 420px;
-    border-radius: ${borderRadius.xl};
-
-    [data-theme='dark'] & {
-      height: 380px;
-    }
+    border-radius: ${borderRadius.lg};
   }
 
   @media (max-width: 480px) {
-    height: 320px;
+    height: 340px;
     margin: ${spacing.md} auto;
   }
 `;
@@ -93,8 +56,7 @@ export const SlideItem = styled.div`
   width: 100%;
   height: 100%;
   opacity: ${({ $isActive }) => ($isActive ? 1 : 0)};
-  transform: scale(${({ $isActive }) => ($isActive ? 1 : 1.05)});
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.5s ease-in-out;
   pointer-events: ${({ $isActive }) => ($isActive ? 'auto' : 'none')};
 `;
 
@@ -102,22 +64,16 @@ export const StyledCarouselImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.85) saturate(0.9);
-  transition: transform 0.6s ease;
-
-  ${StyledCarouselContainer}:hover & {
-    transform: scale(1.03);
-  }
 `;
 
 export const OverlayGradient = styled.div`
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    135deg, 
-    rgba(15, 23, 42, 0.92) 0%, 
-    rgba(15, 23, 42, 0.55) 45%, 
-    rgba(15, 23, 42, 0.15) 70%,
+    135deg,
+    rgba(31, 31, 31, 0.75) 0%,
+    rgba(31, 31, 31, 0.35) 45%,
+    rgba(31, 31, 31, 0.05) 70%,
     transparent 100%
   );
   z-index: 1;
@@ -134,7 +90,6 @@ export const SlideContent = styled.div`
   flex-direction: column;
   align-items: flex-start;
   max-width: 640px;
-  animation: ${slideUpText} 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 
   @media (max-width: 1024px) {
     padding: ${spacing['3xl']} ${spacing['2xl']};
@@ -145,107 +100,76 @@ export const SlideContent = styled.div`
     padding: ${spacing.xl} ${spacing.lg};
     max-width: 100%;
   }
-
-  @media (max-width: 480px) {
-    padding: ${spacing.lg} ${spacing.md};
-  }
 `;
 
 export const OfferBadge = styled.div`
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 16px;
-  background: ${colors.gradients.warm};
-  color: white;
-  border-radius: 9999px;
-  font-size: 0.85rem;
-  font-weight: 700;
+  padding: 6px 16px 6px 12px;
+  background: ${colors.accent.DEFAULT};
+  color: #1F1F1F;
+  border-radius: 40px;
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.13em;
   margin-bottom: ${spacing.xl};
-  box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
-  backdrop-filter: blur(10px);
-  animation: ${pulse} 3s ease-in-out infinite;
 
   @media (max-width: 768px) {
-    padding: 6px 12px;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     margin-bottom: ${spacing.lg};
   }
 `;
 
 export const SlideTitle = styled.h2`
-  font-size: 3.5rem;
-  font-weight: 900;
-  color: #ffffff;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(2.25rem, 4.8vw, 3.5rem);
+  font-weight: 400;
+  color: #FFFFFF;
   line-height: 1.1;
-  margin-bottom: ${spacing.xl};
-  letter-spacing: -0.03em;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-
-  @media (max-width: 1024px) {
-    font-size: 2.8rem;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 2.2rem;
-    margin-bottom: ${spacing.lg};
-  }
-
-  @media (max-width: 480px) {
-    font-size: 1.8rem;
-  }
+  margin-bottom: ${spacing.md};
+  letter-spacing: 0;
 `;
 
 export const SlideOfferText = styled.p`
-  font-size: 1.3rem;
-  color: #e2e8f0;
-  font-weight: 500;
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 1rem;
+  color: #F5E9D7;
+  font-weight: 400;
+  line-height: 1.4;
   margin-bottom: ${spacing['4xl']};
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
   max-width: 560px;
 
   @media (max-width: 768px) {
-    font-size: 1.1rem;
     margin-bottom: ${spacing.xl};
-  }
-
-  @media (max-width: 480px) {
-    font-size: 1rem;
-    margin-bottom: ${spacing.lg};
   }
 `;
 
 export const HeroCtaButton = styled.button`
-  background: ${colors.gradients.primary};
-  color: white;
+  background: ${colors.primary.DEFAULT};
+  color: #F5E9D7;
   border: none;
-  padding: 14px 32px;
-  border-radius: ${borderRadius.xl};
-  font-size: 1rem;
-  font-weight: 700;
+  padding: 16px 32px;
+  border-radius: ${borderRadius.pills};
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.5);
-  transition: ${transitions.emphasis};
+  box-shadow: ${shadows.primary};
+  transition: ${transitions.fast};
 
   &:hover {
-    transform: translateY(-2px) scale(1.03);
-    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.65);
-    background: linear-gradient(135deg, #1d4ed8 0%, #4338ca 100%);
+    background: ${colors.accent.DEFAULT};
+    color: #1F1F1F;
+    transform: translateY(-1px);
   }
 
-  &:active {
-    transform: scale(0.96);
-  }
-
-  @media (max-width: 768px) {
-    padding: 12px 28px;
-    font-size: 0.95rem;
-  }
+  &:active { transform: scale(0.98); }
 `;
 
 export const CarouselNavButton = styled.button`
@@ -253,34 +177,27 @@ export const CarouselNavButton = styled.button`
   top: 50%;
   transform: translateY(-50%);
   ${({ $position }) => ($position === 'left' ? 'left: 1.5rem;' : 'right: 1.5rem;')}
-  width: 56px;
-  height: 56px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
+  background: rgba(245, 233, 215, 0.9);
+  border: 1px solid ${colors.border.light};
+  color: ${colors.primary.DEFAULT};
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: ${zIndex.dropdown};
-  transition: ${transitions.emphasis};
+  transition: ${transitions.fast};
 
   &:hover {
-    background: rgba(255, 255, 255, 0.45);
-    transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-  }
-
-  &:active {
-    transform: translateY(-50%) scale(0.92);
+    background: ${colors.primary.DEFAULT};
+    color: #F5E9D7;
   }
 
   @media (max-width: 768px) {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     ${({ $position }) => ($position === 'left' ? 'left: 0.75rem;' : 'right: 0.75rem;')}
   }
 `;
@@ -291,7 +208,7 @@ export const IndicatorsContainer = styled.div`
   right: ${spacing['4xl']};
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   z-index: ${zIndex.dropdown};
 
   @media (max-width: 768px) {
@@ -302,20 +219,18 @@ export const IndicatorsContainer = styled.div`
 
 export const Indicator = styled.button`
   height: 6px;
-  width: ${({ $isActive }) => ($isActive ? '32px' : '12px')};
-  background: ${({ $isActive }) => ($isActive ? '#ffffff' : 'rgba(255, 255, 255, 0.4)')};
+  width: ${({ $isActive }) => ($isActive ? '28px' : '10px')};
+  background: ${({ $isActive }) => ($isActive ? '#C9A24C' : 'rgba(245, 233, 215, 0.5)')};
   border-radius: 9999px;
   border: none;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: ${({ $isActive }) => ($isActive ? '0 0 8px rgba(255, 255, 255, 0.8)' : 'none')};
+  transition: all 0.25s ease;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.8);
+    background: #F5E9D7;
   }
 `;
 
-/* Perks Section Under Hero */
 export const PerksGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -333,40 +248,37 @@ export const PerksGrid = styled.div`
 `;
 
 export const PerkCard = styled.div`
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: #FFFFFF;
   border: 1px solid ${colors.border.light};
-  border-radius: ${borderRadius['2xl']};
+  border-radius: ${borderRadius.lg};
   padding: ${spacing.xl};
   display: flex;
   align-items: center;
   gap: ${spacing.md};
-  transition: ${transitions.emphasis};
+  transition: ${transitions.fast};
 
   &:hover {
-    transform: translateY(-3px);
-    box-shadow: ${shadows.xl};
-    border-color: rgba(59, 130, 246, 0.3);
+    transform: translateY(-2px);
+    box-shadow: ${shadows.md};
   }
 
   .icon-box {
-    width: 52px;
-    height: 52px;
-    border-radius: ${borderRadius.lg};
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: ${({ $bg }) => $bg || colors.gradients.primary};
-    color: white;
+    background: ${({ $bg }) => $bg || colors.primary.DEFAULT};
+    color: #F5E9D7;
     flex-shrink: 0;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
   }
 
   .text-box {
     h4 {
-      font-size: 0.95rem;
-      font-weight: 700;
+      font-family: "Instrument Sans", sans-serif;
+      font-size: 0.875rem;
+      font-weight: 600;
       color: ${colors.text.primary};
       margin-bottom: 2px;
     }
@@ -374,26 +286,17 @@ export const PerkCard = styled.div`
     p {
       font-size: 0.8rem;
       color: ${colors.text.secondary};
-      line-height: 1.3;
+      line-height: 1.4;
     }
   }
 
   [data-theme='dark'] & {
-    background: rgba(15, 23, 42, 0.7);
+    background: #2A2024;
     border-color: ${colors.border.dark};
 
-    &:hover {
-      box-shadow: ${shadows['2xl']};
-      border-color: rgba(99, 102, 241, 0.3);
-    }
-
     .text-box {
-      h4 {
-        color: ${colors.text.primaryDark};
-      }
-      p {
-        color: ${colors.text.secondaryDark};
-      }
+      h4 { color: #F5E9D7; }
+      p { color: #CBBFA9; }
     }
   }
 `;

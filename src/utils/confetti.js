@@ -18,8 +18,8 @@ export const fireConfetti = (options = {}) => {
   ctx.scale(dpr, dpr);
 
   const colors = options.colors || [
-    '#3b82f6', '#60a5fa', '#8b5cf6', '#ec4899', 
-    '#f59e0b', '#10b981', '#06b6d4', '#6366f1'
+    '#7A1E2B', '#C9A24C', '#F5E9D7', '#E8D9C4',
+    '#5E141F', '#A98436', '#F2D6CE', '#1F1F1F'
   ];
 
   const particles = [];

@@ -2,52 +2,30 @@ import styled, { keyframes } from "styled-components";
 import { colors, spacing, borderRadius, shadows, transitions, zIndex } from '../../design-system/tokens';
 
 const slideDown = keyframes`
-  from {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 `;
 
-const pulseBadge = keyframes`
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.22);
-  }
-`;
-
-const float = keyframes`
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-`;
-
+/* Bannoji header: solid burgundy bar (#7A1E2B), cream text, sticky always */
 
 export const Nav = styled.nav`
   position: sticky;
   top: 0;
   z-index: ${zIndex.fixed};
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid ${colors.border.light};
-  box-shadow: ${shadows.xs};
-  animation: ${slideDown} 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  transition: ${transitions.emphasis};
+  background: #7A1E2B;
+  border-bottom: none;
+  box-shadow: 0 2px 8px rgba(31, 31, 31, 0.12);
+  animation: ${slideDown} 0.2s ease-in-out;
+  transition: ${transitions.standard};
 
   [data-theme="dark"] & {
-    background: rgba(15, 23, 42, 0.88);
+    background: #1F1F1F;
     border-bottom: 1px solid ${colors.border.dark};
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
   }
 `;
 
 export const Container = styled.div`
-  max-width: 1400px;
+  max-width: 120rem;
   margin: 0 auto;
   padding: ${spacing.md} ${spacing['5xl']};
   display: flex;
@@ -68,13 +46,13 @@ export const Container = styled.div`
 
 export const MobileMenuButton = styled.button`
   display: none;
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid ${colors.border.light};
-  color: ${colors.primary[700]};
+  background: transparent;
+  border: 1px solid rgba(245, 233, 215, 0.4);
+  color: #F5E9D7;
   padding: ${spacing.sm};
   cursor: pointer;
-  border-radius: ${borderRadius.lg};
-  transition: ${transitions.emphasis};
+  border-radius: ${borderRadius.md};
+  transition: ${transitions.fast};
   align-items: center;
   justify-content: center;
 
@@ -83,27 +61,15 @@ export const MobileMenuButton = styled.button`
   }
 
   &:hover {
-    background: ${colors.primary[50]};
-    transform: scale(1.05);
+    background: rgba(245, 233, 215, 0.12);
   }
 
-  &:active {
-    transform: scale(0.95);
-  }
-
-  svg {
-    width: 22px;
-    height: 22px;
-  }
+  svg { width: 22px; height: 22px; }
 
   [data-theme="dark"] & {
-    background: rgba(30, 41, 59, 0.8);
-    border-color: ${colors.border.dark};
-    color: ${colors.accent[400]};
-
-    &:hover {
-      background: rgba(51, 65, 85, 0.8);
-    }
+    background: transparent;
+    border-color: rgba(245, 233, 215, 0.25);
+    color: #F5E9D7;
   }
 `;
 
@@ -113,37 +79,20 @@ export const LogoWrapper = styled.div`
   gap: ${spacing.sm};
   cursor: pointer;
   user-select: none;
-  transition: ${transitions.spring};
+  transition: ${transitions.fast};
 
-  &:hover {
-    transform: scale(1.03);
-  }
+  &:hover { opacity: 0.85; }
 `;
 
 export const LogoBadge = styled.div`
   width: 42px;
   height: 42px;
-  border-radius: ${borderRadius.md};
-  background: ${colors.gradients.primary};
+  border-radius: 50%;
+  background: #F5E9D7;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
-  position: relative;
-  overflow: hidden;
-  animation: ${float} 3s ease-in-out infinite;
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    animation: shine 4s infinite;
-  }
+  color: #7A1E2B;
 
   @media (max-width: 768px) {
     width: 36px;
@@ -152,37 +101,28 @@ export const LogoBadge = styled.div`
 `;
 
 export const LogoText = styled.span`
-  font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  background: linear-gradient(135deg, #0f172a 0%, #2563eb 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 1.75rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: #F5E9D7;
   display: flex;
   align-items: center;
 
   span {
-    background: linear-gradient(135deg, #f97316 0%, #ec4899 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #F5E9D7;
     margin-left: 2px;
   }
 
-  [data-theme="dark"] & {
-    background: linear-gradient(135deg, #ffffff 0%, #60a5fa 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
   @media (max-width: 768px) {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
   }
 `;
 
 export const DesktopMenu = styled.nav`
   display: flex;
   align-items: center;
-  gap: ${spacing.xl};
+  gap: ${spacing.sm};
   flex-grow: 1;
   margin-left: ${spacing['5xl']};
 
@@ -194,31 +134,28 @@ export const DesktopMenu = styled.nav`
 export const MenuItem = styled.button`
   background: none;
   border: none;
-  font-size: 0.95rem;
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 0.875rem;
   cursor: pointer;
-  padding: ${spacing.sm} ${spacing.xl};
-  transition: ${transitions.emphasis};
-  color: ${colors.text.secondary};
-  font-weight: 600;
-  border-radius: ${borderRadius.lg};
+  padding: ${spacing.sm} ${spacing.lg};
+  transition: ${transitions.fast};
+  color: #F5E9D7;
+  font-weight: 400;
+  border-radius: ${borderRadius.pills};
   position: relative;
 
   &:hover {
-    color: ${colors.primary[700]};
-    background: rgba(37, 99, 235, 0.05);
-    transform: translateY(-1px);
+    color: #C9A24C;
+    background: rgba(245, 233, 215, 0.1);
   }
 
-  &:active {
-    transform: scale(0.96);
-  }
+  &:active { transform: scale(0.98); }
 
   [data-theme="dark"] & {
-    color: ${colors.text.secondaryDark};
-
+    color: #F5E9D7;
     &:hover {
-      color: ${colors.primary[400]};
-      background: rgba(96, 165, 250, 0.1);
+      color: ${colors.accent.DEFAULT};
+      background: rgba(245, 233, 215, 0.08);
     }
   }
 `;
@@ -243,15 +180,14 @@ export const SearchInputWrapper = styled.div`
 
 export const SearchInput = styled.input`
   width: 100%;
-  padding: ${spacing.md} ${spacing.xl} ${spacing.md} 3rem;
-  border: 1.5px solid ${colors.border.light};
-  border-radius: ${borderRadius.xl};
-  background: rgba(255, 255, 255, 0.8);
+  padding: 0.8rem 0.8rem 0.8rem 3rem;
+  border: 1px solid #E8D9C4;
+  border-radius: ${borderRadius.md};
+  background: #FFFFFF;
   color: ${colors.text.primary};
-  font-size: 0.95rem;
-  font-weight: 500;
-  transition: ${transitions.standard};
-  box-shadow: ${shadows.xs};
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 0.875rem;
+  transition: ${transitions.fast};
 
   &::placeholder {
     color: ${colors.text.disabled};
@@ -259,28 +195,21 @@ export const SearchInput = styled.input`
 
   &:focus {
     outline: none;
-    border-color: ${colors.primary[400]};
-    background: white;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12), ${shadows.sm};
-    transform: translateY(-1px);
+    border-color: ${colors.accent.DEFAULT};
+    background: #FBF4E9;
+    box-shadow: 0 0 0 2px rgba(201, 162, 76, 0.35);
   }
 
   [data-theme="dark"] & {
-    background: rgba(15, 23, 42, 0.6);
+    background: #2A2024;
     border-color: ${colors.border.dark};
-    color: ${colors.text.primaryDark};
-
-    &:focus {
-      border-color: ${colors.primary[400]};
-      background: rgba(30, 41, 59, 0.95);
-      box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.18);
-    }
+    color: #F5E9D7;
   }
 `;
 
 export const SearchIconWrapper = styled.div`
   position: absolute;
-  left: ${spacing.lg};
+  left: ${spacing.md};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -294,21 +223,18 @@ export const SearchResults = styled.div`
   left: 0;
   width: 100%;
   min-width: 340px;
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: #FFFFFF;
   border: 1px solid ${colors.border.light};
-  border-radius: ${borderRadius.xl};
+  border-radius: ${borderRadius.md};
   max-height: 380px;
   overflow-y: auto;
   z-index: ${zIndex.dropdown};
-  box-shadow: ${shadows['2xl']};
+  box-shadow: ${shadows.popover};
   padding: ${spacing.xs};
 
   [data-theme="dark"] & {
-    background: rgba(15, 23, 42, 0.96);
+    background: #2A2024;
     border-color: ${colors.border.dark};
-    box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.5);
   }
 `;
 
@@ -317,7 +243,7 @@ export const SearchResultItem = styled.button`
   align-items: center;
   gap: ${spacing.md};
   padding: ${spacing.md};
-  border-radius: ${borderRadius.lg};
+  border-radius: ${borderRadius.sm};
   cursor: pointer;
   transition: ${transitions.fast};
   text-align: left;
@@ -328,9 +254,9 @@ export const SearchResultItem = styled.button`
   img {
     width: 48px;
     height: 48px;
-    border-radius: ${borderRadius.md};
+    border-radius: ${borderRadius.sm};
     object-fit: cover;
-    background: ${colors.gray[100]};
+    background: ${colors.primary[100]};
     flex-shrink: 0;
   }
 
@@ -339,8 +265,9 @@ export const SearchResultItem = styled.button`
     min-width: 0;
 
     .title {
-      font-size: 0.95rem;
-      font-weight: 600;
+      font-family: "Instrument Sans", sans-serif;
+      font-size: 0.875rem;
+      font-weight: 400;
       color: ${colors.text.primary};
       white-space: nowrap;
       overflow: hidden;
@@ -355,40 +282,22 @@ export const SearchResultItem = styled.button`
   }
 
   .price {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: ${colors.primary[600]};
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: ${colors.primary.DEFAULT};
     white-space: nowrap;
   }
 
   &:hover {
-    background: rgba(37, 99, 235, 0.05);
-    transform: translateX(4px);
-
-    .title {
-      color: ${colors.primary[600]};
-    }
+    background: ${colors.primary[50]};
+    .title { color: ${colors.primary.DEFAULT}; }
   }
 
   [data-theme="dark"] & {
-    .info {
-      .title {
-        color: ${colors.text.primaryDark};
-      }
-      .category {
-        color: ${colors.text.secondaryDark};
-      }
-    }
-    .price {
-      color: ${colors.primary[400]};
-    }
-
-    &:hover {
-      background: rgba(96, 165, 250, 0.08);
-      .title {
-        color: ${colors.primary[300]};
-      }
-    }
+    .info .title { color: #F5E9D7; }
+    .info .category { color: #CBBFA9; }
+    .price { color: ${colors.accent.DEFAULT}; }
+    &:hover { background: rgba(245,233,215,0.08); }
   }
 `;
 
@@ -400,82 +309,58 @@ export const RightSection = styled.div`
 `;
 
 export const ThemeToggle = styled.button`
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid ${colors.border.light};
-  color: ${colors.primary[500]};
+  background: transparent;
+  border: 1px solid rgba(245, 233, 215, 0.4);
+  color: #F5E9D7;
   cursor: pointer;
   padding: ${spacing.sm};
-  border-radius: ${borderRadius.lg};
+  border-radius: 50%;
   min-width: 44px;
   min-height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: ${transitions.emphasis};
+  transition: ${transitions.fast};
 
   &:hover {
-    transform: rotate(15deg) scale(1.08);
-    background: ${colors.primary[50]};
-    box-shadow: 0 0 15px rgba(37, 99, 235, 0.2);
+    background: rgba(245, 233, 215, 0.12);
   }
 
-  &:active {
-    transform: scale(0.92);
-  }
+  &:active { transform: scale(0.95); }
 
   [data-theme="dark"] & {
-    background: rgba(30, 41, 59, 0.8);
-    border-color: ${colors.border.dark};
-    color: ${colors.accent[400]};
-
-    &:hover {
-      background: rgba(51, 65, 85, 0.8);
-      box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
-    }
+    color: ${colors.accent.DEFAULT};
   }
 `;
 
 export const CartButton = styled.button`
-  background: ${colors.gradients.primary};
-  border: none;
-  color: white;
+  background: transparent;
+  border: 1px solid rgba(245, 233, 215, 0.4);
+  color: #F5E9D7;
   cursor: pointer;
   padding: ${spacing.sm};
-  border-radius: ${borderRadius.lg};
+  border-radius: 50%;
   position: relative;
   min-width: 44px;
   min-height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
-  transition: ${transitions.emphasis};
+  transition: ${transitions.fast};
 
   &:hover {
-    transform: translateY(-2px) scale(1.08);
-    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.5);
+    background: rgba(245, 233, 215, 0.12);
   }
 
-  &:active {
-    transform: scale(0.92);
-  }
-
-  [data-theme="dark"] & {
-    background: ${colors.gradients.violet};
-    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
-
-    &:hover {
-      box-shadow: 0 12px 30px rgba(99, 102, 241, 0.5);
-    }
-  }
+  &:active { transform: scale(0.95); }
 `;
 
 export const CartBadge = styled.span`
   position: absolute;
   top: -6px;
   right: -6px;
-  background: ${colors.gradients.warm};
-  color: white;
+  background: ${colors.accent.DEFAULT};
+  color: #7A1E2B;
   border-radius: 9999px;
   min-width: 20px;
   height: 20px;
@@ -484,39 +369,35 @@ export const CartBadge = styled.span`
   align-items: center;
   justify-content: center;
   font-size: 11px;
-  font-weight: 800;
-  border: 2px solid white;
-  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
-  animation: ${pulseBadge} 2s infinite;
+  font-weight: 700;
+  border: 2px solid #7A1E2B;
 
   [data-theme="dark"] & {
-    border-color: #0f172a;
+    border-color: #1F1F1F;
   }
 `;
 
 export const MobileMenu = styled.div`
   display: ${({ $isOpen }) => ($isOpen ? "flex" : "none")};
   flex-direction: column;
-  gap: ${spacing.md};
+  gap: ${spacing.sm};
   padding: ${spacing.xl} ${spacing.xl};
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: #7A1E2B;
   position: absolute;
   top: 100%;
   left: 0;
   width: 100%;
   z-index: ${zIndex.dropdown};
-  box-shadow: ${shadows['2xl']};
-  border-top: 1px solid ${colors.border.light};
-  animation: ${slideDown} 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: ${shadows.lg};
+  border-top: 1px solid rgba(245, 233, 215, 0.2);
+  animation: ${slideDown} 0.2s ease-in-out;
 
   @media (min-width: 769px) {
     display: none;
   }
 
   [data-theme="dark"] & {
-    background: rgba(15, 23, 42, 0.95);
+    background: #1F1F1F;
     border-top: 1px solid ${colors.border.dark};
   }
 `;

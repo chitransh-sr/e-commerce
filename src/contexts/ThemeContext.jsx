@@ -36,14 +36,14 @@ export const ThemeProvider = ({ children }) => {
       try {
         if (isDarkMode) {
           document.documentElement.setAttribute('data-theme', 'dark');
-          document.body.style.backgroundColor = '#0f172a';
-          document.body.style.setProperty('background-color', '#0f172a', 'important');
+          document.body.style.backgroundColor = '#1F1F1F';
+          document.body.style.setProperty('background-color', '#1F1F1F', 'important');
           // Ensure all styled components can detect the theme
           document.body.setAttribute('data-theme', 'dark');
         } else {
           document.documentElement.removeAttribute('data-theme');
-          document.body.style.backgroundColor = '#ffffff';
-          document.body.style.setProperty('background-color', '#ffffff', 'important');
+          document.body.style.backgroundColor = '#F5E9D7';
+          document.body.style.setProperty('background-color', '#F5E9D7', 'important');
           // Ensure all styled components can detect the theme
           document.body.removeAttribute('data-theme');
         }
